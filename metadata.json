@@ -1,0 +1,6 @@
+{
+  "name": "BRUT Wine Bar Buenos Aires",
+  "description": "Casa de vinos espumantes argentinos. Первый подобный барный проект в Аргентине с коллекцией аргентинских игристых вин и пет-натов.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

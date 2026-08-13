@@ -1,13 +1,15 @@
 import React from 'react';
 import { BAR_DATA } from '../data/barInfo';
-import { ContentTranslation } from '../data/translations';
-import { Instagram, MessageSquare, Phone } from 'lucide-react';
+import { ContentTranslation, Language } from '../data/translations';
+import { WorkingHoursWidget } from './WorkingHoursWidget';
+import { Instagram, MessageSquare } from 'lucide-react';
 
 interface FooterProps {
   t: ContentTranslation;
+  lang: Language;
 }
 
-export const Footer: React.FC<FooterProps> = ({ t }) => {
+export const Footer: React.FC<FooterProps> = ({ t, lang }) => {
   return (
     <footer className="mt-16 border-t border-[#FFF8F2]/15 bg-[#580714]/90 backdrop-blur-lg pt-12 pb-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -63,16 +65,16 @@ export const Footer: React.FC<FooterProps> = ({ t }) => {
                 </a>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 <div>
-                  <span className="text-[#FFF8F2]/50 block uppercase text-[10px] tracking-wider">
+                  <span className="text-[#FFF8F2]/50 block uppercase text-[10px] tracking-wider mb-1">
                     {t.footerHoursLabel}
                   </span>
-                  <span className="text-[#FFF8F2]">{t.footerHours}</span>
+                  <WorkingHoursWidget lang={lang} variant="footer" />
                 </div>
 
                 <div>
-                  <span className="text-[#FFF8F2]/50 block uppercase text-[10px] tracking-wider">
+                  <span className="text-[#FFF8F2]/50 block uppercase text-[10px] tracking-wider mb-1">
                     INSTAGRAM
                   </span>
                   <a href={BAR_DATA.instagramUrl} target="_blank" rel="noopener noreferrer" className="text-[#E5C07B] hover:underline font-mono">

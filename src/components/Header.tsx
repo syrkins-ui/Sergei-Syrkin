@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Language } from '../data/translations';
+import { ContentTranslation, Language } from '../data/translations';
 import { ChevronDown, Globe } from 'lucide-react';
 
 interface HeaderProps {
+  t: ContentTranslation;
   currentLang: Language;
   onSelectLang: (lang: Language) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ currentLang, onSelectLang }) => {
+export const Header: React.FC<HeaderProps> = ({ t, currentLang, onSelectLang }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -84,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({ currentLang, onSelectLang }) => 
             href="#menu"
             className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full bg-[#E5C07B] text-[#580714] hover:bg-[#FFF8F2] transition-all text-xs font-semibold uppercase tracking-wider font-mono shadow-md"
           >
-            <span>Menú</span>
+            <span>{t.headerMenu}</span>
           </a>
           <div className="text-xs text-[#E5C07B] font-editorial italic hidden md:block">
             Buenos Aires, Argentina

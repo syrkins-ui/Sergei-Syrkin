@@ -17,25 +17,25 @@ export default function App() {
     <div className="min-h-screen bg-[#7A0C1E] text-[#FFF8F2] font-sans-clean relative selection:bg-[#FFF8F2] selection:text-[#7A0C1E]">
       
       {/* Navigation Header with Language Switcher */}
-      <Header currentLang={lang} onSelectLang={setLang} />
+      <Header t={t} currentLang={lang} onSelectLang={setLang} />
 
       {/* Main Single Page Sections */}
       <main>
         {/* Hero Section */}
-        <Hero t={t} />
-
-        {/* Menu & Drinks Section */}
-        <MenuSection t={t} />
+        <Hero t={t} lang={lang} />
 
         {/* Interior & Concept Bubble Section */}
         <InteriorBubbleSection t={t} />
 
         {/* Location & Map Section */}
-        <LocationMapSection t={t} />
+        <LocationMapSection t={t} lang={lang} />
+
+        {/* Menu & Drinks Section */}
+        <MenuSection t={t} lang={lang} />
       </main>
 
       {/* Footer */}
-      <Footer t={t} />
+      <Footer t={t} lang={lang} />
 
       {/* Floating Quick SMS Action Button on Mobile */}
       <div className="fixed bottom-5 right-5 z-40 sm:hidden">

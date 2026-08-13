@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { BAR_DATA, IMAGES } from '../data/barInfo';
-import { ContentTranslation } from '../data/translations';
+import { ContentTranslation, Language } from '../data/translations';
+import { TopScheduleDropdown } from './TopScheduleDropdown';
 import { MessageSquare, Instagram, Navigation, Copy, Check } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface HeroProps {
   t: ContentTranslation;
+  lang: Language;
 }
 
-export const Hero: React.FC<HeroProps> = ({ t }) => {
+export const Hero: React.FC<HeroProps> = ({ t, lang }) => {
   const [copied, setCopied] = useState(false);
 
   const copyAddress = (e: React.MouseEvent) => {
@@ -22,13 +24,15 @@ export const Hero: React.FC<HeroProps> = ({ t }) => {
     <section id="hero" className="relative min-h-[85vh] flex flex-col justify-between pt-8 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto rounded-b-[40px] overflow-hidden bg-[#7A0C1E]">
       
       {/* Top Magazine Meta Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#FFF8F2]/15 pb-6 text-[11px] sm:text-xs tracking-widest uppercase text-[#FFF8F2]/75 font-sans-clean relative z-10">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#FFF8F2]/15 pb-6 text-[11px] sm:text-xs tracking-widest uppercase text-[#FFF8F2]/75 font-sans-clean relative z-30">
         <div className="flex items-center space-x-2">
           <span className="inline-block w-2 h-2 rounded-full bg-[#E5C07B] animate-pulse" />
           <span>San Telmo / Puerto Madero • Buenos Aires</span>
         </div>
-        <div className="text-[#E5C07B] font-medium">
-          {t.locationHours}
+
+        {/* Top Right Framed Dropdown Button for Working Hours */}
+        <div>
+          <TopScheduleDropdown lang={lang} />
         </div>
       </div>
 

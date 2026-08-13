@@ -1,22 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BAR_DATA, IMAGES } from '../data/barInfo';
-import { ContentTranslation } from '../data/translations';
-import { MapPin, Navigation, Copy, Check, Clock, ExternalLink } from 'lucide-react';
+import { ContentTranslation, Language } from '../data/translations';
+import { MapPin, Navigation, ExternalLink } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface LocationMapSectionProps {
   t: ContentTranslation;
+  lang: Language;
 }
 
 export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ t }) => {
-  const [copied, setCopied] = useState(false);
-
-  const copyAddress = () => {
-    navigator.clipboard.writeText(BAR_DATA.addressFull);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
     <section id="location" className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       
@@ -49,13 +42,14 @@ export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ t }) => 
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#580714] via-transparent to-transparent opacity-80" />
             
-            <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[11px] text-[#FFF8F2] bg-[#580714]/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-[#FFF8F2]/10">
-              <span className="font-editorial text-sm text-[#E5C07B]">Facultad de Ingeniería (UBA) • San Telmo</span>
-              <span className="font-mono text-[10px] uppercase opacity-80">Av. Paseo Colón</span>
+            <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[11px] text-[#FFF8F2] bg-[#580714]/90 backdrop-blur-md px-3 py-2 rounded-lg border border-[#FFF8F2]/10">
+              <span className="font-editorial text-xs sm:text-sm text-[#E5C07B] leading-tight">
+                {t.locationImageCaption}
+              </span>
             </div>
           </div>
 
-          {/* EXACT User Location Quote & Subtitle */}
+          {/* Location Quote & Subtitle */}
           <div className="mt-6">
             <a
               href={BAR_DATA.googleMapsUrl}
@@ -76,18 +70,13 @@ export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ t }) => 
             </p>
           </div>
 
-          {/* Direct Route and Hours Footer */}
-          <div className="mt-6 pt-4 border-t border-[#FFF8F2]/10 flex flex-wrap items-center justify-between gap-3 text-xs text-[#FFF8F2]/80 font-sans-clean">
-            <div className="flex items-center space-x-2">
-              <Clock className="w-4 h-4 text-[#E5C07B]" />
-              <span>{t.locationHours}</span>
-            </div>
-
+          {/* Navigation Link */}
+          <div className="mt-6 pt-4 border-t border-[#FFF8F2]/10 flex justify-end">
             <a
               href={BAR_DATA.googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 rounded-full bg-[#E5C07B] text-[#580714] font-semibold text-xs transition-colors flex items-center space-x-1.5 shadow-md hover:bg-[#FFF8F2]"
+              className="px-5 py-2.5 rounded-full bg-[#E5C07B] text-[#580714] font-semibold text-xs transition-all flex items-center space-x-2 shadow-md hover:bg-[#FFF8F2] hover:scale-102"
             >
               <Navigation className="w-3.5 h-3.5 fill-current" />
               <span>{t.locationDirections}</span>

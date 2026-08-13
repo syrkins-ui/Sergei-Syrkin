@@ -29,18 +29,18 @@ export const InteriorBubbleSection: React.FC<InteriorBubbleSectionProps> = ({ t 
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
-          {/* Left Column: Atmospheric Interior Picture */}
+          {/* Left Column: Wine Collection Picture */}
           <div className="lg:col-span-6 relative">
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3] border border-[#FFF8F2]/20 shadow-2xl">
               <img
-                src={IMAGES.interior}
-                alt="BRUT bar interior"
+                src={IMAGES.wineCollection}
+                alt="Colección de vinos BRUT bar"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-center"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#580714]/80 via-transparent to-transparent" />
               <div className="absolute bottom-3 left-4 text-xs font-editorial text-[#E5C07B]">
-                BRUT bar • av. Independencia 320
+                {t.interiorImageCaption}
               </div>
             </div>
           </div>

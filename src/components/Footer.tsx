@@ -1,5 +1,5 @@
 import React from 'react';
-import { BAR_DATA } from '../data/barInfo';
+import { BAR_DATA, getSmsReservationUrl } from '../data/barInfo';
 import { ContentTranslation, Language } from '../data/translations';
 import { WorkingHoursWidget } from './WorkingHoursWidget';
 import { Instagram, MessageSquare } from 'lucide-react';
@@ -29,7 +29,7 @@ export const Footer: React.FC<FooterProps> = ({ t, lang }) => {
 
             <div className="mt-6 flex items-center space-x-3">
               <a
-                href={BAR_DATA.smsUrl}
+                href={getSmsReservationUrl(t.waPresetMessage)}
                 className="p-3 rounded-full bg-[#34A853] text-white hover:bg-[#2e964a] transition-all shadow-md"
                 title={`SMS / RCS (${BAR_DATA.smsPhoneDisplay})`}
               >

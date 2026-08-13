@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BAR_DATA, IMAGES } from '../data/barInfo';
+import { BAR_DATA, IMAGES, getSmsReservationUrl } from '../data/barInfo';
 import { ContentTranslation, Language } from '../data/translations';
 import { TopScheduleDropdown } from './TopScheduleDropdown';
 import { MessageSquare, Instagram, Navigation, Copy, Check } from 'lucide-react';
@@ -82,7 +82,7 @@ export const Hero: React.FC<HeroProps> = ({ t, lang }) => {
       >
         {/* 1. GREEN BUTTON FIRST: Reserve Table via SMS / RCS / iMessage */}
         <a
-          href={BAR_DATA.smsUrl}
+          href={getSmsReservationUrl(t.waPresetMessage)}
           className="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-[#34A853] text-white hover:bg-[#2e964a] transition-all hover:scale-[1.01] active:scale-[0.98] shadow-lg shadow-[#34A853]/25 group"
         >
           <div className="flex items-center space-x-3.5">

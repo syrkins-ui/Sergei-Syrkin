@@ -70,7 +70,7 @@ export const TRANSLATIONS: Record<Language, ContentTranslation> = {
     footerHours: 'Sáb — Dom: 14:00 – 23:00 hs',
     footerAddressLabel: 'DIRECCIÓN',
     footerRights: 'Todos los derechos reservados.',
-    waPresetMessage: 'Hola BRUT bar! Quisiera consultar la disponibilidad de mesas o hacer una reserva.'
+    waPresetMessage: '¡Hola, BRUT bar! Quiero reservar una mesa para: (fecha, hora y cantidad de personas)'
   },
   PT: {
     headerMenu: 'Menu',
@@ -105,7 +105,7 @@ export const TRANSLATIONS: Record<Language, ContentTranslation> = {
     footerHours: 'Sáb — Dom: 14:00 – 23:00 hs',
     footerAddressLabel: 'ENDEREÇO',
     footerRights: 'Todos os direitos reservados.',
-    waPresetMessage: 'Olá BRUT bar! Gostaria de consultar a disponibilidade de mesas ou fazer uma reserva.'
+    waPresetMessage: 'Olá, BRUT bar! Quero reservar uma mesa para: (data, horário e número de pessoas)'
   },
   EN: {
     headerMenu: 'Menu',
@@ -140,7 +140,7 @@ export const TRANSLATIONS: Record<Language, ContentTranslation> = {
     footerHours: 'Sat — Sun: 14:00 – 23:00',
     footerAddressLabel: 'ADDRESS',
     footerRights: 'All rights reserved.',
-    waPresetMessage: 'Hi BRUT bar! I\'d like to check table availability or make a reservation.'
+    waPresetMessage: 'Hi, BRUT bar! I would like to reserve a table for: (date, time, and number of guests)'
   },
   RU: {
     headerMenu: 'Меню',
@@ -175,6 +175,6 @@ export const TRANSLATIONS: Record<Language, ContentTranslation> = {
     footerHours: 'Сб — Вс: 14:00 – 23:00',
     footerAddressLabel: 'АДРЕС',
     footerRights: 'Все права защищены.',
-    waPresetMessage: 'Здравствуйте, BRUT bar! Хочу узнать наличие столиков или забронировать.'
+    waPresetMessage: 'Привет, БРЮТ бар! Хочу забронировать столик на: (дата, время и количество персон)'
   }
 };

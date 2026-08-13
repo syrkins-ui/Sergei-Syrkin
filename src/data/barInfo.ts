@@ -17,6 +17,10 @@ export const BAR_DATA: BarInfo = {
   hours: 'Mié — Jue: 15–22 hs | Vie — Sáb: 14–00 hs | Dom: 14–22 hs'
 };
 
+export const getSmsReservationUrl = (message: string) => {
+  return `sms:+5491127186937?body=${encodeURIComponent(message)}`;
+};
+
 export const IMAGES = {
   adBrut: '/images/AD Brut.png',
   locationNeighborhood: '/images/BA_view_1.png',

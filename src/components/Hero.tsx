@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { BAR_DATA, IMAGES, getSmsReservationUrl } from '../data/barInfo';
+import { BAR_DATA, IMAGES, getWhatsAppReservationUrl } from '../data/barInfo';
 import { ContentTranslation, Language } from '../data/translations';
 import { TopScheduleDropdown } from './TopScheduleDropdown';
-import { MessageSquare, Instagram, Navigation, Copy, Check } from 'lucide-react';
+import { MessageCircle, Instagram, Navigation, Copy, Check } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface HeroProps {
@@ -73,32 +73,34 @@ export const Hero: React.FC<HeroProps> = ({ t, lang }) => {
 
       </div>
 
-      {/* Action Buttons: Reserve Table (Green SMS/RCS/iMessage First), Address & Instagram */}
+      {/* Action Buttons: Reserve Table (WhatsApp Green First), Address & Instagram */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.4 }}
         className="space-y-3 pt-6 border-t border-[#FFF8F2]/15 relative z-10"
       >
-        {/* 1. GREEN BUTTON FIRST: Reserve Table via SMS / RCS / iMessage */}
+        {/* 1. GREEN BUTTON FIRST: Reserve Table via WhatsApp Business */}
         <a
-          href={getSmsReservationUrl(t.waPresetMessage)}
-          className="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-[#34A853] text-white hover:bg-[#2e964a] transition-all hover:scale-[1.01] active:scale-[0.98] shadow-lg shadow-[#34A853]/25 group"
+          href={getWhatsAppReservationUrl(t.waPresetMessage)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-[#25D366] text-white hover:bg-[#20bd5a] transition-all hover:scale-[1.01] active:scale-[0.98] shadow-lg shadow-[#25D366]/30 group"
         >
           <div className="flex items-center space-x-3.5">
-            <div className="p-2.5 rounded-xl bg-white/20 text-white shrink-0 group-hover:scale-110 transition-transform">
-              <MessageSquare className="w-5 h-5 fill-current" />
+            <div className="p-2.5 rounded-xl bg-black/15 text-white shrink-0 group-hover:scale-110 transition-transform">
+              <MessageCircle className="w-5 h-5 fill-current" />
             </div>
             <div className="text-left">
               <div className="font-bold text-base sm:text-xl leading-tight font-sans-clean">
                 {t.heroSmsLabel}
               </div>
               <div className="text-xs sm:text-sm font-mono opacity-90 mt-0.5">
-                SMS / RCS / iMessage
+                {t.heroSms}
               </div>
             </div>
           </div>
-          <span className="text-xs sm:text-sm font-mono font-bold bg-white/20 px-3.5 py-1.5 rounded-full group-hover:translate-x-1 transition-transform">
+          <span className="text-xs sm:text-sm font-mono font-bold bg-black/15 px-3.5 py-1.5 rounded-full group-hover:translate-x-1 transition-transform">
             →
           </span>
         </a>

@@ -1,8 +1,8 @@
 import React from 'react';
-import { BAR_DATA, getSmsReservationUrl } from '../data/barInfo';
+import { BAR_DATA, getWhatsAppReservationUrl } from '../data/barInfo';
 import { ContentTranslation, Language } from '../data/translations';
 import { WorkingHoursWidget } from './WorkingHoursWidget';
-import { Instagram, MessageSquare } from 'lucide-react';
+import { Instagram, MessageCircle } from 'lucide-react';
 
 interface FooterProps {
   t: ContentTranslation;
@@ -29,11 +29,13 @@ export const Footer: React.FC<FooterProps> = ({ t, lang }) => {
 
             <div className="mt-6 flex items-center space-x-3">
               <a
-                href={getSmsReservationUrl(t.waPresetMessage)}
-                className="p-3 rounded-full bg-[#34A853] text-white hover:bg-[#2e964a] transition-all shadow-md"
-                title={`SMS / RCS (${BAR_DATA.smsPhoneDisplay})`}
+                href={getWhatsAppReservationUrl(t.waPresetMessage)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-full bg-[#25D366] text-white hover:bg-[#20bd5a] transition-all shadow-md shadow-[#25D366]/20"
+                title={`WhatsApp Business (${BAR_DATA.whatsappPhoneDisplay})`}
               >
-                <MessageSquare className="w-5 h-5 fill-current" />
+                <MessageCircle className="w-5 h-5 fill-current" />
               </a>
 
               <a

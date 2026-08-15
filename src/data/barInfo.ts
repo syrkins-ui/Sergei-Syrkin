@@ -8,8 +8,9 @@ export const BAR_DATA: BarInfo = {
   googleMapsUrl: 'https://maps.app.goo.gl/a37wuUikQp8DaQks6',
   phone: '+54 11 3200-2788',
   phoneRaw: '+541132002788',
-  smsUrl: 'sms:+5491127186937?body=Hola%20BRUT%20bar!',
-  smsPhoneDisplay: '+54 9 11 2718-6937',
+  whatsappUrl: 'https://wa.me/5491160043501',
+  whatsappPhoneDisplay: '+54 9 11 6004-3501',
+  whatsappNumber: '+5491160043501',
   instagramHandle: '@copa_de_brut',
   instagramUrl: 'https://instagram.com/copa_de_brut',
   interiorQuote: 'El primer bar de espumantes argentinos.',
@@ -17,8 +18,12 @@ export const BAR_DATA: BarInfo = {
   hours: 'Mié — Jue: 15–22 hs | Vie — Sáb: 14–00 hs | Dom: 14–22 hs'
 };
 
+export const getWhatsAppReservationUrl = (message: string) => {
+  return `https://wa.me/5491160043501?text=${encodeURIComponent(message)}`;
+};
+
 export const getSmsReservationUrl = (message: string) => {
-  return `sms:+5491127186937?body=${encodeURIComponent(message)}`;
+  return `https://wa.me/5491160043501?text=${encodeURIComponent(message)}`;
 };
 
 export const IMAGES = {

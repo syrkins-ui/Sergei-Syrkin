@@ -17,8 +17,11 @@ export interface BarInfo {
   googleMapsUrl: string;
   phone: string;
   phoneRaw: string;
-  smsUrl: string;
-  smsPhoneDisplay: string;
+  whatsappUrl: string;
+  whatsappPhoneDisplay: string;
+  whatsappNumber: string;
+  smsUrl?: string;
+  smsPhoneDisplay?: string;
   instagramHandle: string; // "@copa_de_brut"
   instagramUrl: string;
   interiorQuote: string;

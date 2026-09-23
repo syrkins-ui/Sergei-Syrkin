@@ -6,8 +6,8 @@ import { MenuSection } from './components/MenuSection';
 import { LocationMapSection } from './components/LocationMapSection';
 import { Footer } from './components/Footer';
 import { Language, TRANSLATIONS } from './data/translations';
-import { MessageSquare } from 'lucide-react';
-import { BAR_DATA } from './data/barInfo';
+import { MessageCircle } from 'lucide-react';
+import { getWhatsAppReservationUrl } from './data/barInfo';
 
 export default function App() {
   const [lang, setLang] = useState<Language>('ES');
@@ -37,14 +37,16 @@ export default function App() {
       {/* Footer */}
       <Footer t={t} lang={lang} />
 
-      {/* Floating Quick SMS Action Button on Mobile */}
+      {/* Floating Quick WhatsApp Action Button on Mobile */}
       <div className="fixed bottom-5 right-5 z-40 sm:hidden">
         <a
-          href={BAR_DATA.smsUrl}
-          className="w-13 h-13 rounded-full bg-[#34A853] text-white flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-all border border-white/20"
-          title="SMS / RCS"
+          href={getWhatsAppReservationUrl(t.waPresetMessage)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-13 h-13 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-all border border-white/20 shadow-[#25D366]/30"
+          title="WhatsApp Business"
         >
-          <MessageSquare className="w-6 h-6 fill-current" />
+          <MessageCircle className="w-6 h-6 fill-current" />
         </a>
       </div>
 

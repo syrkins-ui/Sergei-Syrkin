@@ -64,6 +64,8 @@ export const WEEKLY_SCHEDULE: DaySchedule[] = [
   },
 ];
 
+export const IS_CLOSED_FOR_RENOVATION = true;
+
 export const SCHEDULE_LABELS = {
   today: { ES: 'Hoy', PT: 'Hoje', EN: 'Today', RU: 'Сегодня' },
   scheduleTitle: { ES: 'Horarios de atención', PT: 'Horário de funcionamento', EN: 'Opening Hours', RU: 'График работы' },
@@ -71,4 +73,28 @@ export const SCHEDULE_LABELS = {
   clickToCollapse: { ES: 'Ocultar horario completo', PT: 'Ocultar horário completo', EN: 'Hide full schedule', RU: 'Свернуть график' },
   openNow: { ES: 'Abierto ahora', PT: 'Aberto agora', EN: 'Open now', RU: 'Открыто сейчас' },
   closedNow: { ES: 'Cerrado por hoy', PT: 'Fechado por hoje', EN: 'Closed today', RU: 'Сегодня закрыто' },
+  renovationTitle: {
+    ES: 'Cerrado por reformas',
+    PT: 'Fechado para reformas',
+    EN: 'Closed for renovation',
+    RU: 'Закрыто на ремонт'
+  },
+  renovationBadge: {
+    ES: 'En reformas',
+    PT: 'Em reformas',
+    EN: 'Under renovation',
+    RU: 'На ремонте'
+  },
+  renovationMessage: {
+    ES: 'Estamos renovando nuestro espacio para ofrecerte una mejor experiencia. ¡Volvemos muy pronto!',
+    PT: 'Estamos renovando nosso espaço para proporcionar uma experiência ainda melhor. Voltamos em breve!',
+    EN: 'We are currently renovating our space to bring you an even better experience. Reopening very soon!',
+    RU: 'Мы обновляем пространство, чтобы сделать его еще лучше и уютнее. Совсем скоро откроемся вновь!'
+  },
+  renovationShortNotice: {
+    ES: 'Próxima reapertura',
+    PT: 'Breve reabertura',
+    EN: 'Reopening soon',
+    RU: 'Скоро открытие'
+  }
 };

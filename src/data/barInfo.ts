@@ -1,4 +1,4 @@
-import { BarInfo } from '../types';
+import { BarInfo, InteriorPhoto } from '../types';
 
 export const BAR_DATA: BarInfo = {
   name: 'BRUT bar',
@@ -15,7 +15,7 @@ export const BAR_DATA: BarInfo = {
   instagramUrl: 'https://instagram.com/copa_de_brut',
   interiorQuote: 'El primer bar de espumantes argentinos.',
   locationQuote: 'Donde San Telmo se encuentra con Puerto Madero.',
-  hours: 'Mié — Jue: 15–22 hs | Vie — Sáb: 14–00 hs | Dom: 14–22 hs'
+  hours: 'Cerrado temporalmente por reformas'
 };
 
 export const getWhatsAppReservationUrl = (message: string) => {
@@ -29,8 +29,8 @@ export const getSmsReservationUrl = (message: string) => {
 export const IMAGES = {
   adBrut: '/images/AD Brut.png',
   locationNeighborhood: '/images/BA_view_1.png',
-  wineCollection: '/images/Vino_vew.png',
-  interior: '/images/Vino_vew.png',
+  wineCollection: '/images/001.png',
+  interior: '/images/001.png',
   corkPopping: 'https://images.unsplash.com/photo-1569919659476-f0852f6834b7?auto=format&fit=crop&w=1920&q=85',
   corkBottle: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1920&q=85',
   interiorAtmosphere: 'https://images.unsplash.com/photo-1578474846511-04ba529f0b88?auto=format&fit=crop&w=1200&q=80',
@@ -38,3 +38,39 @@ export const IMAGES = {
   sanTelmoMarket: 'https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=1200&q=80',
   glassToast: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1200&q=80'
 };
+
+/**
+ * Galería de fotos del interior de BRUT bar.
+ */
+export const INTERIOR_PHOTOS: InteriorPhoto[] = [
+  {
+    id: 'interior-001',
+    url: '/images/001.png',
+    alt: 'Interior y ambiente de BRUT bar (01)',
+    caption: 'BRUT bar • Interior y ambiente'
+  },
+  {
+    id: 'interior-002',
+    url: '/images/002.png',
+    alt: 'Interior y ambiente de BRUT bar (02)',
+    caption: 'BRUT bar • Colección y copas'
+  },
+  {
+    id: 'interior-003',
+    url: '/images/003.png',
+    alt: 'Interior y ambiente de BRUT bar (03)',
+    caption: 'BRUT bar • Espacio íntimo en San Telmo'
+  },
+  {
+    id: 'interior-004',
+    url: '/images/004.png',
+    alt: 'Interior y ambiente de BRUT bar (04)',
+    caption: 'BRUT bar • Barra y degustación'
+  },
+  {
+    id: 'interior-005',
+    url: '/images/005.png',
+    alt: 'Interior y ambiente de BRUT bar (05)',
+    caption: 'BRUT bar • Detalles y espumantes'
+  }
+];

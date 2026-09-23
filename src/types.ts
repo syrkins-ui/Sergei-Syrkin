@@ -9,6 +9,13 @@ export interface WineItem {
   bubblesLevel: number; // 1-5
 }
 
+export interface InteriorPhoto {
+  id: string;
+  url: string;
+  alt: string;
+  caption?: string;
+}
+
 export interface BarInfo {
   name: string; // Always "BRUT bar"
   subtitle: string; // "Casa de vinos espumantes argentinos"

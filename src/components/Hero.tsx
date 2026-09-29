@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { BAR_DATA, IMAGES, getWhatsAppReservationUrl } from '../data/barInfo';
+import React, { useState, useEffect } from 'react';
+import { BAR_DATA, INTERIOR_PHOTOS, getWhatsAppReservationUrl } from '../data/barInfo';
 import { ContentTranslation, Language } from '../data/translations';
-import { TopScheduleDropdown } from './TopScheduleDropdown';
-import { MessageCircle, Instagram, Navigation, Copy, Check } from 'lucide-react';
-import { motion } from 'motion/react';
+import { MessageCircle, Instagram, Navigation, Copy, Check, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { WineBottleCarousel } from './WineBottleCarousel';
 
 interface HeroProps {
   t: ContentTranslation;
@@ -12,6 +12,45 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ t, lang }) => {
   const [copied, setCopied] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [showTitle, setShowTitle] = useState(true);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  // Fade out title after 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowTitle(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + INTERIOR_PHOTOS.length) % INTERIOR_PHOTOS.length);
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % INTERIOR_PHOTOS.length);
+  };
+
+  const onTouchStartHandler = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMoveHandler = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEndHandler = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    if (distance > 40) {
+      nextSlide();
+    } else if (distance < -40) {
+      prevSlide();
+    }
+  };
 
   const copyAddress = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -21,55 +60,115 @@ export const Hero: React.FC<HeroProps> = ({ t, lang }) => {
   };
 
   return (
-    <section id="hero" className="relative min-h-[85vh] flex flex-col justify-between pt-8 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto rounded-b-[40px] overflow-hidden bg-[#7A0C1E]">
-      
-      {/* Top Magazine Meta Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#FFF8F2]/15 pb-6 text-[11px] sm:text-xs tracking-widest uppercase text-[#FFF8F2]/75 font-sans-clean relative z-30">
-        <div className="flex items-center space-x-2">
-          <span className="inline-block w-2 h-2 rounded-full bg-[#E5C07B] animate-pulse" />
-          <span>San Telmo / Puerto Madero • Buenos Aires</span>
-        </div>
+    <section id="hero" className="relative min-h-[85vh] flex flex-col justify-between pt-0 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto rounded-b-[40px] overflow-hidden bg-[#7A0C1E]">
+      {/* Photo Carousel: Vertical 4:3 (3:4) on mobile/tablet, wide on desktop */}
+      <div 
+        className="relative mt-0 mb-6 sm:mb-8 -mx-4 sm:-mx-6 lg:-mx-8 aspect-[3/4] sm:aspect-[3/4] md:aspect-[4/5] lg:aspect-[4/3] lg:max-h-[75vh] w-[calc(100%+2rem)] sm:w-[calc(100%+3rem)] lg:w-[calc(100%+4rem)] overflow-hidden border-b border-[#FFF8F2]/20 select-none group"
+        onTouchStart={onTouchStartHandler}
+        onTouchMove={onTouchMoveHandler}
+        onTouchEnd={onTouchEndHandler}
+      >
+        {/* Active Photo with smooth fade transition */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0, scale: 1.02 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="absolute inset-0 w-full h-full"
+          >
+            <img
+              src={INTERIOR_PHOTOS[currentSlide].url}
+              alt={INTERIOR_PHOTOS[currentSlide].alt}
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover object-center brightness-[0.92] contrast-105"
+            />
+          </motion.div>
+        </AnimatePresence>
 
-        {/* Top Right Framed Dropdown Button for Working Hours */}
-        <div>
-          <TopScheduleDropdown lang={lang} />
-        </div>
-      </div>
+        {/* Dynamic Overlay: Darker when title is visible, then dissolves to subtle vignette */}
+        <AnimatePresence>
+          {showTitle ? (
+            <motion.div
+              key="overlay-title"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 1.2 } }}
+              className="absolute inset-0 bg-black/45 pointer-events-none z-10"
+            />
+          ) : (
+            <motion.div
+              key="overlay-clear"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+              className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/20 pointer-events-none z-10"
+            />
+          )}
+        </AnimatePresence>
 
-      {/* Main Center Section with AD Brut Banner (Sharp edges below top border & above bottom border) */}
-      <div className="relative my-4 sm:my-6 py-12 sm:py-20 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center overflow-hidden border-y border-[#FFF8F2]/20">
-        
-        {/* Full-width crisp AD Brut image background with sharp edges */}
-        <div className="absolute inset-0 -z-0">
-          <img
-            src={IMAGES.adBrut}
-            alt="AD Brut - Casa de Vinos"
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover object-center brightness-100 contrast-105"
-          />
-          {/* Light subtle dark gradient overlay for crystal clear text readability without turning red */}
-          <div className="absolute inset-0 bg-black/35" />
-        </div>
+        {/* Large Multi-line Centered Title (hangs for 5s then fades away) */}
+        <AnimatePresence>
+          {showTitle && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, transition: { duration: 1.2, ease: 'easeInOut' } }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+              className="absolute inset-0 flex flex-col items-center justify-center p-4 sm:p-6 text-center z-20 pointer-events-none"
+            >
+              <h1 className="font-editorial text-5xl sm:text-7xl md:text-8xl lg:text-[112px] xl:text-[124px] text-[#FFF8F2] tracking-tight leading-[0.92] sm:leading-[0.95] max-w-5xl drop-shadow-[0_6px_28px_rgba(0,0,0,0.98)] select-none">
+                La casa<br />
+                de los vinos<br />
+                espumantes<br />
+                argentinos
+              </h1>
 
-        {/* HUGE CAPS CENTER TITLE */}
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="font-editorial text-5xl sm:text-7xl md:text-8xl lg:text-[110px] leading-[0.95] tracking-tight uppercase text-[#FFF8F2] max-w-5xl font-normal select-none px-2 relative z-10 drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]"
+              {/* Subtitle in clean secondary font */}
+              <p className="mt-4 sm:mt-6 md:mt-8 text-xs sm:text-sm md:text-base uppercase tracking-[0.25em] sm:tracking-[0.35em] text-[#E5C07B] font-sans-clean font-semibold drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
+                COMIDA \ COCTELES \ VINOS
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Left Arrow: pure minimalist "уголок" without circle background */}
+        <button
+          onClick={prevSlide}
+          className="absolute left-2 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 p-2 text-white/80 hover:text-[#E5C07B] active:text-[#FFF8F2] transition-all cursor-pointer z-20 hover:scale-110 active:scale-95 drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]"
+          aria-label="Previous slide"
         >
-          {t.heroTitle}
-        </motion.h1>
+          <ChevronLeft className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 stroke-[1.25] transition-transform hover:-translate-x-1" />
+        </button>
 
-        {/* Subtitle / Tagline */}
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.25 }}
-          className="mt-6 text-sm sm:text-base md:text-xl text-[#F9EBE0] max-w-2xl font-sans-clean font-medium leading-relaxed text-center px-4 relative z-10 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
+        {/* Right Arrow: pure minimalist "уголок" without circle background */}
+        <button
+          onClick={nextSlide}
+          className="absolute right-2 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 p-2 text-white/80 hover:text-[#E5C07B] active:text-[#FFF8F2] transition-all cursor-pointer z-20 hover:scale-110 active:scale-95 drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]"
+          aria-label="Next slide"
         >
-          {t.heroTagline}
-        </motion.p>
+          <ChevronRight className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 stroke-[1.25] transition-transform hover:translate-x-1" />
+        </button>
+
+        {/* Bottom Pagination Dots: floating directly over image with no background container */}
+        <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center space-x-2.5 z-20">
+          {INTERIOR_PHOTOS.map((photo, index) => {
+            const isActive = index === currentSlide;
+            return (
+              <button
+                key={photo.id}
+                onClick={() => setCurrentSlide(index)}
+                className={`transition-all duration-300 cursor-pointer drop-shadow-[0_1px_4px_rgba(0,0,0,0.85)] ${
+                  isActive
+                    ? 'w-6 sm:w-7 h-1.5 sm:h-2 rounded-full bg-[#E5C07B] shadow-sm shadow-[#E5C07B]/60'
+                    : 'w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-white/50 hover:bg-white/90'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            );
+          })}
+        </div>
 
       </div>
 
@@ -165,6 +264,9 @@ export const Hero: React.FC<HeroProps> = ({ t, lang }) => {
         </div>
 
       </motion.div>
+
+      {/* Wine Bottle Carousel (Directly after action buttons) */}
+      <WineBottleCarousel lang={lang} />
 
     </section>
   );

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
-import { InteriorBubbleSection } from './components/InteriorBubbleSection';
-import { MenuSection } from './components/MenuSection';
 import { LocationMapSection } from './components/LocationMapSection';
 import { Footer } from './components/Footer';
 import { Language, TRANSLATIONS } from './data/translations';
@@ -24,14 +22,8 @@ export default function App() {
         {/* Hero Section */}
         <Hero t={t} lang={lang} />
 
-        {/* Interior & Concept Bubble Section */}
-        <InteriorBubbleSection t={t} />
-
         {/* Location & Map Section */}
         <LocationMapSection t={t} lang={lang} />
-
-        {/* Menu & Drinks Section */}
-        <MenuSection t={t} lang={lang} />
       </main>
 
       {/* Footer */}

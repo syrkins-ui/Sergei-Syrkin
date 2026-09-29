@@ -37,16 +37,16 @@ export const TopScheduleDropdown: React.FC<TopScheduleDropdownProps> = ({ lang }
       {/* Framed Pill Button showing renovation status + chevron */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-[#E5C07B]/40 hover:border-[#E5C07B] bg-[#580714]/85 hover:bg-[#580714] backdrop-blur-md text-[#FFF8F2] hover:text-[#E5C07B] transition-all text-xs font-mono tracking-wide cursor-pointer shadow-md group"
+        className="flex items-center space-x-1.5 sm:space-x-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full border border-[#E5C07B]/40 hover:border-[#E5C07B] bg-[#580714]/85 hover:bg-[#580714] backdrop-blur-md text-[#FFF8F2] hover:text-[#E5C07B] transition-all text-[11px] sm:text-xs font-mono tracking-wide cursor-pointer shadow-md group shrink-0"
         aria-label="Hours of operation / Status"
         aria-expanded={isOpen}
       >
-        <span className="w-2 h-2 rounded-full bg-[#E5C07B] animate-pulse shrink-0" />
+        <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#E5C07B] animate-pulse shrink-0" />
         <span className="font-semibold text-[#E5C07B]">
           {IS_CLOSED_FOR_RENOVATION ? SCHEDULE_LABELS.renovationTitle[lang] : `${todayDayName}: ${todayHours}`}
         </span>
         <ChevronDown
-          className={`w-3.5 h-3.5 text-[#E5C07B] transition-transform duration-200 shrink-0 ${
+          className={`w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E5C07B] transition-transform duration-200 shrink-0 ${
             isOpen ? 'rotate-180' : ''
           }`}
         />
@@ -60,7 +60,7 @@ export const TopScheduleDropdown: React.FC<TopScheduleDropdownProps> = ({ lang }
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.96 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-0 top-full mt-2 w-72 sm:w-80 rounded-2xl bg-[#580714] border border-[#E5C07B]/30 shadow-2xl p-3 z-[100] backdrop-blur-xl"
+            className="absolute left-0 top-full mt-2 w-72 sm:w-80 max-w-[calc(100vw-2.5rem)] rounded-2xl bg-[#580714] border border-[#E5C07B]/30 shadow-2xl p-3 z-[100] backdrop-blur-xl"
           >
             {IS_CLOSED_FOR_RENOVATION ? (
               <div className="space-y-3">

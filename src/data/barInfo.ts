@@ -15,7 +15,7 @@ export const BAR_DATA: BarInfo = {
   instagramUrl: 'https://instagram.com/copa_de_brut',
   interiorQuote: 'El primer bar de espumantes argentinos.',
   locationQuote: 'Donde San Telmo se encuentra con Puerto Madero.',
-  hours: 'Cerrado temporalmente por reformas'
+  hours: 'Mié–Jue 15:00–22:00 • Vie–Sáb 14:00–00:00 • Dom 14:00–22:00'
 };
 
 export const getWhatsAppReservationUrl = (message: string) => {

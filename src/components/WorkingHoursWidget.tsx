@@ -142,83 +142,42 @@ export const WorkingHoursWidget: React.FC<WorkingHoursWidgetProps> = ({ lang, va
 
   return (
     <div className="w-full font-sans-clean">
-      {/* Collapsed Main Header Button */}
+      {/* Collapsed Minimalist Header Button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full text-left p-3.5 sm:p-4 rounded-2xl bg-[#580714]/90 border border-[#E5C07B]/40 hover:border-[#E5C07B] transition-all duration-300 shadow-lg group cursor-pointer"
+        className="w-full text-left px-4 py-2.5 sm:py-3 rounded-2xl bg-[#580714]/80 border border-[#FFF8F2]/15 hover:border-[#E5C07B]/50 transition-all duration-300 shadow-sm group cursor-pointer"
         aria-expanded={isExpanded}
       >
         <div className="flex items-center justify-between gap-3">
-          
-          {/* Left: Icon + Status */}
-          <div className="flex items-center space-x-3 min-w-0">
-            <div className="p-2.5 rounded-xl bg-[#7A0C1E] border border-[#E5C07B]/40 shrink-0">
-              {IS_CLOSED_FOR_RENOVATION ? (
-                <Wrench className="w-5 h-5 text-[#E5C07B]" />
-              ) : (
-                <Clock className="w-5 h-5 text-[#E5C07B]" />
-              )}
-            </div>
+          {/* Left: Green pulsating dot + small "Hoy:" + hours */}
+          <div className="flex items-center space-x-2.5 min-w-0">
+            <span
+              className={`w-2.5 h-2.5 rounded-full shrink-0 ${
+                isOpenNow
+                  ? 'bg-[#34A853] animate-pulse shadow-sm shadow-[#34A853]/60'
+                  : todaySchedule.isClosed
+                  ? 'bg-[#E5C07B]/40'
+                  : 'bg-[#34A853] animate-pulse'
+              }`}
+            />
 
-            <div className="min-w-0">
-              <div className="flex items-center space-x-2 text-[11px] text-[#E5C07B] font-mono uppercase tracking-wider font-semibold">
-                <span>{SCHEDULE_LABELS.scheduleTitle[lang]}</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#E5C07B]/60" />
-                <span className="flex items-center space-x-1 text-[10px]">
-                  <span
-                    className={`w-2 h-2 rounded-full ${
-                      IS_CLOSED_FOR_RENOVATION
-                        ? 'bg-[#E5C07B] animate-pulse'
-                        : isOpenNow
-                        ? 'bg-[#34A853] animate-pulse'
-                        : 'bg-[#E5C07B]/40'
-                    }`}
-                  />
-                  <span>
-                    {IS_CLOSED_FOR_RENOVATION
-                      ? renovationTitle
-                      : isOpenNow
-                      ? SCHEDULE_LABELS.openNow[lang]
-                      : todaySchedule.isClosed
-                      ? SCHEDULE_LABELS.closedNow[lang]
-                      : todaySchedule.hoursDisplay[lang]}
-                  </span>
-                </span>
-              </div>
-
-              <div className="text-sm sm:text-base font-editorial text-[#FFF8F2] truncate mt-0.5">
-                {IS_CLOSED_FOR_RENOVATION ? (
-                  <strong className="text-[#E5C07B]">
-                    {renovationTitle}
-                  </strong>
-                ) : (
-                  <>
-                    {todayLabel} ({todayDayName}):{' '}
-                    <strong className={todaySchedule.isClosed ? 'text-[#FFF8F2]/60 font-sans-clean font-normal italic' : 'text-[#E5C07B]'}>
-                      {todayHours}
-                    </strong>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Expand Trigger Chevron + Hint */}
-          <div className="flex items-center space-x-2 shrink-0">
-            <span className="text-[11px] text-[#E5C07B] font-mono hidden md:inline-block group-hover:underline">
-              {isExpanded
-                ? SCHEDULE_LABELS.clickToCollapse[lang]
-                : SCHEDULE_LABELS.clickToExpand[lang]}
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#E5C07B] font-semibold shrink-0 font-sans-clean">
+              {todayLabel}:
             </span>
-            <div className="p-1.5 rounded-full bg-[#7A0C1E] border border-[#FFF8F2]/20 group-hover:border-[#E5C07B] transition-colors">
-              <ChevronDown
-                className={`w-4 h-4 text-[#E5C07B] transition-transform duration-300 ${
-                  isExpanded ? 'rotate-180' : ''
-                }`}
-              />
-            </div>
+
+            <span className="font-editorial text-base sm:text-lg text-[#FFF8F2] tracking-wide truncate">
+              {todayHours}
+            </span>
           </div>
 
+          {/* Right: Subtle expand chevron */}
+          <div className="flex items-center space-x-1 shrink-0 text-[#E5C07B]/70 group-hover:text-[#E5C07B] transition-colors">
+            <ChevronDown
+              className={`w-4 h-4 transition-transform duration-300 ${
+                isExpanded ? 'rotate-180 text-[#E5C07B]' : ''
+              }`}
+            />
+          </div>
         </div>
       </button>
 

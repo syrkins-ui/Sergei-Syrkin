@@ -4,6 +4,7 @@ import { ContentTranslation, Language } from '../data/translations';
 import { MessageCircle, Instagram, Navigation, Copy, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { WineBottleCarousel } from './WineBottleCarousel';
+import { WorkingHoursWidget } from './WorkingHoursWidget';
 
 interface HeroProps {
   t: ContentTranslation;
@@ -172,97 +173,98 @@ export const Hero: React.FC<HeroProps> = ({ t, lang }) => {
 
       </div>
 
-      {/* Action Buttons: Reserve Table (WhatsApp Green First), Address & Instagram */}
+      {/* Action Buttons: Unified Minimalist Grid (Reserva, Dirección, Instagram, Horarios) */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.4 }}
-        className="space-y-3 pt-6 border-t border-[#FFF8F2]/15 relative z-10"
+        className="pt-6 border-t border-[#FFF8F2]/15 relative z-10"
       >
-        {/* 1. GREEN BUTTON FIRST: Reserve Table via WhatsApp Business */}
-        <a
-          href={getWhatsAppReservationUrl(t.waPresetMessage)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-[#25D366] text-white hover:bg-[#20bd5a] transition-all hover:scale-[1.01] active:scale-[0.98] shadow-lg shadow-[#25D366]/30 group"
-        >
-          <div className="flex items-center space-x-3.5">
-            <div className="p-2.5 rounded-xl bg-black/15 text-white shrink-0 group-hover:scale-110 transition-transform">
-              <MessageCircle className="w-5 h-5 fill-current" />
-            </div>
-            <div className="text-left">
-              <div className="font-bold text-base sm:text-xl leading-tight font-sans-clean">
-                {t.heroSmsLabel}
-              </div>
-              <div className="text-xs sm:text-sm font-mono opacity-90 mt-0.5">
-                {t.heroSms}
-              </div>
-            </div>
-          </div>
-          <span className="text-xs sm:text-sm font-mono font-bold bg-black/15 px-3.5 py-1.5 rounded-full group-hover:translate-x-1 transition-transform">
-            →
-          </span>
-        </a>
-
-        {/* 2. SECOND ROW: Address & Instagram Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 items-start">
           
-          {/* Address Card */}
-          <div className="glass-bubble-solid rounded-2xl p-4 border border-[#FFF8F2]/20 hover:border-[#E5C07B]/60 transition-all group">
-            <div className="flex items-center justify-between gap-3">
+          {/* 1. Reserva por WhatsApp */}
+          <a
+            href={getWhatsAppReservationUrl(t.waPresetMessage)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-between gap-3 px-4 py-2.5 sm:py-3 rounded-2xl bg-[#580714]/80 border border-[#FFF8F2]/15 hover:border-[#E5C07B]/50 hover:bg-[#6b0919]/90 transition-all duration-300 shadow-sm group cursor-pointer"
+          >
+            <div className="flex items-center space-x-2.5 min-w-0">
+              <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0 fill-current" />
+              <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#E5C07B] font-semibold shrink-0 font-sans-clean">
+                {t.heroSmsLabel}:
+              </span>
+              <span className="font-editorial text-base sm:text-lg text-[#FFF8F2] tracking-wide truncate">
+                {t.heroSms}
+              </span>
+            </div>
+            <div className="flex items-center space-x-1 shrink-0 text-[#E5C07B]/70 group-hover:text-[#E5C07B] group-hover:translate-x-0.5 transition-all">
+              <span className="text-xs font-mono">→</span>
+            </div>
+          </a>
+
+          {/* 2. Dirección con acceso a mapa y copiado */}
+          <div className="flex items-center justify-between gap-3 px-4 py-2.5 sm:py-3 rounded-2xl bg-[#580714]/80 border border-[#FFF8F2]/15 hover:border-[#E5C07B]/50 hover:bg-[#6b0919]/90 transition-all duration-300 shadow-sm group">
+            <a
+              href={BAR_DATA.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-2.5 min-w-0 flex-1 group/addr"
+            >
+              <Navigation className="w-4 h-4 text-[#E5C07B] shrink-0 group-hover/addr:scale-110 transition-transform" />
+              <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#E5C07B] font-semibold shrink-0 font-sans-clean">
+                {t.heroAddressLabel}:
+              </span>
+              <span className="font-editorial text-base sm:text-lg text-[#FFF8F2] tracking-wide truncate group-hover/addr:text-[#E5C07B] transition-colors">
+                {BAR_DATA.address}
+              </span>
+            </a>
+            <div className="flex items-center space-x-1.5 shrink-0">
+              <button
+                onClick={copyAddress}
+                className="p-1 rounded-lg text-[#FFF8F2]/60 hover:text-[#E5C07B] transition-colors cursor-pointer"
+                title="Copiar"
+                aria-label="Copiar dirección"
+              >
+                {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
+              </button>
               <a
                 href={BAR_DATA.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 flex items-center space-x-3 text-left overflow-hidden"
+                className="text-[#E5C07B]/70 group-hover:text-[#E5C07B] group-hover:translate-x-0.5 transition-all text-xs font-mono"
+                aria-label="Abrir mapa"
               >
-                <div className="p-2.5 rounded-xl bg-[#7A0C1E] border border-[#FFF8F2]/20 text-[#E5C07B] shrink-0 group-hover:scale-110 transition-transform">
-                  <Navigation className="w-5 h-5" />
-                </div>
-                <div className="truncate">
-                  <span className="text-[10px] uppercase tracking-widest text-[#E5C07B] block font-sans-clean font-semibold">
-                    {t.heroAddressLabel}
-                  </span>
-                  <span className="font-editorial text-lg sm:text-xl text-[#FFF8F2] group-hover:text-[#E5C07B] transition-colors border-b border-dotted border-[#FFF8F2]/40 truncate block">
-                    {BAR_DATA.address}
-                  </span>
-                </div>
+                →
               </a>
-
-              <button
-                onClick={copyAddress}
-                className="p-2.5 rounded-xl bg-[#580714] border border-[#FFF8F2]/15 text-[#FFF8F2]/80 hover:text-[#FFF8F2] hover:border-[#FFF8F2]/40 text-xs transition-colors shrink-0 flex items-center space-x-1"
-                title="Copiar dirección"
-              >
-                {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-[#E5C07B]" />}
-                <span className="hidden sm:inline font-mono text-[11px]">{copied ? t.locationCopied : t.locationCopy}</span>
-              </button>
             </div>
           </div>
 
-          {/* Instagram Button */}
+          {/* 3. Horarios de atención */}
+          <WorkingHoursWidget lang={lang} variant="card" />
+
+          {/* 4. Instagram */}
           <a
             href={BAR_DATA.instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-between p-4 rounded-2xl bg-[#580714] border border-[#FFF8F2]/20 hover:border-[#E5C07B]/60 text-[#FFF8F2] hover:bg-[#6b0919] transition-all hover:scale-[1.01] active:scale-[0.98] group"
+            className="flex items-center justify-between gap-3 px-4 py-2.5 sm:py-3 rounded-2xl bg-[#580714]/80 border border-[#FFF8F2]/15 hover:border-[#E5C07B]/50 hover:bg-[#6b0919]/90 transition-all duration-300 shadow-sm group cursor-pointer"
           >
-            <div className="flex items-center space-x-3">
-              <Instagram className="w-5 h-5 text-[#E5C07B] shrink-0" />
-              <div className="text-left">
-                <div className="text-[10px] uppercase tracking-wider text-[#FFF8F2]/60">{t.heroInstagramLabel}</div>
-                <div className="font-medium text-sm sm:text-base text-[#E5C07B] truncate">
-                  {BAR_DATA.instagramHandle}
-                </div>
-              </div>
+            <div className="flex items-center space-x-2.5 min-w-0">
+              <Instagram className="w-4 h-4 text-[#E5C07B] shrink-0" />
+              <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#E5C07B] font-semibold shrink-0 font-sans-clean">
+                {t.heroInstagramLabel}:
+              </span>
+              <span className="font-editorial text-base sm:text-lg text-[#FFF8F2] tracking-wide truncate">
+                {BAR_DATA.instagramHandle}
+              </span>
             </div>
-            <span className="text-xs font-mono text-[#E5C07B] group-hover:translate-x-1 transition-transform">
-              →
-            </span>
+            <div className="flex items-center space-x-1 shrink-0 text-[#E5C07B]/70 group-hover:text-[#E5C07B] group-hover:translate-x-0.5 transition-all">
+              <span className="text-xs font-mono">→</span>
+            </div>
           </a>
 
         </div>
-
       </motion.div>
 
       {/* Wine Bottle Carousel (Directly after action buttons) */}

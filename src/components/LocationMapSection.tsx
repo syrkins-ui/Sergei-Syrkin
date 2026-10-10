@@ -9,7 +9,7 @@ interface LocationMapSectionProps {
   lang: Language;
 }
 
-export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ t }) => {
+export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ t, lang }) => {
   return (
     <section id="location" className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       
@@ -24,7 +24,7 @@ export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ t }) => 
       {/* Main Location Bubble Card */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         
-        {/* Left Column: Photo Bubble + Title Quote + Subtitle */}
+        {/* Left Column: Photo Bubble + Title Quote + Subtitle + Hours Widget */}
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}

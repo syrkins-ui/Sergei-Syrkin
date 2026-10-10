@@ -64,7 +64,7 @@ export const WEEKLY_SCHEDULE: DaySchedule[] = [
   },
 ];
 
-export const IS_CLOSED_FOR_RENOVATION = true;
+export const IS_CLOSED_FOR_RENOVATION = false;
 
 export const SCHEDULE_LABELS = {
   today: { ES: 'Hoy', PT: 'Hoje', EN: 'Today', RU: 'Сегодня' },

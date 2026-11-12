@@ -66,3 +66,22 @@ body {
   background: rgba(255, 248, 242, 0.4);
 }
 
+/* Hide Google Maps development warning banners, error overlays, and shaded tile layers */
+.gm-err-container,
+.gm-err-content,
+.gm-err-autocomplete,
+div[class*="gm-err"],
+.dismissButton {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide the shaded "For development purposes only" grid overlay */
+.gm-style-pbc {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+

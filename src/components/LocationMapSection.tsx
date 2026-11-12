@@ -1,7 +1,9 @@
 import React from 'react';
 import { BAR_DATA, IMAGES } from '../data/barInfo';
 import { ContentTranslation, Language } from '../data/translations';
-import { MapPin, Navigation, ExternalLink } from 'lucide-react';
+import { SanTelmoGoogleMap } from './SanTelmoGoogleMap';
+import { SAN_TELMO_LANDMARKS } from '../data/landmarks3D';
+import { MapPin, Navigation, ExternalLink, Footprints } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface LocationMapSectionProps {
@@ -10,124 +12,110 @@ interface LocationMapSectionProps {
 }
 
 export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ t, lang }) => {
+  const landmarks = SAN_TELMO_LANDMARKS.filter(l => !l.isOrigin);
+
   return (
     <section id="location" className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       
       {/* Magazine Eyebrow */}
-      <div className="flex items-center space-x-3 mb-6">
+      <div className="flex items-center space-x-3 mb-4">
         <div className="h-[1px] w-12 bg-[#E5C07B]" />
         <span className="text-xs uppercase tracking-widest text-[#E5C07B] font-medium font-sans-clean">
           {t.locationEyebrow}
         </span>
       </div>
 
-      {/* Main Location Bubble Card */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-        
-        {/* Left Column: Photo Bubble + Title Quote + Subtitle + Hours Widget */}
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="lg:col-span-6 glass-bubble-solid rounded-[32px] p-6 sm:p-8 flex flex-col justify-between border border-[#FFF8F2]/20 relative overflow-hidden group"
-        >
-          {/* Location Image Frame */}
-          <div className="relative rounded-2xl overflow-hidden aspect-[16/10] border border-[#FFF8F2]/15 shadow-xl">
+      {/* Main Section Heading */}
+      <div className="mb-8">
+        <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl text-[#FFF8F2] leading-tight font-normal">
+          {t.map3dTitle}
+        </h2>
+        <p className="text-sm sm:text-base text-[#FFF8F2]/75 mt-3 max-w-3xl font-sans-clean font-light leading-relaxed">
+          {t.map3dSubtitle}
+        </p>
+      </div>
+
+      {/* 3D Satellite Google Map with Standard Pins & InfoWindow */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="space-y-6"
+      >
+        <SanTelmoGoogleMap t={t} lang={lang} />
+
+        {/* Quick Walking Distances to Surrounding Landmarks */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+          {landmarks.slice(0, 4).map((lm) => (
+            <a 
+              key={lm.id}
+              href={lm.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="glass-bubble-solid rounded-2xl p-4 border border-[#FFF8F2]/15 hover:border-[#E5C07B] transition-all flex flex-col justify-between group cursor-pointer shadow-md"
+            >
+              <div className="flex items-center justify-between text-[#E5C07B] text-[10px] uppercase tracking-wider font-semibold">
+                <span className="flex items-center space-x-1">
+                  <Footprints className="w-3 h-3" />
+                  <span>{lm.walkingTimeMin} min ({lm.distanceMeters}m)</span>
+                </span>
+                <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all" />
+              </div>
+              <div className="font-editorial text-base sm:text-lg text-[#FFF8F2] group-hover:text-[#E5C07B] transition-colors mt-2 line-clamp-1">
+                {lm.name[lang]}
+              </div>
+              <div className="text-[11px] text-[#FFF8F2]/65 line-clamp-1 mt-0.5">
+                {lm.address}
+              </div>
+            </a>
+          ))}
+        </div>
+
+        {/* Neighborhood Editorial Info Card */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center glass-bubble-solid rounded-3xl p-6 sm:p-8 border border-[#FFF8F2]/15 mt-6">
+          <div className="md:col-span-5 rounded-2xl overflow-hidden aspect-[16/10] relative shadow-xl">
             <img
               src={IMAGES.locationNeighborhood}
               alt="Facultad de Ingeniería UBA, San Telmo, Buenos Aires"
               referrerPolicy="no-referrer"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+              className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#580714] via-transparent to-transparent opacity-80" />
-            
-            <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[11px] text-[#FFF8F2] bg-[#580714]/90 backdrop-blur-md px-3 py-2 rounded-lg border border-[#FFF8F2]/10">
-              <span className="font-editorial text-xs sm:text-sm text-[#E5C07B] leading-tight">
-                {t.locationImageCaption}
-              </span>
+            <div className="absolute bottom-3 left-3 right-3 text-[11px] text-[#E5C07B] font-editorial bg-[#580714]/90 px-3 py-1.5 rounded-lg border border-[#FFF8F2]/10">
+              {t.locationImageCaption}
             </div>
           </div>
 
-          {/* Location Quote & Subtitle */}
-          <div className="mt-6">
-            <a
-              href={BAR_DATA.googleMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/addr inline-flex items-center space-x-2 text-xs uppercase tracking-widest text-[#E5C07B] mb-2 font-sans-clean hover:underline"
-            >
-              <MapPin className="w-3.5 h-3.5" />
-              <span>{BAR_DATA.address}</span>
-            </a>
-
-            <h3 className="font-editorial text-2xl sm:text-3xl lg:text-4xl text-[#FFF8F2] leading-snug font-normal">
-              {t.locationTitle}
-            </h3>
-
-            <p className="text-xs sm:text-sm text-[#FFF8F2]/75 mt-3 font-sans-clean font-light leading-relaxed">
-              {t.locationSubtitle}
-            </p>
-          </div>
-
-          {/* Navigation Link */}
-          <div className="mt-6 pt-4 border-t border-[#FFF8F2]/10 flex justify-end">
-            <a
-              href={BAR_DATA.googleMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2.5 rounded-full bg-[#E5C07B] text-[#580714] font-semibold text-xs transition-all flex items-center space-x-2 shadow-md hover:bg-[#FFF8F2] hover:scale-102"
-            >
-              <Navigation className="w-3.5 h-3.5 fill-current" />
-              <span>{t.locationDirections}</span>
-            </a>
-          </div>
-
-        </motion.div>
-
-        {/* Right Column: Google Maps Interactive Embed */}
-        <motion.div 
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="lg:col-span-6 glass-bubble rounded-[32px] p-2 border border-[#FFF8F2]/20 flex flex-col justify-between min-h-[380px] relative overflow-hidden"
-        >
-          <div className="w-full h-full min-h-[360px] rounded-[26px] overflow-hidden relative bg-[#580714]">
-            <iframe
-              title="BRUT bar Google Map Location"
-              width="100%"
-              height="100%"
-              style={{ border: 0, filter: 'contrast(1.05) saturate(1.1)' }}
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-              src="https://maps.google.com/maps?q=Av.%20Independencia%20320,%20C1099%20AAD,%20CABA,%20Argentina&t=&z=16&ie=UTF8&iwloc=&output=embed"
-            />
-
-            {/* Map Overlay Badge */}
-            <div className="absolute top-4 left-4 glass-bubble-solid px-4 py-2 rounded-2xl border border-[#FFF8F2]/20 flex items-center space-x-2.5 shadow-xl">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#E5C07B] animate-ping" />
-              <div>
-                <div className="font-editorial text-base text-[#FFF8F2] leading-none">BRUT bar</div>
-                <div className="text-[10px] uppercase text-[#E5C07B] mt-0.5 font-sans-clean">{BAR_DATA.address}</div>
+          <div className="md:col-span-7 flex flex-col justify-between space-y-4">
+            <div>
+              <div className="flex items-center space-x-2 text-xs uppercase tracking-widest text-[#E5C07B] mb-1 font-sans-clean">
+                <MapPin className="w-3.5 h-3.5" />
+                <span>{BAR_DATA.address}</span>
               </div>
+              <h3 className="font-editorial text-2xl sm:text-3xl text-[#FFF8F2] leading-snug">
+                {t.locationTitle}
+              </h3>
+              <p className="text-xs sm:text-sm text-[#FFF8F2]/75 mt-2 font-sans-clean font-light leading-relaxed">
+                {t.locationSubtitle}
+              </p>
             </div>
 
-            {/* Direct Link to Google Maps */}
-            <a
-              href={BAR_DATA.googleMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="absolute bottom-4 right-4 px-4 py-2 rounded-full bg-[#580714]/95 hover:bg-[#580714] text-[#E5C07B] text-xs font-semibold border border-[#FFF8F2]/20 transition-all flex items-center space-x-1.5 shadow-xl group"
-            >
-              <span>{t.locationDirections}</span>
-              <ExternalLink className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
-            </a>
+            <div className="pt-2 flex flex-wrap items-center gap-3">
+              <a
+                href={BAR_DATA.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 rounded-full bg-[#E5C07B] hover:bg-[#FFF8F2] text-[#580714] font-semibold text-xs transition-all flex items-center space-x-2 shadow-md cursor-pointer"
+              >
+                <Navigation className="w-3.5 h-3.5 fill-current" />
+                <span>{t.locationDirections}</span>
+              </a>
+            </div>
           </div>
-        </motion.div>
+        </div>
 
-      </div>
+      </motion.div>
 
     </section>
   );

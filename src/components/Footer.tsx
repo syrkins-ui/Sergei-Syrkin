@@ -7,9 +7,11 @@ import { Instagram, MessageCircle } from 'lucide-react';
 interface FooterProps {
   t: ContentTranslation;
   lang: Language;
+  currentPage?: 'home' | 'sommelier';
+  onNavigate?: (page: 'home' | 'sommelier') => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ t, lang }) => {
+export const Footer: React.FC<FooterProps> = ({ t, lang, onNavigate }) => {
   return (
     <footer className="mt-16 border-t border-[#FFF8F2]/15 bg-[#580714]/90 backdrop-blur-lg pt-12 pb-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -81,6 +83,23 @@ export const Footer: React.FC<FooterProps> = ({ t, lang }) => {
                   </span>
                   <a href={BAR_DATA.instagramUrl} target="_blank" rel="noopener noreferrer" className="text-[#E5C07B] hover:underline font-mono">
                     {BAR_DATA.instagramHandle}
+                  </a>
+                </div>
+
+                <div className="sm:col-span-2 pt-3 border-t border-[#FFF8F2]/10 flex flex-wrap items-center justify-between gap-3">
+                  <button
+                    onClick={() => onNavigate && onNavigate('sommelier')}
+                    className="text-xs uppercase tracking-wider text-[#E5C07B] hover:text-[#FFF8F2] transition-colors font-semibold flex items-center space-x-1.5 cursor-pointer group"
+                  >
+                    <span className="group-hover:translate-x-0.5 transition-transform">✦ {t.headerSommelier} • Polina Steiner →</span>
+                  </button>
+                  <a
+                    href="https://brut-bar-774838171565.us-east1.run.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs uppercase tracking-wider text-[#FFF8F2]/60 hover:text-[#E5C07B] transition-colors"
+                  >
+                    {t.headerMenu} ↗
                   </a>
                 </div>
               </div>

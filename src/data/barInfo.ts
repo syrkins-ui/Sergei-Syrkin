@@ -4,8 +4,8 @@ export const BAR_DATA: BarInfo = {
   name: 'BRUT bar',
   subtitle: 'Casa de vinos espumantes argentinos',
   address: 'av. Independencia, 320, CABA',
-  addressFull: 'Av. Independencia 320, C1099 AAD, CABA, Argentina',
-  googleMapsUrl: 'https://maps.app.goo.gl/a37wuUikQp8DaQks6',
+  addressFull: 'Av. Independencia 320, C1099AAQ Cdad. Autónoma de Buenos Aires, Argentina',
+  googleMapsUrl: 'https://maps.google.com/?cid=16945499650243025903',
   phone: '+54 11 3200-2788',
   phoneRaw: '+541132002788',
   whatsappUrl: 'https://wa.me/5491160043501',
@@ -15,7 +15,7 @@ export const BAR_DATA: BarInfo = {
   instagramUrl: 'https://instagram.com/copa_de_brut',
   interiorQuote: 'El primer bar de espumantes argentinos.',
   locationQuote: 'Donde San Telmo se encuentra con Puerto Madero.',
-  hours: 'Mié–Jue 15:00–22:00 • Vie–Sáb 14:00–00:00 • Dom 14:00–22:00'
+  hours: 'Mié 15:00–22:00 • Jue–Vie 15:00–00:00 • Sáb 14:00–00:00 • Dom 14:00–21:00'
 };
 
 export const getWhatsAppReservationUrl = (message: string) => {

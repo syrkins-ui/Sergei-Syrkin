@@ -2,6 +2,8 @@ export type Language = 'ES' | 'PT' | 'EN' | 'RU';
 
 export interface ContentTranslation {
   headerMenu: string;
+  headerSommelier: string;
+  headerHome: string;
   heroTitle: string;
   heroTagline: string;
   heroAddressLabel: string;
@@ -34,11 +36,27 @@ export interface ContentTranslation {
   footerAddressLabel: string;
   footerRights: string;
   waPresetMessage: string;
+  map3dTabLabel: string;
+  map2dTabLabel: string;
+  map3dBadge: string;
+  map3dTitle: string;
+  map3dSubtitle: string;
+  map3dInstruction: string;
+  map3dResetView: string;
+  map3dFilterAll: string;
+  map3dFilterHeritage: string;
+  map3dFilterGastronomy: string;
+  map3dFilterCulture: string;
+  map3dWalkingFromBrut: string;
+  map3dOpenRoute: string;
+  map3dCloseCard: string;
 }
 
 export const TRANSLATIONS: Record<Language, ContentTranslation> = {
   ES: {
     headerMenu: 'Menú',
+    headerSommelier: 'La Sommelier',
+    headerHome: 'Inicio',
     heroTitle: 'CASA DE VINOS ESPUMANTES ARGENTINOS',
     heroTagline: 'Un espacio íntimo de vinos espumantes de autor, fermentación natural y etiquetas seleccionadas en San Telmo.',
     heroAddressLabel: 'DIRECCIÓN',
@@ -64,16 +82,32 @@ export const TRANSLATIONS: Record<Language, ContentTranslation> = {
     locationDirections: 'Trazar recorrido',
     locationCopy: 'Copiar',
     locationCopied: '¡Copiado!',
-    locationHours: 'Mié–Jue 15:00–22:00 • Vie–Sáb 14:00–00:00 • Dom 14:00–22:00',
+    locationHours: 'Mié 15:00–22:00 • Jue–Vie 15:00–00:00 • Sáb 14:00–00:00 • Dom 14:00–21:00 (Lun–Mar cerrado)',
     footerDescription: 'Primer bar especializado en vinos espumantes y pét-nats de Argentina. En el histórico barrio de San Telmo.',
     footerHoursLabel: 'HORARIOS',
-    footerHours: 'Mié–Jue 15:00–22:00 • Vie–Sáb 14:00–00:00 • Dom 14:00–22:00',
+    footerHours: 'Mié 15:00–22:00 • Jue–Vie 15:00–00:00 • Sáb 14:00–00:00 • Dom 14:00–21:00 (Lun–Mar cerrado)',
     footerAddressLabel: 'DIRECCIÓN',
     footerRights: 'Todos los derechos reservados.',
-    waPresetMessage: '¡Hola, BRUT bar! Quiero reservar una mesa para: (fecha, hora y cantidad de personas)'
+    waPresetMessage: '¡Hola, BRUT bar! Quiero reservar una mesa para: (fecha, hora y cantidad de personas)',
+    map3dTabLabel: 'Google Maps 3D',
+    map2dTabLabel: 'Fotos & Ubicación',
+    map3dBadge: 'GOOGLE MAPS PLATFORM • VISTA 3D',
+    map3dTitle: 'BRUT bar — En el corazón de San Telmo: cerca de los principales atractivos',
+    map3dSubtitle: 'Explorá los puntos más icónicos del barrio y pasá por BRUT bar a refrescarte con copas burbujeantes.',
+    map3dInstruction: 'Arrastrá para orbitar • Rueda o pellizco para zoom • Hacé clic en los pines para explorar',
+    map3dResetView: 'Centrar en BRUT bar',
+    map3dFilterAll: 'Todos los hitos',
+    map3dFilterHeritage: 'Historia & Arquitectura',
+    map3dFilterGastronomy: 'Gastronomía & Mercados',
+    map3dFilterCulture: 'Cultura & Paseos',
+    map3dWalkingFromBrut: 'a pie desde BRUT bar',
+    map3dOpenRoute: 'Cómo llegar en Google Maps',
+    map3dCloseCard: 'Cerrar'
   },
   PT: {
     headerMenu: 'Menu',
+    headerSommelier: 'A Sommelier',
+    headerHome: 'Início',
     heroTitle: 'CASA DE VINOS ESPUMANTES ARGENTINOS',
     heroTagline: 'Um espaço íntimo de vinhos espumantes de autor, fermentação natural e rótulos selecionados em San Telmo.',
     heroAddressLabel: 'ENDEREÇO',
@@ -99,16 +133,32 @@ export const TRANSLATIONS: Record<Language, ContentTranslation> = {
     locationDirections: 'Como chegar',
     locationCopy: 'Copiar',
     locationCopied: 'Copiado!',
-    locationHours: 'Qua–Qui 15:00–22:00 • Sex–Sáb 14:00–00:00 • Dom 14:00–22:00',
+    locationHours: 'Qua 15:00–22:00 • Qui–Sex 15:00–00:00 • Sáb 14:00–00:00 • Dom 14:00–21:00 (Seg–Ter fechado)',
     footerDescription: 'Primeiro bar especializado em espumantes e pét-nats da Argentina. No histórico bairro de San Telmo.',
     footerHoursLabel: 'HORÁRIOS',
-    footerHours: 'Qua–Qui 15:00–22:00 • Sex–Sáb 14:00–00:00 • Dom 14:00–22:00',
+    footerHours: 'Qua 15:00–22:00 • Qui–Sex 15:00–00:00 • Sáb 14:00–00:00 • Dom 14:00–21:00 (Seg–Ter fechado)',
     footerAddressLabel: 'ENDEREÇO',
     footerRights: 'Todos os direitos reservados.',
-    waPresetMessage: 'Olá, BRUT bar! Quero reservar uma mesa para: (data, horário e número de pessoas)'
+    waPresetMessage: 'Olá, BRUT bar! Quero reservar uma mesa para: (data, horário e número de pessoas)',
+    map3dTabLabel: 'Google Maps 3D',
+    map2dTabLabel: 'Fotos & Localização',
+    map3dBadge: 'GOOGLE MAPS PLATFORM • VISTA 3D',
+    map3dTitle: 'BRUT bar — No coração de San Telmo: perto de todas as principais atrações',
+    map3dSubtitle: 'Explore os pontos mais icônicos do bairro e passe no BRUT bar para se refrescar com bebidas borbulhantes.',
+    map3dInstruction: 'Arraste para girar • Role para zoom • Clique nos pontos para explorar',
+    map3dResetView: 'Centralizar no BRUT bar',
+    map3dFilterAll: 'Todos os pontos',
+    map3dFilterHeritage: 'História & Arquitetura',
+    map3dFilterGastronomy: 'Gastronomia & Mercados',
+    map3dFilterCulture: 'Cultura & Passeios',
+    map3dWalkingFromBrut: 'a pé a partir do BRUT bar',
+    map3dOpenRoute: 'Ver rota no Google Maps',
+    map3dCloseCard: 'Fechar'
   },
   EN: {
     headerMenu: 'Menu',
+    headerSommelier: 'Sommelier',
+    headerHome: 'Home',
     heroTitle: 'CASA DE VINOS ESPUMANTES ARGENTINOS',
     heroTagline: 'An intimate bar space dedicated to artisanal sparkling wines, natural fermentation, and handpicked labels in San Telmo.',
     heroAddressLabel: 'ADDRESS',
@@ -134,16 +184,32 @@ export const TRANSLATIONS: Record<Language, ContentTranslation> = {
     locationDirections: 'Get directions',
     locationCopy: 'Copy',
     locationCopied: 'Copied!',
-    locationHours: 'Wed–Thu 15:00–22:00 • Fri–Sat 14:00–00:00 • Sun 14:00–22:00',
+    locationHours: 'Wed 15:00–22:00 • Thu–Fri 15:00–00:00 • Sat 14:00–00:00 • Sun 14:00–21:00 (Mon–Tue closed)',
     footerDescription: 'Argentina\'s first wine bar specialized in sparkling wines and pét-nats. Located in historic San Telmo.',
     footerHoursLabel: 'HOURS',
-    footerHours: 'Wed–Thu 15:00–22:00 • Fri–Sat 14:00–00:00 • Sun 14:00–22:00',
+    footerHours: 'Wed 15:00–22:00 • Thu–Fri 15:00–00:00 • Sat 14:00–00:00 • Sun 14:00–21:00 (Mon–Tue closed)',
     footerAddressLabel: 'ADDRESS',
     footerRights: 'All rights reserved.',
-    waPresetMessage: 'Hi, BRUT bar! I would like to reserve a table for: (date, time, and number of guests)'
+    waPresetMessage: 'Hi, BRUT bar! I would like to reserve a table for: (date, time, and number of guests)',
+    map3dTabLabel: 'Google Maps 3D',
+    map2dTabLabel: 'Photos & Location',
+    map3dBadge: 'GOOGLE MAPS PLATFORM • 3D VIEW',
+    map3dTitle: 'BRUT bar — In the heart of San Telmo: surrounded by top attractions',
+    map3dSubtitle: 'Explore all the neighborhood’s iconic sights and drop by BRUT bar to refresh with chilled bubbly drinks.',
+    map3dInstruction: 'Drag to rotate • Scroll to zoom • Click markers to explore',
+    map3dResetView: 'Center on BRUT bar',
+    map3dFilterAll: 'All landmarks',
+    map3dFilterHeritage: 'History & Architecture',
+    map3dFilterGastronomy: 'Gastronomy & Markets',
+    map3dFilterCulture: 'Culture & Walks',
+    map3dWalkingFromBrut: 'walk from BRUT bar',
+    map3dOpenRoute: 'Directions in Google Maps',
+    map3dCloseCard: 'Close'
   },
   RU: {
     headerMenu: 'Меню',
+    headerSommelier: 'Сомелье',
+    headerHome: 'Главная',
     heroTitle: 'CASA DE VINOS ESPUMANTES ARGENTINOS',
     heroTagline: 'Камерное пространство авторских игристых вин, натуральной ферментации и отборных релизов в районе Сан-Тельмо.',
     heroAddressLabel: 'АДРЕС',
@@ -169,12 +235,26 @@ export const TRANSLATIONS: Record<Language, ContentTranslation> = {
     locationDirections: 'Построить маршрут',
     locationCopy: 'Скопировать',
     locationCopied: 'Скопировано!',
-    locationHours: 'Ср–Чт 15:00–22:00 • Пт–Сб 14:00–00:00 • Вс 14:00–22:00',
+    locationHours: 'Ср 15:00–22:00 • Чт–Пт 15:00–00:00 • Сб 14:00–00:00 • Вс 14:00–21:00 (Пн–Вт закрыто)',
     footerDescription: 'Первый специализированный бар игристых вин и пет-натов Аргентины. В историческом районе Сан-Тельмо.',
     footerHoursLabel: 'РЕЖИМ РАБОТЫ',
-    footerHours: 'Ср–Чт 15:00–22:00 • Пт–Сб 14:00–00:00 • Вс 14:00–22:00',
+    footerHours: 'Ср 15:00–22:00 • Чт–Пт 15:00–00:00 • Сб 14:00–00:00 • Вс 14:00–21:00 (Пн–Вт закрыто)',
     footerAddressLabel: 'АДРЕС',
     footerRights: 'Все права защищены.',
-    waPresetMessage: 'Привет, БРЮТ бар! Хочу забронировать столик на: (дата, время и количество персон)'
+    waPresetMessage: 'Привет, БРЮТ бар! Хочу забронировать столик на: (дата, время и количество персон)',
+    map3dTabLabel: 'Google Maps 3D',
+    map2dTabLabel: 'Фото и локация',
+    map3dBadge: 'GOOGLE MAPS PLATFORM • 3D-КАРТА',
+    map3dTitle: 'БРЮТ бар — в самом сердце Сан-Тельмо: рядом все главные достопримечательности',
+    map3dSubtitle: 'Исследуй все главные достопримечательности и заходи в Брют Бар освежиться прохладными напитками с пузырьками',
+    map3dInstruction: 'Вращайте карту • Колесико для зума • Нажмите на метку для деталей',
+    map3dResetView: 'Центрировать на BRUT bar',
+    map3dFilterAll: 'Все места',
+    map3dFilterHeritage: 'История и архитектура',
+    map3dFilterGastronomy: 'Гастрономия и рынки',
+    map3dFilterCulture: 'Культура и прогулки',
+    map3dWalkingFromBrut: 'пешком от BRUT bar',
+    map3dOpenRoute: 'Маршрут на Google Maps',
+    map3dCloseCard: 'Закрыть'
   }
 };

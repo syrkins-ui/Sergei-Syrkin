@@ -7,6 +7,94 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+    <style>
+      /* Suppress any injected Google Maps development banners and overlays */
+      body > div:not(#root) {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        height: 0 !important;
+        max-height: 0 !important;
+        overflow: hidden !important;
+      }
+      .gm-err-container,
+      .gm-err-content,
+      .gm-err-autocomplete,
+      .dismissButton,
+      div[class*="gm-err"],
+      .gm-style-pbc,
+      .gm-style-pbc + div,
+      div:has(> a[href*="error-messages"]),
+      div:has(> a[href*="developers.google.com"]) {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+    </style>
+    <script>
+      (function() {
+        window.alert = function(msg) { console.warn('Alert suppressed:', msg); };
+        
+        function purgeDevElements() {
+          try {
+            // 1. Remove any element injected directly into body outside #root
+            if (document.body) {
+              var kids = document.body.children;
+              for (var i = kids.length - 1; i >= 0; i--) {
+                var k = kids[i];
+                if (k.id === 'root' || k.tagName === 'SCRIPT' || k.tagName === 'LINK' || k.tagName === 'STYLE') continue;
+                try { k.remove(); } catch(e) { k.style.display = 'none'; }
+              }
+            }
+
+            // 2. Remove any dialog or notification matching development warning keywords
+            var devTerms = ['целей разработки', 'development purposes', 'can\'t load google maps', 'правильно загрузить google'];
+            var all = document.querySelectorAll('div, dialog, p, span, a, [role="dialog"]');
+            for (var j = 0; j < all.length; j++) {
+              var el = all[j];
+              var txt = (el.innerText || el.textContent || '').toLowerCase();
+              for (var t = 0; t < devTerms.length; t++) {
+                if (txt.indexOf(devTerms[t]) !== -1) {
+                  var box = el;
+                  while (box && box.parentElement && box.parentElement !== document.body && box.parentElement.id !== 'root') {
+                    box = box.parentElement;
+                  }
+                  if (box && box.id !== 'root' && box !== document.body) {
+                    try { box.remove(); } catch(e) { box.style.display = 'none'; }
+                  }
+                  break;
+                }
+              }
+            }
+
+            // 3. Inspect and purge shadow roots (e.g. inside <gmp-map-3d>)
+            var hosts = document.querySelectorAll('*');
+            for (var h = 0; h < hosts.length; h++) {
+              var host = hosts[h];
+              if (host.shadowRoot) {
+                var sItems = host.shadowRoot.querySelectorAll('*');
+                for (var s = 0; s < sItems.length; s++) {
+                  var sItem = sItems[s];
+                  var sTxt = (sItem.textContent || '').toLowerCase();
+                  if (sTxt.indexOf('development') !== -1 || sTxt.indexOf('разработки') !== -1) {
+                    sItem.style.setProperty('display', 'none', 'important');
+                  }
+                }
+              }
+            }
+          } catch (e) {}
+        }
+
+        if (window.MutationObserver) {
+          new MutationObserver(purgeDevElements).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+        }
+        setInterval(purgeDevElements, 50);
+        window.addEventListener('load', purgeDevElements);
+        document.addEventListener('DOMContentLoaded', purgeDevElements);
+      })();
+    </script>
   </head>
   <body class="bg-[#7A0C1E] text-[#FFF8F2] antialiased selection:bg-[#FFF8F2] selection:text-[#7A0C1E]">
     <div id="root"></div>

@@ -148,7 +148,7 @@ export const SanTelmoGoogleMap: React.FC<SanTelmoGoogleMapProps> = ({ t, lang })
       >
         <APIProvider 
           apiKey={apiKey} 
-          version="alpha"
+          version="beta"
           language={lang.toLowerCase()}
           onLoad={() => setIsLoaded(true)}
         >

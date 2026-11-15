@@ -28,6 +28,7 @@ export const getSmsReservationUrl = (message: string) => {
 
 export const IMAGES = {
   adBrut: '/images/AD Brut.png',
+  feriaBanner: '/images/Feria HH banner.png',
   locationNeighborhood: '/images/BA_view_1.png',
   wineCollection: '/images/001.png',
   interior: '/images/001.png',

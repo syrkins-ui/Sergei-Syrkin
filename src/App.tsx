@@ -4,6 +4,7 @@ import { Hero } from './components/Hero';
 import { LocationMapSection } from './components/LocationMapSection';
 import { Footer } from './components/Footer';
 import { SommelierPage } from './components/SommelierPage';
+import { WelcomeBannerModal } from './components/WelcomeBannerModal';
 import { Language, TRANSLATIONS } from './data/translations';
 import { MessageCircle } from 'lucide-react';
 import { getWhatsAppReservationUrl } from './data/barInfo';
@@ -11,6 +12,7 @@ import { getWhatsAppReservationUrl } from './data/barInfo';
 export default function App() {
   const [lang, setLang] = useState<Language>('ES');
   const [currentPage, setCurrentPage] = useState<'home' | 'sommelier'>('home');
+  const [isBannerOpen, setIsBannerOpen] = useState(true);
   const t = TRANSLATIONS[lang];
 
   // Initialize and sync page with window.location.hash
@@ -93,6 +95,14 @@ export default function App() {
           <MessageCircle className="w-6 h-6 fill-current" />
         </a>
       </div>
+
+      {/* Welcome 4:3 Popup Banner on Site Open */}
+      <WelcomeBannerModal
+        isOpen={isBannerOpen}
+        onClose={() => setIsBannerOpen(false)}
+        lang={lang}
+        t={t}
+      />
 
     </div>
   );

@@ -7,8 +7,8 @@ import { Instagram, MessageCircle } from 'lucide-react';
 interface FooterProps {
   t: ContentTranslation;
   lang: Language;
-  currentPage?: 'home' | 'sommelier';
-  onNavigate?: (page: 'home' | 'sommelier') => void;
+  currentPage?: 'home' | 'sommelier' | 'events';
+  onNavigate?: (page: 'home' | 'sommelier' | 'events') => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ t, lang, onNavigate }) => {
@@ -87,12 +87,20 @@ export const Footer: React.FC<FooterProps> = ({ t, lang, onNavigate }) => {
                 </div>
 
                 <div className="sm:col-span-2 pt-3 border-t border-[#FFF8F2]/10 flex flex-wrap items-center justify-between gap-3">
-                  <button
-                    onClick={() => onNavigate && onNavigate('sommelier')}
-                    className="text-xs uppercase tracking-wider text-[#E5C07B] hover:text-[#FFF8F2] transition-colors font-semibold flex items-center space-x-1.5 cursor-pointer group"
-                  >
-                    <span className="group-hover:translate-x-0.5 transition-transform">✦ {t.headerSommelier} • Polina Steiner →</span>
-                  </button>
+                  <div className="flex flex-wrap items-center gap-4">
+                    <button
+                      onClick={() => onNavigate && onNavigate('sommelier')}
+                      className="text-xs uppercase tracking-wider text-[#E5C07B] hover:text-[#FFF8F2] transition-colors font-semibold flex items-center space-x-1.5 cursor-pointer group"
+                    >
+                      <span className="group-hover:translate-x-0.5 transition-transform">✦ {t.headerSommelier} • Polina Schteiner →</span>
+                    </button>
+                    <button
+                      onClick={() => onNavigate && onNavigate('events')}
+                      className="text-xs uppercase tracking-wider text-[#E5C07B] hover:text-[#FFF8F2] transition-colors font-semibold flex items-center space-x-1.5 cursor-pointer group"
+                    >
+                      <span className="group-hover:translate-x-0.5 transition-transform">✦ {t.headerEvents} →</span>
+                    </button>
+                  </div>
                   <a
                     href="https://brut-bar-774838171565.us-east1.run.app/"
                     target="_blank"

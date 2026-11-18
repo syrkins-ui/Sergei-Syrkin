@@ -4,15 +4,28 @@ import { Hero } from './components/Hero';
 import { LocationMapSection } from './components/LocationMapSection';
 import { Footer } from './components/Footer';
 import { SommelierPage } from './components/SommelierPage';
+import { EventsPage } from './components/EventsPage';
 import { WelcomeBannerModal } from './components/WelcomeBannerModal';
 import { Language, TRANSLATIONS } from './data/translations';
 import { MessageCircle } from 'lucide-react';
 import { getWhatsAppReservationUrl } from './data/barInfo';
 
+const isSundayInBuenosAires = (): boolean => {
+  try {
+    const weekday = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Argentina/Buenos_Aires',
+      weekday: 'short',
+    }).format(new Date());
+    return weekday === 'Sun';
+  } catch {
+    return new Date().getDay() === 0;
+  }
+};
+
 export default function App() {
   const [lang, setLang] = useState<Language>('ES');
-  const [currentPage, setCurrentPage] = useState<'home' | 'sommelier'>('home');
-  const [isBannerOpen, setIsBannerOpen] = useState(true);
+  const [currentPage, setCurrentPage] = useState<'home' | 'sommelier' | 'events'>('home');
+  const [isBannerOpen, setIsBannerOpen] = useState<boolean>(() => isSundayInBuenosAires());
   const t = TRANSLATIONS[lang];
 
   // Initialize and sync page with window.location.hash
@@ -21,6 +34,9 @@ export default function App() {
       const hash = window.location.hash.toLowerCase();
       if (hash === '#sommelier' || hash === '#/sommelier') {
         setCurrentPage('sommelier');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash === '#events' || hash === '#/events') {
+        setCurrentPage('events');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         setCurrentPage('home');
@@ -32,12 +48,14 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  const navigateTo = (page: 'home' | 'sommelier') => {
+  const navigateTo = (page: 'home' | 'sommelier' | 'events') => {
     setCurrentPage(page);
     if (page === 'sommelier') {
       window.location.hash = '#sommelier';
+    } else if (page === 'events') {
+      window.location.hash = '#events';
     } else {
-      if (window.location.hash === '#sommelier') {
+      if (window.location.hash === '#sommelier' || window.location.hash === '#events') {
         window.history.pushState(null, '', window.location.pathname);
       }
     }
@@ -58,17 +76,67 @@ export default function App() {
 
       {/* Main Content Area */}
       <main>
-        {currentPage === 'home' ? (
+        {currentPage === 'home' && (
           <>
             {/* Hero Section */}
             <Hero t={t} lang={lang} onNavigate={navigateTo} />
 
             {/* Location & Map Section */}
             <LocationMapSection t={t} lang={lang} />
+
+            {/* Events & Birthdays Highlight Block (after map & location info) */}
+            <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+              <div className="p-5 sm:p-6 rounded-3xl bg-[#580714]/70 border border-[#E5C07B]/30 hover:border-[#E5C07B]/60 transition-all shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-center space-x-4 min-w-0">
+                  <div className="w-12 h-12 rounded-full overflow-hidden border border-[#E5C07B]/50 shrink-0 shadow-sm bg-[#180307]">
+                    <img
+                      src="/images/003.png"
+                      alt={t.headerEvents}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-[10px] uppercase font-mono tracking-widest text-[#E5C07B] font-semibold">
+                      BRUT bar
+                    </div>
+                    <div className="text-lg sm:text-xl text-[#FFF8F2] font-editorial leading-tight">
+                      {lang === 'RU'
+                        ? 'Мероприятия и дни рождения'
+                        : lang === 'ES'
+                          ? 'Eventos y Cumpleaños'
+                          : lang === 'PT'
+                            ? 'Eventos & Aniversários'
+                            : 'Events & Birthdays'}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => navigateTo('events')}
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-[#E5C07B] hover:bg-[#F3D59B] text-[#580714] font-semibold text-xs uppercase tracking-wider transition-all shadow-md shrink-0 cursor-pointer text-center whitespace-nowrap"
+                >
+                  {lang === 'RU'
+                    ? 'Узнать подробнее'
+                    : lang === 'PT'
+                      ? 'Saiba mais'
+                      : lang === 'EN'
+                        ? 'Learn more'
+                        : 'Ver más'}{' '}
+                  →
+                </button>
+              </div>
+            </section>
           </>
-        ) : (
-          /* Dedicated Sommelier Page */
+        )}
+
+        {currentPage === 'sommelier' && (
           <SommelierPage 
+            lang={lang} 
+            onBackToHome={() => navigateTo('home')} 
+          />
+        )}
+
+        {currentPage === 'events' && (
+          <EventsPage 
             lang={lang} 
             onBackToHome={() => navigateTo('home')} 
           />
@@ -96,7 +164,7 @@ export default function App() {
         </a>
       </div>
 
-      {/* Welcome 4:3 Popup Banner on Site Open */}
+      {/* Sunday-Only Popup Banner */}
       <WelcomeBannerModal
         isOpen={isBannerOpen}
         onClose={() => setIsBannerOpen(false)}

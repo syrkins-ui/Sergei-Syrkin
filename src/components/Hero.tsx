@@ -9,7 +9,7 @@ import { WorkingHoursWidget } from './WorkingHoursWidget';
 interface HeroProps {
   t: ContentTranslation;
   lang: Language;
-  onNavigate?: (page: 'home' | 'sommelier') => void;
+  onNavigate?: (page: 'home' | 'sommelier' | 'events') => void;
 }
 
 export const Hero: React.FC<HeroProps> = ({ t, lang, onNavigate }) => {
@@ -268,32 +268,37 @@ export const Hero: React.FC<HeroProps> = ({ t, lang, onNavigate }) => {
         </div>
 
         {/* Sommelier Highlight Teaser Card */}
-        <div className="pt-2">
+        <div className="pt-2.5 sm:pt-3">
           <div className="p-4 sm:p-4.5 rounded-2xl bg-[#580714]/70 border border-[#E5C07B]/30 hover:border-[#E5C07B]/60 transition-all shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
             <div className="flex items-center space-x-3.5 min-w-0">
               <div className="w-10 h-10 rounded-full overflow-hidden border border-[#E5C07B]/50 shrink-0 shadow-sm bg-[#580714]">
                 <img 
                   src="/images/Polina.png" 
-                  alt="Polina Steiner" 
+                  alt="Polina Schteiner" 
                   className="w-full h-full object-cover object-top"
                 />
               </div>
               <div className="min-w-0">
                 <div className="text-[10px] uppercase font-mono tracking-widest text-[#E5C07B] font-semibold">
-                  {lang === 'RU' ? 'Шеф-сомелье' : lang === 'ES' ? 'Head Sommelier' : 'Sommelier'} • Polina Steiner
+                  {lang === 'RU' ? 'Шеф-сомелье' : lang === 'ES' ? 'Head Sommelier' : 'Sommelier'}
                 </div>
-                <div className="text-xs sm:text-sm text-[#FFF8F2]/90 font-light italic truncate font-editorial">
-                  {lang === 'RU'
-                    ? '«Вино — это самое честное послание сквозь пространство и время...»'
-                    : '«El vino es el mensaje más honesto a través del espacio y del tiempo...»'}
+                <div className="text-base sm:text-lg text-[#FFF8F2] font-editorial leading-tight">
+                  {lang === 'RU' ? 'Полина Штайнер' : 'Polina Schteiner'}
                 </div>
               </div>
             </div>
             <button
               onClick={() => onNavigate && onNavigate('sommelier')}
-              className="w-full sm:w-auto px-4 py-2 rounded-full bg-[#E5C07B] hover:bg-[#F3D59B] text-[#580714] font-semibold text-xs uppercase tracking-wider transition-all shadow-md shrink-0 cursor-pointer text-center"
+              className="w-full sm:w-auto px-4 py-2 rounded-full bg-[#E5C07B] hover:bg-[#F3D59B] text-[#580714] font-semibold text-xs uppercase tracking-wider transition-all shadow-md shrink-0 cursor-pointer text-center whitespace-nowrap"
             >
-              {lang === 'RU' ? 'О сомелье' : lang === 'ES' ? 'Conocé a Polina' : 'About Polina'} →
+              {lang === 'RU'
+                ? 'Узнать подробнее'
+                : lang === 'PT'
+                  ? 'Saiba mais'
+                  : lang === 'EN'
+                    ? 'Learn more'
+                    : 'Ver más'}{' '}
+              →
             </button>
           </div>
         </div>

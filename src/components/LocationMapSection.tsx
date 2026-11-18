@@ -15,7 +15,7 @@ export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ t, lang 
   const landmarks = SAN_TELMO_LANDMARKS.filter(l => !l.isOrigin);
 
   return (
-    <section id="location" className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <section id="location" className="pt-12 sm:pt-20 pb-8 sm:pb-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       
       {/* Magazine Eyebrow */}
       <div className="flex items-center space-x-3 mb-4">

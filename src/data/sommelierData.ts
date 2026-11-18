@@ -111,7 +111,7 @@ export const SOMMELIER_DATA: Record<Language, SommelierProfile> = {
 
   ES: {
     pageTitleBadge: 'Head Sommelier • BRUT bar',
-    name: 'Polina Steiner',
+    name: 'Polina Schteiner',
     roles: ['Sommelier', 'Historiadora del Arte', 'Wine Scout'],
     roleSubtitle: 'Sommelier, historiadora del arte, wine scout',
     quote: '«El vino es el mensaje más honesto a través del espacio y del tiempo. Cada botella guarda las decisiones de quienes la crearon, el carácter de la tierra y el contexto de su época. Mi misión es ayudarte a descifrar ese lenguaje y escuchar su historia».',
@@ -185,7 +185,7 @@ export const SOMMELIER_DATA: Record<Language, SommelierProfile> = {
 
   EN: {
     pageTitleBadge: 'Head Sommelier • BRUT bar',
-    name: 'Polina Steiner',
+    name: 'Polina Schteiner',
     roles: ['Sommelier', 'Art Historian', 'Wine Scout'],
     roleSubtitle: 'Sommelier, art historian, wine scout',
     quote: '“Wine is the most honest message across space and time. Every bottle holds the decisions of its makers, the character of the soil, and the context of its era. My mission is to help you decipher this language and hear its story.”',
@@ -259,7 +259,7 @@ export const SOMMELIER_DATA: Record<Language, SommelierProfile> = {
 
   PT: {
     pageTitleBadge: 'Head Sommelier • BRUT bar',
-    name: 'Polina Steiner',
+    name: 'Polina Schteiner',
     roles: ['Sommelier', 'Historiadora da Arte', 'Wine Scout'],
     roleSubtitle: 'Sommelier, historiadora da arte, wine scout',
     quote: '«O vinho é a mensagem mais honesta através do espaço e do tempo. Cada garrafa guarda as decisões de quem a criou, o caráter da terra e o contexto da sua época. Minha missão é ajudar você a decifrar essa linguagem e ouvir sua história».',

@@ -111,9 +111,9 @@ export const SanTelmoGoogleMap: React.FC<SanTelmoGoogleMapProps> = ({ t, lang })
         title="BRUT bar • Av. Independencia 320"
       >
         <Pin
-          background={'#D4AF37'}
-          borderColor={'#580714'}
-          glyphColor={'#580714'}
+          background={'#A84452'}
+          borderColor={'#F6EFE6'}
+          glyphColor={'#FBF7F1'}
           scale={1.3}
         >
           <span style={{ fontSize: '14px', lineHeight: 1 }}>🍾</span>
@@ -139,12 +139,12 @@ export const SanTelmoGoogleMap: React.FC<SanTelmoGoogleMapProps> = ({ t, lang })
   );
 
   return (
-    <div className="relative w-full rounded-[32px] overflow-hidden border border-[#FFF8F2]/20 shadow-2xl bg-[#1b070b] min-h-[600px] lg:min-h-[680px]">
+    <div className="relative w-full rounded-[32px] overflow-hidden border border-[#2B2B2D]/15 shadow-lg bg-[#EDE2D4] min-h-[600px] lg:min-h-[680px]">
       
       {/* Container with explicit dimensions for Google Maps */}
       <div 
         className="w-full relative" 
-        style={{ width: '100%', height: '680px', minHeight: '600px', backgroundColor: '#1b070b' }}
+        style={{ width: '100%', height: '680px', minHeight: '600px', backgroundColor: '#EDE2D4' }}
       >
         <APIProvider 
           apiKey={apiKey} 
@@ -154,7 +154,7 @@ export const SanTelmoGoogleMap: React.FC<SanTelmoGoogleMapProps> = ({ t, lang })
         >
           {/* Loading indicator */}
           {!isLoaded && (
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#1b070b] text-[#E5C07B] space-y-3">
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#EDE2D4] text-[#A84452] space-y-3">
               <Loader2 className="w-8 h-8 animate-spin" />
               <span className="text-xs uppercase tracking-widest font-mono">
                 Cargando Google Maps 3D Inmersivo...
@@ -182,9 +182,9 @@ export const SanTelmoGoogleMap: React.FC<SanTelmoGoogleMapProps> = ({ t, lang })
                 onClick={() => setIsCardVisible(true)}
               >
                 <Pin
-                  background={'#D4AF37'}
-                  borderColor={'#580714'}
-                  glyphColor={'#580714'}
+                  background={'#A84452'}
+                  borderColor={'#F6EFE6'}
+                  glyphColor={'#FBF7F1'}
                   scale={1.35}
                 >
                   <span style={{ fontSize: '14px', lineHeight: 1 }}>🍾</span>
@@ -226,11 +226,11 @@ export const SanTelmoGoogleMap: React.FC<SanTelmoGoogleMapProps> = ({ t, lang })
                   <h3 className="font-bold text-[17px] text-neutral-900 tracking-tight leading-tight">
                     BRUT bar
                   </h3>
-                  <span className="bg-amber-100 text-amber-900 text-[10px] font-semibold px-2 py-0.5 rounded-full">
+                  <span className="bg-[#A84452]/12 text-[#A84452] text-[10px] font-semibold px-2 py-0.5 rounded-full">
                     San Telmo
                   </span>
                 </div>
-                <p className="text-[12px] text-amber-900 font-medium mt-0.5">
+                <p className="text-[12px] text-[#A84452] font-medium mt-0.5">
                   Casa de vinos espumantes argentinos
                 </p>
               </div>
@@ -359,7 +359,7 @@ export const SanTelmoGoogleMap: React.FC<SanTelmoGoogleMapProps> = ({ t, lang })
       )}
 
       {/* Subtle Bottom Legend Bar */}
-      <div className="absolute bottom-3 right-4 z-20 pointer-events-none hidden sm:flex items-center space-x-2 text-[11px] font-mono text-[#FFF8F2]/80 bg-[#580714]/90 px-3 py-1.5 rounded-full backdrop-blur-md border border-[#FFF8F2]/15">
+      <div className="absolute bottom-3 right-4 z-20 pointer-events-none hidden sm:flex items-center space-x-2 text-[11px] font-mono text-[#2B2B2D] bg-[#FBF7F1]/90 px-3 py-1.5 rounded-full backdrop-blur-md border border-[#2B2B2D]/12 shadow-sm">
         <span className="w-2 h-2 rounded-full bg-[#EA4335]" />
         <span>Pines rojos: Puntos de interés en San Telmo (clic para abrir en Google Maps)</span>
       </div>

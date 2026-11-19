@@ -45,6 +45,12 @@ export const IMAGES = {
  */
 export const INTERIOR_PHOTOS: InteriorPhoto[] = [
   {
+    id: 'interior-brunch-01',
+    url: '/images/Brunch 01.png',
+    alt: 'Brunch y espumantes en BRUT bar',
+    caption: 'BRUT bar • Brunch y espumantes'
+  },
+  {
     id: 'interior-001',
     url: '/images/001.png',
     alt: 'Interior y ambiente de BRUT bar (01)',
@@ -55,6 +61,12 @@ export const INTERIOR_PHOTOS: InteriorPhoto[] = [
     url: '/images/002.png',
     alt: 'Interior y ambiente de BRUT bar (02)',
     caption: 'BRUT bar • Colección y copas'
+  },
+  {
+    id: 'interior-gin-tonic',
+    url: '/images/Gin Tonic.png',
+    alt: 'Gin Tonic y coctelería de BRUT bar',
+    caption: 'BRUT bar • Gin Tonic y coctelería'
   },
   {
     id: 'interior-003',

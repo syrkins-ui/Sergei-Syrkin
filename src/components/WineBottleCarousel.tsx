@@ -92,14 +92,14 @@ export const WineBottleCarousel: React.FC<WineBottleCarouselProps> = ({ lang = '
 
   return (
     <div 
-      className="mt-8 sm:mt-12 pt-8 border-t border-[#FFF8F2]/15 relative select-none"
+      className="mt-8 sm:mt-12 pt-8 border-t border-[#2B2B2D]/10 relative select-none"
       onTouchStart={onTouchStartHandler}
       onTouchMove={onTouchMoveHandler}
       onTouchEnd={onTouchEndHandler}
     >
       {/* Top section title (centered, without 01/06 counter) */}
       <div className="flex items-center justify-center mb-4 sm:mb-6 px-2 text-center">
-        <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-[#E5C07B] font-sans-clean font-semibold drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
+        <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-[#A84452] font-sans-clean font-semibold">
           {labels.sectionTitle}
         </span>
       </div>
@@ -110,7 +110,7 @@ export const WineBottleCarousel: React.FC<WineBottleCarouselProps> = ({ lang = '
         {/* Navigation Arrows: Left and Right (clean minimalist "уголки" like the hero) */}
         <button
           onClick={prevWine}
-          className="absolute -left-2 sm:left-0 top-1/2 -translate-y-1/2 p-2 text-white/70 hover:text-[#E5C07B] active:text-[#FFF8F2] transition-all cursor-pointer z-30 hover:scale-110 active:scale-95 drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]"
+          className="absolute -left-2 sm:left-0 top-1/2 -translate-y-1/2 p-2 text-[#2B2B2D]/55 hover:text-[#A84452] active:text-[#2B2B2D] transition-all cursor-pointer z-30 hover:scale-110 active:scale-95"
           aria-label="Previous wine"
         >
           <ChevronLeft className="w-8 h-8 sm:w-10 sm:h-10 stroke-[1.25] transition-transform hover:-translate-x-1" />
@@ -118,7 +118,7 @@ export const WineBottleCarousel: React.FC<WineBottleCarouselProps> = ({ lang = '
 
         <button
           onClick={nextWine}
-          className="absolute -right-2 sm:right-0 top-1/2 -translate-y-1/2 p-2 text-white/70 hover:text-[#E5C07B] active:text-[#FFF8F2] transition-all cursor-pointer z-30 hover:scale-110 active:scale-95 drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]"
+          className="absolute -right-2 sm:right-0 top-1/2 -translate-y-1/2 p-2 text-[#2B2B2D]/55 hover:text-[#A84452] active:text-[#2B2B2D] transition-all cursor-pointer z-30 hover:scale-110 active:scale-95"
           aria-label="Next wine"
         >
           <ChevronRight className="w-8 h-8 sm:w-10 sm:h-10 stroke-[1.25] transition-transform hover:translate-x-1" />
@@ -143,23 +143,23 @@ export const WineBottleCarousel: React.FC<WineBottleCarouselProps> = ({ lang = '
                     alt={currentWine.name}
                     referrerPolicy="no-referrer"
                     onError={() => handleImageError(currentWine.id)}
-                    className="max-h-full max-w-full object-contain filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)] transition-transform duration-500 hover:scale-105"
+                    className="max-h-full max-w-full object-contain filter drop-shadow-[0_14px_24px_rgba(43,43,45,0.22)] transition-transform duration-500 hover:scale-105"
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center text-center">
                     <svg
                       viewBox="0 0 100 320"
-                      className="h-56 sm:h-72 md:h-84 w-auto drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] fill-current text-[#FFF8F2]/25 hover:text-[#E5C07B]/35 transition-colors"
+                      className="h-56 sm:h-72 md:h-84 w-auto drop-shadow-[0_10px_20px_rgba(43,43,45,0.2)] fill-current text-[#2B2B2D]/20 hover:text-[#A84452]/30 transition-colors"
                     >
-                      <path d="M42 12 C42 8, 58 8, 58 12 L58 35 C58 40, 56 46, 54 50 L46 50 C44 46, 42 40, 42 35 Z" fill="#E5C07B" fillOpacity="0.4" />
-                      <rect x="40" y="10" width="20" height="6" rx="2" fill="#E5C07B" fillOpacity="0.8" />
+                      <path d="M42 12 C42 8, 58 8, 58 12 L58 35 C58 40, 56 46, 54 50 L46 50 C44 46, 42 40, 42 35 Z" fill="#A84452" fillOpacity="0.45" />
+                      <rect x="40" y="10" width="20" height="6" rx="2" fill="#A84452" fillOpacity="0.85" />
                       <path d="M42 50 L42 90 C30 115, 20 135, 20 170 L20 295 C20 305, 28 312, 38 312 L62 312 C72 312, 80 305, 80 295 L80 170 C80 135, 70 115, 58 90 L58 50 Z" />
-                      <path d="M26 175 L26 285 C26 295, 30 300, 35 302" stroke="#FFF8F2" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.3" />
-                      <rect x="28" y="170" width="44" height="65" rx="3" fill="#580714" stroke="#E5C07B" strokeWidth="1" strokeOpacity="0.6" />
-                      <line x1="33" y1="185" x2="67" y2="185" stroke="#E5C07B" strokeWidth="0.8" strokeOpacity="0.5" />
-                      <text x="50" y="202" textAnchor="middle" fill="#FFF8F2" fontSize="7" fontFamily="serif" fontWeight="bold">BRUT</text>
-                      <text x="50" y="214" textAnchor="middle" fill="#E5C07B" fontSize="5" fontFamily="sans-serif">SAN TELMO</text>
-                      <line x1="33" y1="222" x2="67" y2="222" stroke="#E5C07B" strokeWidth="0.8" strokeOpacity="0.5" />
+                      <path d="M26 175 L26 285 C26 295, 30 300, 35 302" stroke="#FBF7F1" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.6" />
+                      <rect x="28" y="170" width="44" height="65" rx="3" fill="#FBF7F1" stroke="#A84452" strokeWidth="1" strokeOpacity="0.6" />
+                      <line x1="33" y1="185" x2="67" y2="185" stroke="#A84452" strokeWidth="0.8" strokeOpacity="0.5" />
+                      <text x="50" y="202" textAnchor="middle" fill="#2B2B2D" fontSize="7" fontFamily="serif" fontWeight="bold">BRUT</text>
+                      <text x="50" y="214" textAnchor="middle" fill="#A84452" fontSize="5" fontFamily="sans-serif">SAN TELMO</text>
+                      <line x1="33" y1="222" x2="67" y2="222" stroke="#A84452" strokeWidth="0.8" strokeOpacity="0.5" />
                     </svg>
                   </div>
                 )}
@@ -169,40 +169,40 @@ export const WineBottleCarousel: React.FC<WineBottleCarouselProps> = ({ lang = '
             {/* Right: Wine name above phrase, huge phrase, and metadata list with lowercase labels & uppercase values */}
             <div className="w-[64%] sm:w-[65%] md:w-[68%] flex flex-col justify-center text-left py-2">
               {/* Wine Name (placed above phrase) */}
-              <div className="font-editorial text-base sm:text-xl md:text-2xl lg:text-3xl text-[#E5C07B] mb-2 sm:mb-3 font-normal tracking-wide select-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+              <div className="font-editorial text-base sm:text-xl md:text-2xl lg:text-3xl text-[#A84452] mb-2 sm:mb-3 font-normal tracking-wide select-none">
                 {currentWine.name}
               </div>
 
-              {/* Phrase: Extra Large, white, NO quotes, in 2-3 lines */}
-              <h3 className="font-editorial text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[82px] text-[#FFF8F2] tracking-tight leading-[0.98] sm:leading-[1.0] mb-5 sm:mb-7 select-none drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)]">
+              {/* Phrase: Extra Large, dark gray, NO quotes, in 2-3 lines */}
+              <h3 className="font-editorial text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[82px] text-[#2B2B2D] tracking-tight leading-[0.98] sm:leading-[1.0] mb-5 sm:mb-7 select-none">
                 {currentWine.shortPhrase}
               </h3>
 
               {/* Information list: labels in lowercase, values in uppercase */}
               <ul className="space-y-2.5 sm:space-y-3.5 text-left font-sans-clean">
                 <li className="flex flex-col sm:flex-row sm:items-baseline">
-                  <span className="text-xs sm:text-sm text-[#E5C07B] lowercase shrink-0 sm:w-20 md:w-24">
+                  <span className="text-xs sm:text-sm text-[#A84452] font-medium lowercase shrink-0 sm:w-20 md:w-24">
                     {labels.bodega}:
                   </span>
-                  <span className="text-xs sm:text-sm md:text-base text-[#FFF8F2] uppercase tracking-wide font-medium">
+                  <span className="text-xs sm:text-sm md:text-base text-[#2B2B2D] uppercase tracking-wide font-semibold">
                     {currentWine.bodega}
                   </span>
                 </li>
 
                 <li className="flex flex-col sm:flex-row sm:items-baseline">
-                  <span className="text-xs sm:text-sm text-[#E5C07B] lowercase shrink-0 sm:w-20 md:w-24">
+                  <span className="text-xs sm:text-sm text-[#A84452] font-medium lowercase shrink-0 sm:w-20 md:w-24">
                     {labels.sweetness}:
                   </span>
-                  <span className="text-xs sm:text-sm md:text-base text-[#FFF8F2] uppercase tracking-wide font-medium">
+                  <span className="text-xs sm:text-sm md:text-base text-[#2B2B2D] uppercase tracking-wide font-semibold">
                     {currentWine.sweetness}
                   </span>
                 </li>
 
                 <li className="flex flex-col sm:flex-row sm:items-baseline">
-                  <span className="text-xs sm:text-sm text-[#E5C07B] lowercase shrink-0 sm:w-20 md:w-24">
+                  <span className="text-xs sm:text-sm text-[#A84452] font-medium lowercase shrink-0 sm:w-20 md:w-24">
                     {labels.notes}:
                   </span>
-                  <span className="text-[11px] sm:text-xs md:text-sm text-[#F9EBE0] uppercase tracking-wide leading-relaxed">
+                  <span className="text-[11px] sm:text-xs md:text-sm text-[#4E4C4F] uppercase tracking-wide leading-relaxed">
                     {currentWine.notes}
                   </span>
                 </li>
@@ -222,8 +222,8 @@ export const WineBottleCarousel: React.FC<WineBottleCarouselProps> = ({ lang = '
               onClick={() => setCurrentIndex(index)}
               className={`transition-all duration-300 cursor-pointer ${
                 isActive
-                  ? 'w-6 h-1.5 sm:w-7 sm:h-2 rounded-full bg-[#E5C07B] shadow-sm shadow-[#E5C07B]/50'
-                  : 'w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-white/40 hover:bg-white/80'
+                  ? 'w-6 h-1.5 sm:w-7 sm:h-2 rounded-full bg-[#A84452] shadow-sm shadow-[#A84452]/30'
+                  : 'w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#2B2B2D]/25 hover:bg-[#A84452]/60'
               }`}
               aria-label={`Wine ${index + 1}: ${wine.name}`}
             />
@@ -237,14 +237,14 @@ export const WineBottleCarousel: React.FC<WineBottleCarouselProps> = ({ lang = '
           href="https://brut-bar-774838171565.us-east1.run.app/"
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center space-x-3.5 sm:space-x-4 px-7 sm:px-9 py-3 sm:py-3.5 rounded-full bg-[#E5C07B] hover:bg-[#F3D59B] text-[#580714] border border-[#F3D59B] shadow-xl shadow-black/40 transition-all duration-300 hover:scale-[1.03] active:scale-95 text-left cursor-pointer"
+          className="group inline-flex items-center space-x-3.5 sm:space-x-4 px-7 sm:px-9 py-3 sm:py-3.5 rounded-full bg-[#A84452] hover:bg-[#8E3442] text-[#FBF7F1] border border-[#A84452] shadow-md shadow-[#A84452]/20 transition-all duration-300 hover:scale-[1.03] active:scale-95 text-left cursor-pointer"
         >
-          <UtensilsCrossed className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.2] text-[#580714] shrink-0 transition-transform duration-300 group-hover:rotate-12" />
+          <UtensilsCrossed className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.2] text-[#FBF7F1] shrink-0 transition-transform duration-300 group-hover:rotate-12" />
           <div className="flex flex-col">
-            <span className="font-editorial text-xl sm:text-2xl font-bold uppercase tracking-wider leading-none text-[#580714]">
+            <span className="font-editorial text-xl sm:text-2xl font-bold uppercase tracking-wider leading-none text-[#FBF7F1]">
               {labels.menuTitle}
             </span>
-            <span className="font-sans-clean text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.18em] text-[#580714]/85 leading-tight mt-1">
+            <span className="font-sans-clean text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.18em] text-[#FBF7F1]/85 leading-tight mt-1">
               {labels.menuSubtitle}
             </span>
           </div>

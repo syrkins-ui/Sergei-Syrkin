@@ -63,8 +63,8 @@ export const InteriorBubbleSection: React.FC<InteriorBubbleSectionProps> = ({
       
       {/* Eyebrow */}
       <div className="flex items-center space-x-3 mb-6">
-        <div className="h-[1px] w-12 bg-[#E5C07B]" />
-        <span className="text-xs uppercase tracking-widest text-[#E5C07B] font-medium font-sans-clean">
+        <div className="h-[1px] w-12 bg-[#A84452]" />
+        <span className="text-xs uppercase tracking-widest text-[#A84452] font-semibold font-sans-clean">
           {t.interiorEyebrow}
         </span>
       </div>
@@ -75,14 +75,14 @@ export const InteriorBubbleSection: React.FC<InteriorBubbleSectionProps> = ({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-50px' }}
         transition={{ duration: 0.8 }}
-        className="glass-bubble-solid rounded-[32px] p-6 sm:p-10 lg:p-12 relative overflow-hidden border border-[#FFF8F2]/20 shadow-2xl"
+        className="bg-[#FBF7F1] rounded-[32px] p-6 sm:p-10 lg:p-12 relative overflow-hidden border border-[#2B2B2D]/10 shadow-sm"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           {/* Left Column: Vertical Photo Carousel */}
           <div className="lg:col-span-5 w-full flex justify-center">
             <div 
-              className="relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] w-full max-w-md border border-[#FFF8F2]/20 shadow-2xl bg-black/40 group select-none"
+              className="relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] w-full max-w-md border border-[#2B2B2D]/12 shadow-lg bg-[#EDE2D4] group select-none"
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
             >
@@ -103,12 +103,12 @@ export const InteriorBubbleSection: React.FC<InteriorBubbleSectionProps> = ({
               </AnimatePresence>
 
               {/* Subtle Gradient Overlays */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#580714]/85 via-transparent to-black/25 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/20 pointer-events-none" />
 
               {/* Top Left: Frame Counter */}
               <div className="absolute top-3 sm:top-4 left-3 sm:left-4 z-20 pointer-events-none">
-                <span className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-xs font-mono font-semibold text-[#FFF8F2] border border-[#FFF8F2]/15 shadow-md">
-                  <Sparkles className="w-3 h-3 text-[#E5C07B]" />
+                <span className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-black/55 backdrop-blur-md text-xs font-mono font-semibold text-[#FAF5EE] border border-white/15 shadow-md">
+                  <Sparkles className="w-3 h-3 text-[#F4C7CE]" />
                   <span>{String(currentIndex + 1).padStart(2, '0')} / {String(photos.length).padStart(2, '0')}</span>
                 </span>
               </div>
@@ -118,7 +118,7 @@ export const InteriorBubbleSection: React.FC<InteriorBubbleSectionProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsLightboxOpen(true)}
-                  className="p-2 rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md text-[#FFF8F2] hover:text-[#E5C07B] border border-[#FFF8F2]/15 transition-all hover:scale-105 active:scale-95 shadow-md"
+                  className="p-2 rounded-full bg-black/55 hover:bg-black/80 backdrop-blur-md text-[#FAF5EE] hover:text-[#F4C7CE] border border-white/15 transition-all hover:scale-105 active:scale-95 shadow-md"
                   title="Ver en pantalla completa"
                 >
                   <Maximize2 className="w-4 h-4" />
@@ -131,7 +131,7 @@ export const InteriorBubbleSection: React.FC<InteriorBubbleSectionProps> = ({
                   <button
                     type="button"
                     onClick={handlePrev}
-                    className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 p-2.5 sm:p-3 rounded-full bg-[#580714]/85 hover:bg-[#7A0C1E] text-white backdrop-blur-md border border-[#FFF8F2]/20 shadow-xl opacity-90 group-hover:opacity-100 hover:scale-110 active:scale-95 transition-all"
+                    className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 p-2.5 sm:p-3 rounded-full bg-[#FBF7F1]/90 hover:bg-[#A84452] text-[#2B2B2D] hover:text-[#FBF7F1] backdrop-blur-md border border-[#2B2B2D]/10 shadow-md opacity-90 group-hover:opacity-100 hover:scale-110 active:scale-95 transition-all"
                     aria-label="Foto anterior"
                   >
                     <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -140,7 +140,7 @@ export const InteriorBubbleSection: React.FC<InteriorBubbleSectionProps> = ({
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-20 p-2.5 sm:p-3 rounded-full bg-[#580714]/85 hover:bg-[#7A0C1E] text-white backdrop-blur-md border border-[#FFF8F2]/20 shadow-xl opacity-90 group-hover:opacity-100 hover:scale-110 active:scale-95 transition-all"
+                    className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-20 p-2.5 sm:p-3 rounded-full bg-[#FBF7F1]/90 hover:bg-[#A84452] text-[#2B2B2D] hover:text-[#FBF7F1] backdrop-blur-md border border-[#2B2B2D]/10 shadow-md opacity-90 group-hover:opacity-100 hover:scale-110 active:scale-95 transition-all"
                     aria-label="Foto siguiente"
                   >
                     <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -150,7 +150,7 @@ export const InteriorBubbleSection: React.FC<InteriorBubbleSectionProps> = ({
 
               {/* Bottom Caption Overlay */}
               <div className="absolute bottom-3 sm:bottom-4 left-4 sm:left-6 right-4 sm:right-6 pointer-events-none z-10">
-                <div className="text-xs sm:text-sm font-editorial text-[#E5C07B] drop-shadow-md">
+                <div className="text-xs sm:text-sm font-editorial text-[#FAF5EE] drop-shadow-md">
                   {activePhoto.caption || activePhoto.alt || t.interiorImageCaption}
                 </div>
               </div>
@@ -161,14 +161,14 @@ export const InteriorBubbleSection: React.FC<InteriorBubbleSectionProps> = ({
           <div className="lg:col-span-7 flex flex-col justify-center">
             
             {/* Main Title Quote */}
-            <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl leading-[1.18] text-[#FFF8F2] font-normal">
+            <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl leading-[1.18] text-[#2B2B2D] font-normal">
               {t.interiorTitle}
             </h2>
 
-            <div className="w-20 h-[1px] bg-[#E5C07B]/50 my-5 sm:my-6" />
+            <div className="w-20 h-[1px] bg-[#A84452]/45 my-5 sm:my-6" />
 
             {/* Subtitle / Description */}
-            <p className="text-sm sm:text-base lg:text-lg text-[#FFF8F2]/85 font-sans-clean font-light leading-relaxed">
+            <p className="text-sm sm:text-base lg:text-lg text-[#4E4C4F] font-sans-clean font-normal leading-relaxed">
               {t.interiorSubtitle}
             </p>
 
@@ -190,7 +190,7 @@ export const InteriorBubbleSection: React.FC<InteriorBubbleSectionProps> = ({
           >
             {/* Top Toolbar */}
             <div className="flex items-center justify-between w-full max-w-6xl mx-auto z-10" onClick={(e) => e.stopPropagation()}>
-              <div className="text-xs sm:text-sm font-mono text-[#E5C07B] tracking-wider">
+              <div className="text-xs sm:text-sm font-mono text-[#F4C7CE] tracking-wider">
                 {String(currentIndex + 1).padStart(2, '0')} / {String(photos.length).padStart(2, '0')}
               </div>
               <button
@@ -220,14 +220,14 @@ export const InteriorBubbleSection: React.FC<InteriorBubbleSectionProps> = ({
                   <button
                     type="button"
                     onClick={handlePrev}
-                    className="absolute left-2 sm:-left-6 top-1/2 -translate-y-1/2 p-3 sm:p-4 rounded-full bg-[#580714]/90 hover:bg-[#7A0C1E] text-white border border-[#FFF8F2]/20 shadow-2xl hover:scale-110 active:scale-95 transition-all"
+                    className="absolute left-2 sm:-left-6 top-1/2 -translate-y-1/2 p-3 sm:p-4 rounded-full bg-[#FBF7F1]/90 hover:bg-[#A84452] text-[#2B2B2D] hover:text-[#FBF7F1] border border-white/20 shadow-2xl hover:scale-110 active:scale-95 transition-all"
                   >
                     <ChevronLeft className="w-6 h-6 sm:w-7 sm:h-7" />
                   </button>
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="absolute right-2 sm:-right-6 top-1/2 -translate-y-1/2 p-3 sm:p-4 rounded-full bg-[#580714]/90 hover:bg-[#7A0C1E] text-white border border-[#FFF8F2]/20 shadow-2xl hover:scale-110 active:scale-95 transition-all"
+                    className="absolute right-2 sm:-right-6 top-1/2 -translate-y-1/2 p-3 sm:p-4 rounded-full bg-[#FBF7F1]/90 hover:bg-[#A84452] text-[#2B2B2D] hover:text-[#FBF7F1] border border-white/20 shadow-2xl hover:scale-110 active:scale-95 transition-all"
                   >
                     <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7" />
                   </button>
@@ -237,7 +237,7 @@ export const InteriorBubbleSection: React.FC<InteriorBubbleSectionProps> = ({
 
             {/* Bottom Caption in Lightbox */}
             <div className="w-full max-w-4xl mx-auto text-center py-2 z-10" onClick={(e) => e.stopPropagation()}>
-              <p className="font-editorial text-base sm:text-xl text-[#E5C07B]">
+              <p className="font-editorial text-base sm:text-xl text-[#F4C7CE]">
                 {activePhoto.caption || activePhoto.alt}
               </p>
             </div>

@@ -80,14 +80,14 @@ export const WelcomeBannerModal: React.FC<WelcomeBannerModalProps> = ({
                 onClick={onClose}
                 aria-label={closeLabel}
                 title={closeLabel}
-                className="w-11 h-11 rounded-full bg-[#580714]/90 hover:bg-[#E5C07B] text-[#FFF8F2] hover:text-[#580714] border border-[#FFF8F2]/30 hover:border-[#E5C07B] flex items-center justify-center shadow-xl transition-all duration-150 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E5C07B]"
+                className="w-11 h-11 rounded-full bg-[#FBF7F1]/95 hover:bg-[#A84452] text-[#2B2B2D] hover:text-[#FBF7F1] border border-[#2B2B2D]/15 hover:border-[#A84452] flex items-center justify-center shadow-xl transition-all duration-150 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A84452]"
               >
                 <X className="w-5 h-5 stroke-[2]" />
               </button>
             </div>
 
             {/* Clean Vertical Banner Frame matching 1200x1607 (~3:4) */}
-            <div className="relative w-full aspect-[1200/1607] rounded-[24px] overflow-hidden border border-[#E5C07B]/40 shadow-[0_30px_80px_rgba(0,0,0,0.65)] bg-[#580714]">
+            <div className="relative w-full aspect-[1200/1607] rounded-[24px] overflow-hidden border border-[#FBF7F1]/50 shadow-[0_30px_80px_rgba(0,0,0,0.45)] bg-[#EFE5D8]">
               {!imgFailed ? (
                 <img
                   src={IMAGES.feriaBanner}
@@ -97,7 +97,7 @@ export const WelcomeBannerModal: React.FC<WelcomeBannerModalProps> = ({
                   className="w-full h-full object-cover object-center"
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-[#7A0C1E] via-[#580714] to-[#2B0309]" />
+                <div className="w-full h-full bg-gradient-to-br from-[#F6EFE6] via-[#EFE5D8] to-[#E5D4C2]" />
               )}
             </div>
 
@@ -107,7 +107,7 @@ export const WelcomeBannerModal: React.FC<WelcomeBannerModalProps> = ({
                 href={GOOGLE_MAPS_DIRECTIONS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-auto px-5 py-2.5 rounded-full bg-[#E5C07B] hover:bg-[#F3D59B] text-[#580714] font-semibold text-sm transition-colors duration-150 inline-flex items-center justify-center space-x-2 shadow-xl whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFF8F2]"
+                className="w-auto px-5 py-2.5 rounded-full bg-[#A84452] hover:bg-[#8E3442] text-[#FBF7F1] font-semibold text-sm transition-colors duration-150 inline-flex items-center justify-center space-x-2 shadow-xl whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FBF7F1]"
               >
                 <Navigation className="w-4 h-4 shrink-0 fill-current" />
                 <span>{t.locationDirections}</span>

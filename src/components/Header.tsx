@@ -50,7 +50,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header id="top-nav" className="sticky top-0 z-50 w-full backdrop-blur-md bg-[#7A0C1E]/85 border-b border-[#FFF8F2]/10 transition-all duration-300">
+    <header id="top-nav" className="sticky top-0 z-50 w-full backdrop-blur-md bg-[#F6EFE6]/90 border-b border-[#2B2B2D]/10 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2 sm:gap-6">
         
         {/* Left: Brand Identity with address underneath */}
@@ -60,7 +60,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="group inline-flex items-center text-left cursor-pointer"
             aria-label="BRUT bar home"
           >
-            <span className="font-editorial text-2xl sm:text-4xl tracking-tight text-[#FFF8F2] group-hover:text-[#E5C07B] transition-colors leading-none whitespace-nowrap">
+            <span className="font-editorial text-2xl sm:text-4xl tracking-tight text-[#2B2B2D] group-hover:text-[#A84452] transition-colors leading-none whitespace-nowrap">
               BRUT bar
             </span>
           </button>
@@ -68,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({
             href={BAR_DATA.googleMapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-editorial text-[10px] sm:text-xs text-[#E5C07B] hover:text-[#FFF8F2] transition-colors mt-0.5 tracking-normal hover:underline underline-offset-2 decoration-[#E5C07B]/40 truncate max-w-[140px] sm:max-w-none"
+            className="font-editorial text-[10px] sm:text-xs text-[#A84452] hover:text-[#2B2B2D] transition-colors mt-0.5 tracking-normal hover:underline underline-offset-2 decoration-[#A84452]/40 truncate max-w-[140px] sm:max-w-none"
             title="Google Maps: av.Independencia 320, Buenos Aires"
           >
             av.Independencia 320, Buenos Aires
@@ -83,25 +83,25 @@ export const Header: React.FC<HeaderProps> = ({
             href="https://brut-bar-774838171565.us-east1.run.app/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#580714]/50 border border-[#FFF8F2]/15 hover:border-[#E5C07B] text-[#FFF8F2]/80 hover:text-[#E5C07B] text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap shrink-0"
+            className="hidden md:inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#FBF7F1] border border-[#2B2B2D]/15 hover:border-[#A84452] text-[#2B2B2D] hover:text-[#A84452] text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap shrink-0"
           >
             <span>{t.headerMenu}</span>
           </a>
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-[#580714]/80 border border-[#FFF8F2]/20 hover:border-[#E5C07B] text-[#FFF8F2] hover:text-[#E5C07B] transition-all text-xs font-semibold font-mono tracking-wider cursor-pointer shadow-md"
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-[#FBF7F1] border border-[#2B2B2D]/15 hover:border-[#A84452] text-[#2B2B2D] hover:text-[#A84452] transition-all text-xs font-semibold font-mono tracking-wider cursor-pointer shadow-sm"
               aria-label="Select language"
               aria-expanded={isOpen}
             >
-              <Globe className="w-3.5 h-3.5 text-[#E5C07B]" />
+              <Globe className="w-3.5 h-3.5 text-[#A84452]" />
               <span>{currentLang}</span>
-              <ChevronDown className={`w-3 h-3 text-[#E5C07B] transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`w-3 h-3 text-[#A84452] transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {/* Dropdown Menu */}
             {isOpen && (
-              <div className="absolute top-full right-0 mt-2 w-40 rounded-2xl bg-[#580714] border border-[#FFF8F2]/20 shadow-2xl p-1.5 z-50 backdrop-blur-xl animate-fade-in">
+              <div className="absolute top-full right-0 mt-2 w-40 rounded-2xl bg-[#FBF7F1] border border-[#2B2B2D]/12 shadow-xl p-1.5 z-50 backdrop-blur-xl animate-fade-in">
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
@@ -111,8 +111,8 @@ export const Header: React.FC<HeaderProps> = ({
                     }}
                     className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-sans-clean transition-colors cursor-pointer ${
                       currentLang === lang.code
-                        ? 'bg-[#E5C07B] text-[#580714] font-bold'
-                        : 'text-[#FFF8F2] hover:bg-[#7A0C1E] hover:text-[#E5C07B]'
+                        ? 'bg-[#A84452] text-[#FBF7F1] font-bold'
+                        : 'text-[#2B2B2D] hover:bg-[#EFE5D8] hover:text-[#A84452]'
                     }`}
                   >
                     <span className="font-mono font-bold tracking-wider">{lang.code}</span>

@@ -41,31 +41,31 @@ export const WorkingHoursWidget: React.FC<WorkingHoursWidgetProps> = ({ lang, va
       <div className="text-xs font-sans-clean">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full text-left flex items-center justify-between group p-2.5 rounded-xl bg-[#580714]/80 border border-[#E5C07B]/30 hover:border-[#E5C07B] transition-all cursor-pointer shadow-sm"
+          className="w-full text-left flex items-center justify-between group p-2.5 rounded-xl bg-[#FBF7F1] border border-[#2B2B2D]/12 hover:border-[#A84452]/50 transition-all cursor-pointer shadow-sm"
         >
           <div className="flex items-center space-x-2 min-w-0">
             {IS_CLOSED_FOR_RENOVATION ? (
-              <Wrench className="w-4 h-4 text-[#E5C07B] shrink-0" />
+              <Wrench className="w-4 h-4 text-[#A84452] shrink-0" />
             ) : (
-              <Clock className="w-4 h-4 text-[#E5C07B] shrink-0" />
+              <Clock className="w-4 h-4 text-[#A84452] shrink-0" />
             )}
             <div className="min-w-0">
-              <div className="text-[10px] text-[#E5C07B] uppercase tracking-wider font-semibold">
+              <div className="text-[10px] text-[#A84452] uppercase tracking-wider font-semibold">
                 {SCHEDULE_LABELS.scheduleTitle[lang]}
               </div>
-              <div className="text-[#FFF8F2] font-medium truncate">
+              <div className="text-[#2B2B2D] font-medium truncate">
                 {IS_CLOSED_FOR_RENOVATION ? (
-                  <span className="text-[#E5C07B] font-semibold">{renovationTitle}</span>
+                  <span className="text-[#A84452] font-semibold">{renovationTitle}</span>
                 ) : (
                   <>
-                    {todayLabel} ({todayDayName}): <span className="text-[#E5C07B]">{todayHours}</span>
+                    {todayLabel} ({todayDayName}): <span className="text-[#A84452] font-semibold">{todayHours}</span>
                   </>
                 )}
               </div>
             </div>
           </div>
           <ChevronDown
-            className={`w-4 h-4 text-[#E5C07B] transition-transform duration-300 shrink-0 ml-2 ${
+            className={`w-4 h-4 text-[#A84452] transition-transform duration-300 shrink-0 ml-2 ${
               isExpanded ? 'rotate-180' : ''
             }`}
           />
@@ -78,14 +78,14 @@ export const WorkingHoursWidget: React.FC<WorkingHoursWidgetProps> = ({ lang, va
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="overflow-hidden mt-2 p-3 rounded-xl bg-[#580714] border border-[#E5C07B]/30 space-y-2.5 shadow-xl"
+              className="overflow-hidden mt-2 p-3 rounded-xl bg-[#FBF7F1] border border-[#2B2B2D]/12 space-y-2.5 shadow-lg"
             >
               {IS_CLOSED_FOR_RENOVATION ? (
                 <div className="space-y-2">
-                  <div className="p-2.5 rounded-lg bg-[#7A0C1E]/80 border border-[#E5C07B]/20 text-[11px] leading-relaxed text-[#FFF8F2]/90">
+                  <div className="p-2.5 rounded-lg bg-[#EFE5D8] border border-[#A84452]/20 text-[11px] leading-relaxed text-[#2B2B2D]">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-bold text-[#E5C07B] uppercase font-mono">{renovationTitle}</span>
-                      <span className="text-[9px] uppercase px-1.5 py-0.2 rounded bg-[#E5C07B] text-[#580714] font-bold">
+                      <span className="font-bold text-[#A84452] uppercase font-mono">{renovationTitle}</span>
+                      <span className="text-[9px] uppercase px-1.5 py-0.2 rounded bg-[#A84452] text-[#FBF7F1] font-bold">
                         {renovationBadge}
                       </span>
                     </div>
@@ -96,10 +96,10 @@ export const WorkingHoursWidget: React.FC<WorkingHoursWidgetProps> = ({ lang, va
                     {WEEKLY_SCHEDULE.map((item) => (
                       <div
                         key={item.dayIndex}
-                        className="flex items-center justify-between py-1 px-2 rounded-lg text-xs text-[#FFF8F2]/75"
+                        className="flex items-center justify-between py-1 px-2 rounded-lg text-xs text-[#4E4C4F]"
                       >
                         <span>{item.dayName[lang] || item.dayName['ES']}</span>
-                        <span className="text-[#E5C07B] font-mono text-[11px] italic">
+                        <span className="text-[#A84452] font-mono text-[11px] italic">
                           {renovationTitle}
                         </span>
                       </div>
@@ -114,19 +114,19 @@ export const WorkingHoursWidget: React.FC<WorkingHoursWidgetProps> = ({ lang, va
                       key={item.dayIndex}
                       className={`flex items-center justify-between py-1 px-2 rounded-lg text-xs ${
                         isToday
-                          ? 'bg-[#E5C07B]/20 border border-[#E5C07B]/40 text-[#FFF8F2] font-semibold'
-                          : 'text-[#FFF8F2]/80'
+                          ? 'bg-[#A84452]/10 border border-[#A84452]/30 text-[#2B2B2D] font-semibold'
+                          : 'text-[#4E4C4F]'
                       }`}
                     >
                       <span className="flex items-center space-x-1.5">
                         <span>{item.dayName[lang] || item.dayName['ES']}</span>
                         {isToday && (
-                          <span className="text-[9px] uppercase px-1.5 py-0.2 rounded bg-[#E5C07B] text-[#580714] font-bold">
+                          <span className="text-[9px] uppercase px-1.5 py-0.2 rounded bg-[#A84452] text-[#FBF7F1] font-bold">
                             {todayLabel}
                           </span>
                         )}
                       </span>
-                      <span className={item.isClosed ? 'text-[#FFF8F2]/50 italic' : 'text-[#E5C07B]'}>
+                      <span className={item.isClosed ? 'text-[#6E6A6D] italic' : 'text-[#A84452] font-medium'}>
                         {item.hoursDisplay[lang] || item.hoursDisplay['ES']}
                       </span>
                     </div>
@@ -145,36 +145,36 @@ export const WorkingHoursWidget: React.FC<WorkingHoursWidgetProps> = ({ lang, va
       {/* Collapsed Minimalist Header Button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full text-left px-4 py-2.5 sm:py-3 rounded-2xl bg-[#580714]/80 border border-[#FFF8F2]/15 hover:border-[#E5C07B]/50 transition-all duration-300 shadow-sm group cursor-pointer"
+        className="w-full text-left px-4 py-2.5 sm:py-3 rounded-2xl bg-[#FBF7F1] border border-[#2B2B2D]/10 hover:border-[#A84452]/45 hover:bg-[#FFFFFF] transition-all duration-300 shadow-sm group cursor-pointer"
         aria-expanded={isExpanded}
       >
         <div className="flex items-center justify-between gap-3">
-          {/* Left: Green pulsating dot + small "Hoy:" + hours */}
+          {/* Left: Status indicator + small "Hoy:" + hours */}
           <div className="flex items-center space-x-2.5 min-w-0">
             <span
               className={`w-2.5 h-2.5 rounded-full shrink-0 ${
                 isOpenNow
-                  ? 'bg-[#34A853] animate-pulse shadow-sm shadow-[#34A853]/60'
+                  ? 'bg-[#2E9B4B] animate-pulse shadow-sm shadow-[#2E9B4B]/40'
                   : todaySchedule.isClosed
-                  ? 'bg-[#E5C07B]/40'
-                  : 'bg-[#34A853] animate-pulse'
+                  ? 'bg-[#C97A86]/60'
+                  : 'bg-[#2E9B4B] animate-pulse'
               }`}
             />
 
-            <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#E5C07B] font-semibold shrink-0 font-sans-clean">
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#A84452] font-semibold shrink-0 font-sans-clean">
               {todayLabel}:
             </span>
 
-            <span className="font-editorial text-base sm:text-lg text-[#FFF8F2] tracking-wide truncate">
+            <span className="font-editorial text-base sm:text-lg text-[#2B2B2D] tracking-wide truncate">
               {todayHours}
             </span>
           </div>
 
           {/* Right: Subtle expand chevron */}
-          <div className="flex items-center space-x-1 shrink-0 text-[#E5C07B]/70 group-hover:text-[#E5C07B] transition-colors">
+          <div className="flex items-center space-x-1 shrink-0 text-[#A84452]/70 group-hover:text-[#A84452] transition-colors">
             <ChevronDown
               className={`w-4 h-4 transition-transform duration-300 ${
-                isExpanded ? 'rotate-180 text-[#E5C07B]' : ''
+                isExpanded ? 'rotate-180 text-[#A84452]' : ''
               }`}
             />
           </div>
@@ -191,25 +191,25 @@ export const WorkingHoursWidget: React.FC<WorkingHoursWidgetProps> = ({ lang, va
             transition={{ duration: 0.35, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="mt-2 p-4 rounded-2xl bg-[#580714] border border-[#E5C07B]/30 shadow-2xl space-y-3">
+            <div className="mt-2 p-4 rounded-2xl bg-[#FBF7F1] border border-[#2B2B2D]/12 shadow-lg space-y-3">
               {IS_CLOSED_FOR_RENOVATION ? (
                 <>
-                  <div className="p-3.5 rounded-xl bg-[#7A0C1E]/90 border border-[#E5C07B]/30 space-y-1.5">
+                  <div className="p-3.5 rounded-xl bg-[#EFE5D8] border border-[#A84452]/25 space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2 text-xs font-bold text-[#E5C07B] uppercase tracking-wider font-mono">
-                        <Wrench className="w-4 h-4 text-[#E5C07B]" />
+                      <div className="flex items-center space-x-2 text-xs font-bold text-[#A84452] uppercase tracking-wider font-mono">
+                        <Wrench className="w-4 h-4 text-[#A84452]" />
                         <span>{renovationTitle}</span>
                       </div>
-                      <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-[#E5C07B] text-[#580714] font-bold">
+                      <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-[#A84452] text-[#FBF7F1] font-bold">
                         {renovationBadge}
                       </span>
                     </div>
-                    <p className="text-xs sm:text-sm text-[#FFF8F2]/90 font-sans-clean font-light leading-relaxed pt-1">
+                    <p className="text-xs sm:text-sm text-[#4E4C4F] font-sans-clean leading-relaxed pt-1">
                       {renovationMessage}
                     </p>
                   </div>
 
-                  <div className="flex items-center justify-between pb-2 border-b border-[#FFF8F2]/10 text-xs font-mono uppercase text-[#E5C07B]">
+                  <div className="flex items-center justify-between pb-2 border-b border-[#2B2B2D]/10 text-xs font-mono uppercase text-[#A84452]">
                     <span className="flex items-center space-x-1.5">
                       <Calendar className="w-3.5 h-3.5" />
                       <span>{SCHEDULE_LABELS.scheduleTitle[lang]}</span>
@@ -221,10 +221,10 @@ export const WorkingHoursWidget: React.FC<WorkingHoursWidgetProps> = ({ lang, va
                     {WEEKLY_SCHEDULE.map((item) => (
                       <div
                         key={item.dayIndex}
-                        className="flex items-center justify-between p-2.5 rounded-xl text-xs sm:text-sm bg-[#7A0C1E]/40 border border-[#FFF8F2]/5 text-[#FFF8F2]/85"
+                        className="flex items-center justify-between p-2.5 rounded-xl text-xs sm:text-sm bg-[#F6EFE6] border border-[#2B2B2D]/8 text-[#2B2B2D]"
                       >
                         <span className="font-medium">{item.dayName[lang] || item.dayName['ES']}</span>
-                        <span className="font-mono text-xs text-[#E5C07B] italic">
+                        <span className="font-mono text-xs text-[#A84452] italic">
                           {renovationTitle}
                         </span>
                       </div>
@@ -233,7 +233,7 @@ export const WorkingHoursWidget: React.FC<WorkingHoursWidgetProps> = ({ lang, va
                 </>
               ) : (
                 <>
-                  <div className="flex items-center justify-between pb-2 border-b border-[#FFF8F2]/10 text-xs font-mono uppercase text-[#E5C07B]">
+                  <div className="flex items-center justify-between pb-2 border-b border-[#2B2B2D]/10 text-xs font-mono uppercase text-[#A84452]">
                     <span className="flex items-center space-x-1.5">
                       <Calendar className="w-3.5 h-3.5" />
                       <span>Día de la semana</span>
@@ -249,15 +249,15 @@ export const WorkingHoursWidget: React.FC<WorkingHoursWidgetProps> = ({ lang, va
                           key={item.dayIndex}
                           className={`flex items-center justify-between p-2.5 rounded-xl text-xs sm:text-sm transition-all ${
                             isToday
-                              ? 'bg-[#E5C07B]/15 border border-[#E5C07B] text-[#FFF8F2] font-semibold shadow-md'
-                              : 'bg-[#7A0C1E]/40 border border-[#FFF8F2]/5 text-[#FFF8F2]/80 hover:bg-[#7A0C1E]/80'
+                              ? 'bg-[#A84452]/10 border border-[#A84452]/40 text-[#2B2B2D] font-semibold shadow-sm'
+                              : 'bg-[#F6EFE6]/80 border border-[#2B2B2D]/6 text-[#4E4C4F] hover:bg-[#EFE5D8]'
                           }`}
                         >
                           <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 rounded-full bg-[#E5C07B]/40" />
+                            <div className="w-2 h-2 rounded-full bg-[#A84452]/45" />
                             <span>{item.dayName[lang] || item.dayName['ES']}</span>
                             {isToday && (
-                              <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#E5C07B] text-[#580714] font-bold font-mono">
+                              <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#A84452] text-[#FBF7F1] font-bold font-mono">
                                 {todayLabel}
                               </span>
                             )}
@@ -265,11 +265,11 @@ export const WorkingHoursWidget: React.FC<WorkingHoursWidgetProps> = ({ lang, va
 
                           <div className="font-mono text-xs sm:text-sm">
                             {item.isClosed ? (
-                              <span className="text-[#FFF8F2]/40 italic">
+                              <span className="text-[#6E6A6D] italic">
                                 {item.hoursDisplay[lang] || item.hoursDisplay['ES']}
                               </span>
                             ) : (
-                              <span className={isToday ? 'text-[#E5C07B] font-bold' : 'text-[#FFF8F2]'}>
+                              <span className={isToday ? 'text-[#A84452] font-bold' : 'text-[#2B2B2D]'}>
                                 {item.hoursDisplay[lang] || item.hoursDisplay['ES']}
                               </span>
                             )}

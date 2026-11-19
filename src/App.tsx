@@ -63,7 +63,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#7A0C1E] text-[#FFF8F2] font-sans-clean relative selection:bg-[#FFF8F2] selection:text-[#7A0C1E]">
+    <div className="min-h-screen bg-[#F6EFE6] text-[#2B2B2D] font-sans-clean relative selection:bg-[#A84452] selection:text-[#FBF7F1]">
       
       {/* Navigation Header with Language Switcher */}
       <Header 
@@ -86,9 +86,9 @@ export default function App() {
 
             {/* Events & Birthdays Highlight Block (after map & location info) */}
             <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-              <div className="p-5 sm:p-6 rounded-3xl bg-[#580714]/70 border border-[#E5C07B]/30 hover:border-[#E5C07B]/60 transition-all shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="p-5 sm:p-6 rounded-3xl bg-[#FBF7F1] border border-[#A84452]/20 hover:border-[#A84452]/45 transition-all shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-center space-x-4 min-w-0">
-                  <div className="w-12 h-12 rounded-full overflow-hidden border border-[#E5C07B]/50 shrink-0 shadow-sm bg-[#180307]">
+                  <div className="w-12 h-12 rounded-full overflow-hidden border border-[#A84452]/30 shrink-0 shadow-sm bg-[#EFE5D8]">
                     <img
                       src="/images/003.png"
                       alt={t.headerEvents}
@@ -96,10 +96,10 @@ export default function App() {
                     />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-[10px] uppercase font-mono tracking-widest text-[#E5C07B] font-semibold">
+                    <div className="text-[10px] uppercase font-mono tracking-widest text-[#A84452] font-semibold">
                       BRUT bar
                     </div>
-                    <div className="text-lg sm:text-xl text-[#FFF8F2] font-editorial leading-tight">
+                    <div className="text-lg sm:text-xl text-[#2B2B2D] font-editorial leading-tight">
                       {lang === 'RU'
                         ? 'Мероприятия и дни рождения'
                         : lang === 'ES'
@@ -112,7 +112,7 @@ export default function App() {
                 </div>
                 <button
                   onClick={() => navigateTo('events')}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-[#E5C07B] hover:bg-[#F3D59B] text-[#580714] font-semibold text-xs uppercase tracking-wider transition-all shadow-md shrink-0 cursor-pointer text-center whitespace-nowrap"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-[#A84452] hover:bg-[#8E3442] text-[#FBF7F1] font-semibold text-xs uppercase tracking-wider transition-all shadow-sm shrink-0 cursor-pointer text-center whitespace-nowrap"
                 >
                   {lang === 'RU'
                     ? 'Узнать подробнее'

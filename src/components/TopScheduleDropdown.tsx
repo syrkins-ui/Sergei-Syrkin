@@ -37,16 +37,16 @@ export const TopScheduleDropdown: React.FC<TopScheduleDropdownProps> = ({ lang }
       {/* Framed Pill Button showing renovation status + chevron */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-1.5 sm:space-x-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full border border-[#E5C07B]/40 hover:border-[#E5C07B] bg-[#580714]/85 hover:bg-[#580714] backdrop-blur-md text-[#FFF8F2] hover:text-[#E5C07B] transition-all text-[11px] sm:text-xs font-mono tracking-wide cursor-pointer shadow-md group shrink-0"
+        className="flex items-center space-x-1.5 sm:space-x-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full border border-[#A84452]/30 hover:border-[#A84452] bg-[#FBF7F1] hover:bg-[#FFFFFF] backdrop-blur-md text-[#2B2B2D] hover:text-[#A84452] transition-all text-[11px] sm:text-xs font-mono tracking-wide cursor-pointer shadow-sm group shrink-0"
         aria-label="Hours of operation / Status"
         aria-expanded={isOpen}
       >
-        <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#E5C07B] animate-pulse shrink-0" />
-        <span className="font-semibold text-[#E5C07B]">
+        <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#A84452] animate-pulse shrink-0" />
+        <span className="font-semibold text-[#A84452]">
           {IS_CLOSED_FOR_RENOVATION ? SCHEDULE_LABELS.renovationTitle[lang] : `${todayDayName}: ${todayHours}`}
         </span>
         <ChevronDown
-          className={`w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E5C07B] transition-transform duration-200 shrink-0 ${
+          className={`w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#A84452] transition-transform duration-200 shrink-0 ${
             isOpen ? 'rotate-180' : ''
           }`}
         />
@@ -60,39 +60,39 @@ export const TopScheduleDropdown: React.FC<TopScheduleDropdownProps> = ({ lang }
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.96 }}
             transition={{ duration: 0.2 }}
-            className="absolute left-0 top-full mt-2 w-72 sm:w-80 max-w-[calc(100vw-2.5rem)] rounded-2xl bg-[#580714] border border-[#E5C07B]/30 shadow-2xl p-3 z-[100] backdrop-blur-xl"
+            className="absolute left-0 top-full mt-2 w-72 sm:w-80 max-w-[calc(100vw-2.5rem)] rounded-2xl bg-[#FBF7F1] border border-[#2B2B2D]/12 shadow-xl p-3 z-[100] backdrop-blur-xl"
           >
             {IS_CLOSED_FOR_RENOVATION ? (
               <div className="space-y-3">
                 {/* Renovation Announcement Banner */}
-                <div className="p-3.5 rounded-xl bg-[#7A0C1E]/90 border border-[#E5C07B]/35 space-y-1.5">
+                <div className="p-3.5 rounded-xl bg-[#EFE5D8] border border-[#A84452]/25 space-y-1.5">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-1.5 text-xs font-bold text-[#E5C07B] uppercase tracking-wider font-mono">
-                      <Wrench className="w-3.5 h-3.5 text-[#E5C07B]" />
+                    <div className="flex items-center space-x-1.5 text-xs font-bold text-[#A84452] uppercase tracking-wider font-mono">
+                      <Wrench className="w-3.5 h-3.5 text-[#A84452]" />
                       <span>{SCHEDULE_LABELS.renovationTitle[lang]}</span>
                     </div>
-                    <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-[#E5C07B] text-[#580714] font-bold">
+                    <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-[#A84452] text-[#FBF7F1] font-bold">
                       {SCHEDULE_LABELS.renovationBadge[lang]}
                     </span>
                   </div>
-                  <p className="text-xs text-[#FFF8F2]/90 font-sans-clean font-light leading-relaxed pt-1">
+                  <p className="text-xs text-[#4E4C4F] font-sans-clean leading-relaxed pt-1">
                     {SCHEDULE_LABELS.renovationMessage[lang]}
                   </p>
                 </div>
 
                 {/* Days list clearly showing renovation placeholder */}
-                <div className="pt-1 border-t border-[#FFF8F2]/10 space-y-1">
-                  <div className="flex items-center space-x-1.5 text-[10px] uppercase font-mono tracking-wider text-[#E5C07B]/70 px-2 py-0.5">
-                    <Sparkles className="w-3 h-3 text-[#E5C07B]" />
+                <div className="pt-1 border-t border-[#2B2B2D]/10 space-y-1">
+                  <div className="flex items-center space-x-1.5 text-[10px] uppercase font-mono tracking-wider text-[#A84452] px-2 py-0.5">
+                    <Sparkles className="w-3 h-3 text-[#A84452]" />
                     <span>{SCHEDULE_LABELS.scheduleTitle[lang]}</span>
                   </div>
                   {WEEKLY_SCHEDULE.map((item) => (
                     <div
                       key={item.dayIndex}
-                      className="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-sans-clean text-[#FFF8F2]/80 hover:bg-[#7A0C1E]/40 transition-colors"
+                      className="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-sans-clean text-[#2B2B2D] hover:bg-[#EFE5D8] transition-colors"
                     >
                       <span className="font-medium">{item.dayName[lang] || item.dayName['ES']}</span>
-                      <span className="font-mono text-[11px] text-[#E5C07B]/90 italic">
+                      <span className="font-mono text-[11px] text-[#A84452] italic">
                         {SCHEDULE_LABELS.renovationTitle[lang]}
                       </span>
                     </div>
@@ -108,13 +108,13 @@ export const TopScheduleDropdown: React.FC<TopScheduleDropdownProps> = ({ lang }
                       key={item.dayIndex}
                       className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-sans-clean transition-colors ${
                         isToday
-                          ? 'bg-[#E5C07B] text-[#580714] font-bold shadow-sm'
-                          : 'text-[#FFF8F2] hover:bg-[#7A0C1E]'
+                          ? 'bg-[#A84452] text-[#FBF7F1] font-bold shadow-sm'
+                          : 'text-[#2B2B2D] hover:bg-[#EFE5D8]'
                       }`}
                     >
                       <span>{item.dayName[lang] || item.dayName['ES']}</span>
                       <span className={`font-mono ${
-                        isToday ? 'text-[#580714] font-bold' : item.isClosed ? 'text-[#FFF8F2]/50 italic' : 'text-[#E5C07B]'
+                        isToday ? 'text-[#FBF7F1] font-bold' : item.isClosed ? 'text-[#6E6A6D] italic' : 'text-[#A84452]'
                       }`}>
                         {item.hoursDisplay[lang] || item.hoursDisplay['ES']}
                       </span>

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ContentTranslation, Language } from '../data/translations';
 import { BAR_DATA } from '../data/barInfo';
-import { ChevronDown, Globe } from 'lucide-react';
+import { ChevronDown, Globe, Instagram } from 'lucide-react';
 
 interface HeaderProps {
   t: ContentTranslation;
@@ -75,7 +75,7 @@ export const Header: React.FC<HeaderProps> = ({
           </a>
         </div>
 
-        {/* Center / Right: Nav links & Language Switcher Dropdown */}
+        {/* Center / Right: Nav links, Instagram Icon & Language Switcher Dropdown */}
         <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
 
           {/* External Menu Button */}
@@ -87,6 +87,19 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <span>{t.headerMenu}</span>
           </a>
+
+          {/* Instagram Icon (placed to the left of language switcher) */}
+          <a
+            href={BAR_DATA.instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center w-9 h-9 rounded-full text-[#2B2B2D] hover:text-[#A84452] hover:bg-[#EFE5D8]/80 transition-all shrink-0 cursor-pointer"
+            aria-label={`Instagram ${BAR_DATA.instagramHandle}`}
+            title={`Instagram ${BAR_DATA.instagramHandle}`}
+          >
+            <Instagram className="w-5 h-5 stroke-[1.75]" />
+          </a>
+
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsOpen(!isOpen)}

@@ -84,46 +84,59 @@ export default function App() {
             {/* Location & Map Section */}
             <LocationMapSection t={t} lang={lang} />
 
-            {/* Events & Birthdays Highlight Block (after map & location info) */}
-            <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-              <div className="p-5 sm:p-6 rounded-3xl bg-[#FBF7F1] border border-[#A84452]/20 hover:border-[#A84452]/45 transition-all shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="flex items-center space-x-4 min-w-0">
-                  <div className="w-12 h-12 rounded-full overflow-hidden border border-[#A84452]/30 shrink-0 shadow-sm bg-[#EFE5D8]">
-                    <img
-                      src="/images/003.png"
-                      alt={t.headerEvents}
-                      className="w-full h-full object-cover object-center"
-                    />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-[10px] uppercase font-mono tracking-widest text-[#A84452] font-semibold">
-                      BRUT bar
-                    </div>
-                    <div className="text-lg sm:text-xl text-[#2B2B2D] font-editorial leading-tight">
+            {/* Dedicated Editorial Events Showcase Block (Large photo with big overlaid headline) */}
+            <section className="pt-4 sm:pt-8 pb-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+              <button
+                type="button"
+                onClick={() => navigateTo('events')}
+                className="group relative block w-full text-left rounded-[32px] overflow-hidden aspect-[4/5] sm:aspect-[16/10] lg:aspect-[16/9] max-h-[600px] border border-[#2B2B2D]/12 shadow-lg bg-[#2B2B2D] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#A84452]"
+              >
+                <img
+                  src="/images/Eventos.png"
+                  alt={t.headerEvents}
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+
+                {/* Measured contrast scrim for crisp editorial typography */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/20" />
+
+                {/* Overlaid Large Editorial Heading */}
+                <div className="absolute inset-0 p-6 sm:p-10 md:p-14 flex flex-col items-center justify-center text-center">
+                  <span className="text-[11px] sm:text-xs uppercase tracking-[0.28em] text-[#F4C7CE] font-sans-clean font-semibold mb-3 sm:mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]">
+                    {lang === 'RU'
+                      ? 'Частные события · Чёрный зал'
+                      : lang === 'ES'
+                        ? 'Eventos Privados · Salón Negro'
+                        : lang === 'PT'
+                          ? 'Eventos Privados · Salão Preto'
+                          : 'Private Events · Black Hall'}
+                  </span>
+
+                  <h2 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-[#FAF5EE] tracking-tight leading-[0.95] max-w-4xl text-balance drop-shadow-[0_6px_28px_rgba(0,0,0,0.85)]">
+                    {lang === 'RU'
+                      ? 'Мероприятия и дни рождения'
+                      : lang === 'ES'
+                        ? 'Eventos y cumpleaños'
+                        : lang === 'PT'
+                          ? 'Eventos e aniversários'
+                          : 'Events & Birthdays'}
+                  </h2>
+
+                  <span className="mt-6 sm:mt-8 inline-flex items-center space-x-2 px-6 py-2.5 rounded-full bg-[#FBF7F1]/95 group-hover:bg-[#A84452] text-[#2B2B2D] group-hover:text-[#FBF7F1] text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-lg whitespace-nowrap">
+                    <span>
                       {lang === 'RU'
-                        ? 'Мероприятия и дни рождения'
-                        : lang === 'ES'
-                          ? 'Eventos y Cumpleaños'
-                          : lang === 'PT'
-                            ? 'Eventos & Aniversários'
-                            : 'Events & Birthdays'}
-                    </div>
-                  </div>
+                        ? 'Узнать цену'
+                        : lang === 'PT'
+                          ? 'Ver preços'
+                          : lang === 'EN'
+                            ? 'See pricing'
+                            : 'Ver precios'}
+                    </span>
+                    <span className="font-mono group-hover:translate-x-0.5 transition-transform">→</span>
+                  </span>
                 </div>
-                <button
-                  onClick={() => navigateTo('events')}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-[#A84452] hover:bg-[#8E3442] text-[#FBF7F1] font-semibold text-xs uppercase tracking-wider transition-all shadow-sm shrink-0 cursor-pointer text-center whitespace-nowrap"
-                >
-                  {lang === 'RU'
-                    ? 'Узнать подробнее'
-                    : lang === 'PT'
-                      ? 'Saiba mais'
-                      : lang === 'EN'
-                        ? 'Learn more'
-                        : 'Ver más'}{' '}
-                  →
-                </button>
-              </div>
+              </button>
             </section>
           </>
         )}

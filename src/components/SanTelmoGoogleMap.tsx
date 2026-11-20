@@ -1,4 +1,4 @@
-import React, { useState, Component, ErrorInfo, ReactNode } from 'react';
+import React, { useState, ErrorInfo, ReactNode } from 'react';
 import { 
   APIProvider, 
   Map3D, 
@@ -11,7 +11,7 @@ import {
 import { SAN_TELMO_LANDMARKS } from '../data/landmarks3D';
 import { ContentTranslation, Language } from '../data/translations';
 import { BAR_DATA } from '../data/barInfo';
-import { Navigation, ExternalLink, Loader2, Share2, Bookmark } from 'lucide-react';
+import { ExternalLink, Loader2, Star } from 'lucide-react';
 
 interface SanTelmoGoogleMapProps {
   t: ContentTranslation;
@@ -49,46 +49,54 @@ class Map3DErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBounda
   }
 }
 
-const SCHEDULE_DATA: { day: Record<Language, string>; hours: string; isClosed?: boolean }[] = [
-  { day: { ES: 'Miércoles', PT: 'Quarta-feira', EN: 'Wednesday', RU: 'Среда' }, hours: '15:00 – 22:00' },
-  { day: { ES: 'Jueves', PT: 'Quinta-feira', EN: 'Thursday', RU: 'Четверг' }, hours: '15:00 – 00:00' },
-  { day: { ES: 'Viernes', PT: 'Sexta-feira', EN: 'Friday', RU: 'Пятница' }, hours: '15:00 – 00:00' },
-  { day: { ES: 'Sábado', PT: 'Sábado', EN: 'Saturday', RU: 'Суббота' }, hours: '14:00 – 00:00' },
-  { day: { ES: 'Domingo', PT: 'Domingo', EN: 'Sunday', RU: 'Воскресенье' }, hours: '14:00 – 21:00' },
-  { day: { ES: 'Lunes', PT: 'Segunda-feira', EN: 'Monday', RU: 'Понедельник' }, hours: 'Cerrado', isClosed: true },
-  { day: { ES: 'Martes', PT: 'Terça-feira', EN: 'Tuesday', RU: 'Вторник' }, hours: 'Cerrado', isClosed: true },
-];
+const CARD_I18N: Record<
+  Language,
+  {
+    reviews: string;
+    openMaps: string;
+    loading3d: string;
+    legend: string;
+  }
+> = {
+  ES: {
+    reviews: '64 reseñas',
+    openMaps: 'Ver en Google Maps',
+    loading3d: 'Cargando Google Maps 3D...',
+    legend: 'Pines rojos: Puntos de interés en San Telmo',
+  },
+  PT: {
+    reviews: '64 avaliações',
+    openMaps: 'Ver no Google Maps',
+    loading3d: 'Carregando Google Maps 3D...',
+    legend: 'Pinos vermelhos: Pontos de interesse em San Telmo',
+  },
+  EN: {
+    reviews: '64 reviews',
+    openMaps: 'View on Google Maps',
+    loading3d: 'Loading Google Maps 3D...',
+    legend: 'Red pins: Landmarks in San Telmo',
+  },
+  RU: {
+    reviews: '64 отзыва',
+    openMaps: 'Посмотреть на картах',
+    loading3d: 'Загрузка Google Maps 3D...',
+    legend: 'Красные метки: ориентиры рядом в Сан-Тельмо',
+  },
+};
 
-export const SanTelmoGoogleMap: React.FC<SanTelmoGoogleMapProps> = ({ t, lang }) => {
+export const SanTelmoGoogleMap: React.FC<SanTelmoGoogleMapProps> = ({ lang }) => {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyDtG_80rq91Y3Dc57YyKxHnTfy7D2XxaBE';
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isCardVisible, setIsCardVisible] = useState(true);
-  const [showFullSchedule, setShowFullSchedule] = useState(false);
 
-  const brutLandmark = SAN_TELMO_LANDMARKS.find(l => l.isOrigin) || SAN_TELMO_LANDMARKS[0];
   const otherLandmarks = SAN_TELMO_LANDMARKS.filter(l => !l.isOrigin);
+  const c = CARD_I18N[lang];
 
-  // Check if open right now based on Buenos Aires time (UTC-3)
-  const getIsOpenNow = (): boolean => {
-    try {
-      const now = new Date();
-      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-      const baTime = new Date(utc - (3 * 3600000));
-      const day = baTime.getDay(); // 0 is Sunday, 1 Mon, ...
-      const hour = baTime.getHours() + baTime.getMinutes() / 60;
-
-      if (day === 3 && hour >= 15 && hour < 22) return true;
-      if (day === 4 && hour >= 15 && hour < 24) return true;
-      if (day === 5 && hour >= 15 && hour < 24) return true;
-      if (day === 6 && hour >= 14 && hour < 24) return true;
-      if (day === 0 && hour >= 14 && hour < 21) return true;
-      return false;
-    } catch {
-      return false;
+  const scrollToPlaceCard = () => {
+    const el = document.getElementById('brut-gmaps-card');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   };
-
-  const isOpenNow = getIsOpenNow();
 
   // Standard 2.5D fallback if device does not support WebGL2 Photorealistic 3D
   const fallback25DMap = (
@@ -106,7 +114,7 @@ export const SanTelmoGoogleMap: React.FC<SanTelmoGoogleMapProps> = ({ t, lang })
     >
       <AdvancedMarker
         position={BRUT_CENTER}
-        onClick={() => setIsCardVisible(true)}
+        onClick={scrollToPlaceCard}
         zIndex={100}
         title="BRUT bar • Av. Independencia 320"
       >
@@ -124,9 +132,8 @@ export const SanTelmoGoogleMap: React.FC<SanTelmoGoogleMapProps> = ({ t, lang })
         <AdvancedMarker
           key={lm.id}
           position={{ lat: lm.lat, lng: lm.lng }}
-          onClick={() => window.open(lm.googleMapsUrl, '_blank', 'noopener,noreferrer')}
           zIndex={50}
-          title={`${lm.name[lang]} — Abrir en Google Maps`}
+          title={`${lm.name[lang]} — ${lm.address}`}
         >
           <Pin
             background={'#EA4335'}
@@ -139,229 +146,137 @@ export const SanTelmoGoogleMap: React.FC<SanTelmoGoogleMapProps> = ({ t, lang })
   );
 
   return (
-    <div className="relative w-full rounded-[32px] overflow-hidden border border-[#2B2B2D]/15 shadow-lg bg-[#EDE2D4] min-h-[600px] lg:min-h-[680px]">
+    <div className="space-y-4">
       
-      {/* Container with explicit dimensions for Google Maps */}
-      <div 
-        className="w-full relative" 
-        style={{ width: '100%', height: '680px', minHeight: '600px', backgroundColor: '#EDE2D4' }}
+      {/* Elegant Minimal Google Maps Place Card (Name, Rating, Reviews, View on Maps) */}
+      <div
+        id="brut-gmaps-card"
+        className="w-full rounded-2xl bg-white text-[#202124] border border-[#DADCE0] shadow-[0_1px_3px_rgba(60,64,67,0.12),0_4px_12px_rgba(60,64,67,0.06)] px-5 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 font-sans"
       >
-        <APIProvider 
-          apiKey={apiKey} 
-          version="beta"
-          language={lang.toLowerCase()}
-          onLoad={() => setIsLoaded(true)}
-        >
-          {/* Loading indicator */}
-          {!isLoaded && (
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#EDE2D4] text-[#A84452] space-y-3">
-              <Loader2 className="w-8 h-8 animate-spin" />
-              <span className="text-xs uppercase tracking-widest font-mono">
-                Cargando Google Maps 3D Inmersivo...
-              </span>
-            </div>
-          )}
+        {/* Left: Google Maps Pin + Place Name + Rating & Review Count */}
+        <div className="flex items-center gap-3.5 min-w-0">
+          <div className="w-10 h-10 rounded-full bg-[#F8F9FA] border border-[#E8EAED] flex items-center justify-center shrink-0">
+            <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="#EA4335" d="M12 2C8.13 2 5 5.13 5 9c0 1.74.5 3.37 1.41 4.84.95 1.54 2.2 2.86 3.16 4.4.47.75.81 1.45 1.17 2.26.26.55.47 1.5 1.26 1.5s1-.95 1.25-1.5c.37-.81.7-1.51 1.17-2.26.96-1.53 2.21-2.85 3.16-4.4C18.5 12.37 19 10.74 19 9c0-3.87-3.13-7-7-7z"/>
+              <circle fill="#FFFFFF" cx="12" cy="9" r="2.75"/>
+            </svg>
+          </div>
 
-          <Map3DErrorBoundary fallback={fallback25DMap}>
-            {/* Photorealistic 3D Maps Component with street-level perspective from Facultad along Av. Independencia */}
-            <Map3D
-              internalUsageAttributionIds={['gmp_mcp_codeassist_v1_aistudio']}
-              mode="SATELLITE"
-              defaultCenter={{ lat: -34.6172888, lng: -58.3702081, altitude: 12 }}
-              defaultRange={210}
-              defaultTilt={67}
-              defaultHeading={292}
-              defaultRoll={0}
-              style={{ width: '100%', height: '100%' }}
-            >
-              {/* Epicenter Marker: BRUT bar at exact Av. Independencia 320 rooftop */}
-              <Marker3D
-                position={{ lat: -34.6172888, lng: -58.3702081, altitude: 15 }}
-                altitudeMode={AltitudeMode.RELATIVE_TO_GROUND}
-                extruded
-                onClick={() => setIsCardVisible(true)}
-              >
-                <Pin
-                  background={'#A84452'}
-                  borderColor={'#F6EFE6'}
-                  glyphColor={'#FBF7F1'}
-                  scale={1.35}
-                >
-                  <span style={{ fontSize: '14px', lineHeight: 1 }}>🍾</span>
-                </Pin>
-              </Marker3D>
-
-              {/* Surrounding Landmarks: Standard Google Maps Red Pins leading directly to their points */}
-              {otherLandmarks.map((lm) => (
-                <Marker3D
-                  key={lm.id}
-                  position={{ lat: lm.lat, lng: lm.lng, altitude: 15 }}
-                  altitudeMode={AltitudeMode.RELATIVE_TO_GROUND}
-                  extruded
-                  onClick={() => window.open(lm.googleMapsUrl, '_blank', 'noopener,noreferrer')}
-                >
-                  <Pin
-                    background={'#EA4335'}
-                    borderColor={'#B31412'}
-                    glyphColor={'#FFFFFF'}
-                    scale={1.15}
-                  />
-                </Marker3D>
-              ))}
-            </Map3D>
-          </Map3DErrorBoundary>
-        </APIProvider>
-      </div>
-
-      {/* Real Google Maps Info Card over BRUT Bar */}
-      {isCardVisible && (
-        <div className="absolute top-4 left-4 z-30 w-[330px] sm:w-[360px] pointer-events-auto animate-fade-in font-sans">
-          <div className="bg-white/95 text-neutral-900 rounded-2xl shadow-2xl border border-neutral-200/90 backdrop-blur-md overflow-hidden">
-            
-            {/* Top Bar with Branding & Close */}
-            <div className="px-4 pt-3.5 pb-2 flex items-start justify-between border-b border-neutral-100">
-              <div>
-                <div className="flex items-center space-x-1.5">
-                  <span className="text-lg">🍾</span>
-                  <h3 className="font-bold text-[17px] text-neutral-900 tracking-tight leading-tight">
-                    BRUT bar
-                  </h3>
-                  <span className="bg-[#A84452]/12 text-[#A84452] text-[10px] font-semibold px-2 py-0.5 rounded-full">
-                    San Telmo
-                  </span>
-                </div>
-                <p className="text-[12px] text-[#A84452] font-medium mt-0.5">
-                  Casa de vinos espumantes argentinos
-                </p>
+          <div className="min-w-0">
+            <h3 className="text-[19px] sm:text-[21px] font-medium text-[#202124] tracking-[-0.01em] leading-tight truncate">
+              BRUT bar
+            </h3>
+            <div className="mt-1 flex items-center flex-wrap gap-x-1.5 gap-y-0.5 text-[13px] sm:text-[14px]">
+              <span className="font-medium text-[#202124]">5.0</span>
+              <div className="flex items-center gap-0.5 text-[#FBBC04]" aria-label="5.0 out of 5 stars">
+                {[0, 1, 2, 3, 4].map((idx) => (
+                  <Star key={idx} className="w-3.5 h-3.5 fill-[#FBBC04] text-[#FBBC04]" />
+                ))}
               </div>
-
-              <button
-                onClick={() => setIsCardVisible(false)}
-                className="text-neutral-400 hover:text-neutral-700 p-1.5 rounded-full hover:bg-neutral-100 transition-colors"
-                title="Cerrar tarjeta"
-                aria-label="Cerrar tarjeta"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Official Google Maps Rating & Categories */}
-            <div className="px-4 py-2.5 bg-neutral-50/70 border-b border-neutral-100">
-              <div className="flex items-center space-x-2 text-[13px]">
-                <div className="flex items-center space-x-1 text-amber-500 font-bold">
-                  <span className="text-neutral-900 font-bold">5.0</span>
-                  <div className="flex text-amber-400 text-xs">
-                    ★★★★★
-                  </div>
-                </div>
-                <span className="text-neutral-400">•</span>
-                <span className="text-neutral-600 text-xs">
-                  (64 reseñas en Google Maps)
-                </span>
-              </div>
-              <p className="text-[11px] text-neutral-500 mt-1">
-                Bar de vinos espumantes • Bar de copas • Brunch
-              </p>
-            </div>
-
-            {/* Address & Direct Details */}
-            <div className="px-4 py-3 space-y-2 text-xs text-neutral-700">
-              {/* Address */}
-              <div className="flex items-start space-x-2">
-                <span className="text-neutral-400 text-sm shrink-0">📍</span>
-                <div className="leading-snug">
-                  <span className="font-medium text-neutral-900">Av. Independencia 320</span>
-                  <span className="text-neutral-500 block text-[11px]">C1099AAQ San Telmo, Buenos Aires</span>
-                </div>
-              </div>
-
-              {/* Verified Opening Hours from Google Maps */}
-              <div className="pt-1">
-                <div 
-                  className="flex items-center justify-between cursor-pointer hover:bg-neutral-100/70 p-1.5 rounded-lg -mx-1.5 transition-colors"
-                  onClick={() => setShowFullSchedule(!showFullSchedule)}
-                >
-                  <div className="flex items-center space-x-2">
-                    <span className="text-neutral-400 text-sm shrink-0">🕒</span>
-                    <span className={`font-semibold text-xs ${isOpenNow ? 'text-emerald-700' : 'text-amber-800'}`}>
-                      {isOpenNow ? 'Abierto ahora' : 'Cerrado ahora'}
-                    </span>
-                    <span className="text-neutral-400 text-[11px]">•</span>
-                    <span className="text-neutral-600 text-[11px]">
-                      {showFullSchedule ? 'Ocultar horarios' : 'Ver todos los horarios'}
-                    </span>
-                  </div>
-                  <span className="text-neutral-400 text-xs">
-                    {showFullSchedule ? '▲' : '▼'}
-                  </span>
-                </div>
-
-                {/* Full verified Google Maps weekly schedule */}
-                {showFullSchedule ? (
-                  <div className="mt-2 pl-6 pr-2 py-2 bg-neutral-100/80 rounded-xl space-y-1 text-[11px] text-neutral-600 font-mono">
-                    {SCHEDULE_DATA.map((item, idx) => (
-                      <div key={idx} className="flex justify-between items-center py-0.5">
-                        <span className="font-sans font-medium text-neutral-800">{item.day[lang]}</span>
-                        <span className={item.isClosed ? 'text-rose-600 font-medium' : 'text-neutral-700'}>
-                          {item.hours}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="pl-6 text-[11px] text-neutral-500 leading-tight">
-                    Mié 15–22 • Jue–Vie 15–00 • Sáb 14–00 • Dom 14–21
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Official Google Maps Actions */}
-            <div className="p-3 bg-neutral-50/90 border-t border-neutral-100 flex items-center gap-2">
               <a
                 href={BAR_DATA.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 px-3.5 py-2 rounded-xl bg-[#1a73e8] hover:bg-[#1557b0] text-white font-semibold text-xs transition-all flex items-center justify-center space-x-1.5 shadow-sm active:scale-95"
+                className="text-[#5F6368] hover:text-[#1A73E8] hover:underline transition-colors"
               >
-                <Navigation className="w-3.5 h-3.5 fill-current" />
-                <span>{t.locationDirections}</span>
+                ({c.reviews})
               </a>
-
-              <a
-                href={BAR_DATA.googleMapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-2 rounded-xl bg-neutral-200/70 hover:bg-neutral-200 text-neutral-700 font-medium text-xs transition-colors flex items-center space-x-1"
-                title="Abrir en Google Maps"
-              >
-                <ExternalLink className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Google Maps</span>
-              </a>
-
-              <button
-                onClick={() => {
-                  if (navigator.share) {
-                    navigator.share({ title: 'BRUT bar', url: BAR_DATA.googleMapsUrl }).catch(() => {});
-                  } else {
-                    navigator.clipboard.writeText(BAR_DATA.googleMapsUrl);
-                  }
-                }}
-                className="p-2 rounded-xl bg-neutral-200/70 hover:bg-neutral-200 text-neutral-700 transition-colors"
-                title="Compartir enlace de Google Maps"
-              >
-                <Share2 className="w-4 h-4" />
-              </button>
             </div>
-
           </div>
         </div>
-      )}
 
-      {/* Subtle Bottom Legend Bar */}
-      <div className="absolute bottom-3 right-4 z-20 pointer-events-none hidden sm:flex items-center space-x-2 text-[11px] font-mono text-[#2B2B2D] bg-[#FBF7F1]/90 px-3 py-1.5 rounded-full backdrop-blur-md border border-[#2B2B2D]/12 shadow-sm">
-        <span className="w-2 h-2 rounded-full bg-[#EA4335]" />
-        <span>Pines rojos: Puntos de interés en San Telmo (clic para abrir en Google Maps)</span>
+        {/* Right: Single Authentic Google Maps Action Button */}
+        <a
+          href={BAR_DATA.googleMapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#1A73E8] hover:bg-[#1557B0] text-white font-medium text-[13px] sm:text-[14px] transition-colors shadow-xs whitespace-nowrap shrink-0"
+        >
+          <span>{c.openMaps}</span>
+          <ExternalLink className="w-3.5 h-3.5" />
+        </a>
+      </div>
+
+      {/* Unobstructed 3D Google Map Container */}
+      <div className="relative w-full rounded-[32px] overflow-hidden border border-[#2B2B2D]/15 shadow-lg bg-[#EDE2D4] min-h-[540px] lg:min-h-[640px]">
+        
+        {/* Container with explicit dimensions for Google Maps */}
+        <div 
+          className="w-full relative" 
+          style={{ width: '100%', height: '640px', minHeight: '540px', backgroundColor: '#EDE2D4' }}
+        >
+          <APIProvider 
+            apiKey={apiKey} 
+            version="beta"
+            language={lang.toLowerCase()}
+            onLoad={() => setIsLoaded(true)}
+          >
+            {/* Loading indicator */}
+            {!isLoaded && (
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#EDE2D4] text-[#A84452] space-y-3">
+                <Loader2 className="w-8 h-8 animate-spin" />
+                <span className="text-xs uppercase tracking-widest font-mono">
+                  {c.loading3d}
+                </span>
+              </div>
+            )}
+
+            <Map3DErrorBoundary fallback={fallback25DMap}>
+              {/* Photorealistic 3D Maps Component with street-level perspective along Av. Independencia */}
+              <Map3D
+                internalUsageAttributionIds={['gmp_mcp_codeassist_v1_aistudio']}
+                mode="SATELLITE"
+                defaultCenter={{ lat: -34.6172888, lng: -58.3702081, altitude: 12 }}
+                defaultRange={210}
+                defaultTilt={67}
+                defaultHeading={292}
+                defaultRoll={0}
+                style={{ width: '100%', height: '100%' }}
+              >
+                {/* Epicenter Marker: BRUT bar at exact Av. Independencia 320 rooftop */}
+                <Marker3D
+                  position={{ lat: -34.6172888, lng: -58.3702081, altitude: 15 }}
+                  altitudeMode={AltitudeMode.RELATIVE_TO_GROUND}
+                  extruded
+                  onClick={scrollToPlaceCard}
+                >
+                  <Pin
+                    background={'#A84452'}
+                    borderColor={'#F6EFE6'}
+                    glyphColor={'#FBF7F1'}
+                    scale={1.35}
+                  >
+                    <span style={{ fontSize: '14px', lineHeight: 1 }}>🍾</span>
+                  </Pin>
+                </Marker3D>
+
+                {/* Surrounding Landmarks: Standard Google Maps Red Pins */}
+                {otherLandmarks.map((lm) => (
+                  <Marker3D
+                    key={lm.id}
+                    position={{ lat: lm.lat, lng: lm.lng, altitude: 15 }}
+                    altitudeMode={AltitudeMode.RELATIVE_TO_GROUND}
+                    extruded
+                  >
+                    <Pin
+                      background={'#EA4335'}
+                      borderColor={'#B31412'}
+                      glyphColor={'#FFFFFF'}
+                      scale={1.15}
+                    />
+                  </Marker3D>
+                ))}
+              </Map3D>
+            </Map3DErrorBoundary>
+          </APIProvider>
+        </div>
+
+        {/* Subtle Bottom Legend Bar */}
+        <div className="absolute bottom-3 right-4 z-20 pointer-events-none hidden sm:flex items-center space-x-2 text-[11px] font-mono text-[#2B2B2D] bg-[#FBF7F1]/90 px-3 py-1.5 rounded-full backdrop-blur-md border border-[#2B2B2D]/12 shadow-sm">
+          <span className="w-2 h-2 rounded-full bg-[#EA4335]" />
+          <span>{c.legend}</span>
+        </div>
+
       </div>
 
     </div>

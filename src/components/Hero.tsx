@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BAR_DATA, INTERIOR_PHOTOS, getWhatsAppReservationUrl } from '../data/barInfo';
 import { ContentTranslation, Language } from '../data/translations';
-import { MessageCircle, Instagram, Navigation, Copy, Check, ChevronLeft, ChevronRight } from 'lucide-react';
+import { MessageCircle, Navigation, Copy, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { WineBottleCarousel } from './WineBottleCarousel';
 import { WorkingHoursWidget } from './WorkingHoursWidget';
@@ -12,14 +12,109 @@ interface HeroProps {
   onNavigate?: (page: 'home' | 'sommelier' | 'events') => void;
 }
 
+interface HeroSlide {
+  id: string;
+  url: string;
+  alt: string;
+  imageClassName?: string;
+  promo?: {
+    targetPage: 'events' | 'sommelier';
+    eyebrow: Record<Language, string>;
+    title: Record<Language, string>;
+    subtitle?: Record<Language, string>;
+    ctaLabel: Record<Language, string>;
+  };
+}
+
+const buildHeroSlides = (): HeroSlide[] => {
+  const photos = INTERIOR_PHOTOS;
+  const eventsPromo: HeroSlide = {
+    id: 'promo-events',
+    url: '/images/Eventos.png',
+    alt: 'Eventos y cumpleaños en BRUT bar',
+    imageClassName: 'object-center',
+    promo: {
+      targetPage: 'events',
+      eyebrow: {
+        RU: 'Частные события · Чёрный зал',
+        ES: 'Eventos Privados · Salón Negro',
+        PT: 'Eventos Privados · Salão Preto',
+        EN: 'Private Events · Black Hall',
+      },
+      title: {
+        RU: 'Мероприятия и дни рождения',
+        ES: 'Eventos y cumpleaños',
+        PT: 'Eventos e aniversários',
+        EN: 'Events & Birthdays',
+      },
+      ctaLabel: {
+        RU: 'Узнать цену',
+        ES: 'Ver precios',
+        PT: 'Ver preços',
+        EN: 'See pricing',
+      },
+    },
+  };
+
+  const sommelierPromo: HeroSlide = {
+    id: 'promo-sommelier',
+    url: '/images/Polina.png',
+    alt: 'Polina Schteiner — Degustaciones de vinos espumantes',
+    imageClassName: 'object-[50%_26%]',
+    promo: {
+      targetPage: 'sommelier',
+      eyebrow: {
+        RU: 'Шеф-сомелье · Полина Штайнер',
+        ES: 'Head Sommelier · Polina Schteiner',
+        PT: 'Head Sommelier · Polina Schteiner',
+        EN: 'Head Sommelier · Polina Schteiner',
+      },
+      title: {
+        RU: 'Дегустации игристых вин',
+        ES: 'Degustaciones de espumantes',
+        PT: 'Degustações de espumantes',
+        EN: 'Sparkling Wine Tastings',
+      },
+      subtitle: {
+        RU: 'Авторские сеты и истории виноделен Аргентины',
+        ES: 'Selecciones de autor e historias de bodegas argentinas',
+        PT: 'Seleções autorais e histórias de vinícolas argentinas',
+        EN: 'Curated flights & stories from Argentine wineries',
+      },
+      ctaLabel: {
+        RU: 'Узнать подробнее',
+        ES: 'Ver degustaciones',
+        PT: 'Ver degustações',
+        EN: 'Explore tastings',
+      },
+    },
+  };
+
+  // Interleave regular photos and active promo cards (keeping Brunch 1st and Gin Tonic 4th)
+  const ordered: HeroSlide[] = [];
+  if (photos[0]) ordered.push(photos[0]); // 1. Brunch 01
+  ordered.push(eventsPromo);              // 2. Events & Birthdays (Active Promo)
+  if (photos[1]) ordered.push(photos[1]); // 3. Interior 001
+  if (photos[3]) ordered.push(photos[3]); // 4. Gin Tonic
+  ordered.push(sommelierPromo);           // 5. Polina & Tastings (Active Promo)
+  if (photos[2]) ordered.push(photos[2]); // 6. Interior 002
+  if (photos[4]) ordered.push(photos[4]); // 7. Interior 003
+  if (photos[5]) ordered.push(photos[5]); // 8. Interior 004
+  if (photos[6]) ordered.push(photos[6]); // 9. Interior 005
+  return ordered;
+};
+
+const HERO_SLIDES = buildHeroSlides();
+
 export const Hero: React.FC<HeroProps> = ({ t, lang, onNavigate }) => {
   const [copied, setCopied] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showTitle, setShowTitle] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
-  // Fade out title after 5 seconds
+  // Fade out mobile intro title after 5 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowTitle(false);
@@ -27,12 +122,33 @@ export const Hero: React.FC<HeroProps> = ({ t, lang, onNavigate }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + INTERIOR_PHOTOS.length) % INTERIOR_PHOTOS.length);
+  // Auto-rotate carousel slides smoothly (pauses on hover/focus)
+  useEffect(() => {
+    if (isPaused) return;
+    const delay = currentSlide === 0 && showTitle ? 5500 : 5200;
+    const timer = setTimeout(() => {
+      setShowTitle(false);
+      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [currentSlide, isPaused, showTitle]);
+
+  const prevSlide = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setShowTitle(false);
+    setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
   };
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % INTERIOR_PHOTOS.length);
+  const nextSlide = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setShowTitle(false);
+    setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+  };
+
+  const goToSlide = (index: number, e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setShowTitle(false);
+    setCurrentSlide(index);
   };
 
   const onTouchStartHandler = (e: React.TouchEvent) => {
@@ -61,127 +177,219 @@ export const Hero: React.FC<HeroProps> = ({ t, lang, onNavigate }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const activeSlide = HERO_SLIDES[currentSlide];
+
   return (
-    <section id="hero" className="relative min-h-[85vh] flex flex-col justify-between pt-0 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto rounded-b-[40px] overflow-hidden bg-[#F6EFE6]">
-      {/* Photo Carousel: Vertical 4:3 (3:4) on mobile/tablet, wide on desktop */}
-      <div 
-        className="relative mt-0 mb-6 sm:mb-8 -mx-4 sm:-mx-6 lg:-mx-8 aspect-[3/4] sm:aspect-[3/4] md:aspect-[4/5] lg:aspect-[4/3] lg:max-h-[75vh] w-[calc(100%+2rem)] sm:w-[calc(100%+3rem)] lg:w-[calc(100%+4rem)] overflow-hidden border-b border-[#2B2B2D]/12 select-none group"
-        onTouchStart={onTouchStartHandler}
-        onTouchMove={onTouchMoveHandler}
-        onTouchEnd={onTouchEndHandler}
-      >
-        {/* Active Photo with smooth fade transition */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentSlide}
-            initial={{ opacity: 0, scale: 1.02 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="absolute inset-0 w-full h-full"
+    <section id="hero" className="relative flex flex-col justify-between pt-5 sm:pt-7 lg:pt-10 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-[#F6EFE6]">
+      {/* Hero Top Block: Mobile vertical 3:4 carousel with fading overlay; Desktop split layout (3:4 carousel left, persistent editorial headline right) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-center mb-6 sm:mb-8 lg:mb-10">
+        
+        {/* Left Column: Framed 3:4 Vertical Photo & Active Promo Carousel */}
+        <div className="lg:col-span-5 xl:col-span-5 flex justify-center lg:justify-start">
+          <div 
+            className="relative w-full max-w-[480px] lg:max-w-none aspect-[3/4] rounded-[28px] sm:rounded-[36px] overflow-hidden border border-[#2B2B2D]/12 shadow-[0_20px_50px_rgba(43,43,45,0.12)] bg-[#2B2B2D] select-none group"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onTouchStart={onTouchStartHandler}
+            onTouchMove={onTouchMoveHandler}
+            onTouchEnd={onTouchEndHandler}
           >
-            <img
-              src={encodeURI(INTERIOR_PHOTOS[currentSlide].url)}
-              alt={INTERIOR_PHOTOS[currentSlide].alt}
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-center brightness-[0.94] contrast-[1.03]"
-            />
-          </motion.div>
-        </AnimatePresence>
+            {/* Active Slide (Regular Photo or Interactive Promo Card) */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeSlide.id}
+                initial={{ opacity: 0, scale: 1.02 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
+                className="absolute inset-0 w-full h-full"
+              >
+                <img
+                  src={encodeURI(activeSlide.url)}
+                  alt={activeSlide.alt}
+                  referrerPolicy="no-referrer"
+                  className={`w-full h-full object-cover ${activeSlide.imageClassName || 'object-center'} brightness-[0.95] contrast-[1.03] transition-transform duration-700 ${activeSlide.promo ? 'group-hover:scale-[1.03]' : ''}`}
+                />
 
-        {/* Dynamic Overlay: Darker when title is visible, then dissolves to subtle vignette */}
-        <AnimatePresence>
-          {showTitle ? (
-            <motion.div
-              key="overlay-title"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 1.2 } }}
-              className="absolute inset-0 bg-black/45 pointer-events-none z-10"
-            />
-          ) : (
-            <motion.div
-              key="overlay-clear"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-              className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/15 pointer-events-none z-10"
-            />
-          )}
-        </AnimatePresence>
+                {/* Active Promo Card Overlay (Events & Birthdays / Polina Tastings) */}
+                {activeSlide.promo && (
+                  <div
+                    onClick={() => onNavigate && onNavigate(activeSlide.promo!.targetPage)}
+                    className="absolute inset-0 z-20 flex flex-col justify-end items-center text-center px-6 sm:px-8 pb-12 sm:pb-14 pt-16 bg-gradient-to-t from-black/88 via-black/45 to-black/10 cursor-pointer"
+                  >
+                    <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.24em] text-[#F4C7CE] font-sans-clean font-semibold mb-2.5 drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]">
+                      {activeSlide.promo.eyebrow[lang]}
+                    </span>
 
-        {/* Large Multi-line Centered Title (hangs for 5s then fades away) */}
-        <AnimatePresence>
-          {showTitle && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, transition: { duration: 1.2, ease: 'easeInOut' } }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-              className="absolute inset-0 flex flex-col items-center justify-center p-4 sm:p-6 text-center z-20 pointer-events-none"
+                    <h2 className="font-editorial text-3xl sm:text-4xl text-[#FAF5EE] tracking-tight leading-[1.02] max-w-sm text-balance drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)]">
+                      {activeSlide.promo.title[lang]}
+                    </h2>
+
+                    {activeSlide.promo.subtitle && (
+                      <p className="mt-2 text-xs sm:text-[13px] text-[#FAF5EE]/85 font-sans-clean max-w-xs leading-snug drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+                        {activeSlide.promo.subtitle[lang]}
+                      </p>
+                    )}
+
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onNavigate && onNavigate(activeSlide.promo!.targetPage);
+                      }}
+                      className="mt-5 inline-flex items-center space-x-2 px-5 py-2.5 rounded-full bg-[#FBF7F1]/95 hover:bg-[#A84452] text-[#2B2B2D] hover:text-[#FBF7F1] text-[11px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-lg cursor-pointer whitespace-nowrap group/cta"
+                    >
+                      <span>{activeSlide.promo.ctaLabel[lang]}</span>
+                      <span className="font-mono group-hover/cta:translate-x-0.5 transition-transform">→</span>
+                    </button>
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Mobile-only Dynamic Overlay: Darker while mobile intro title is visible on Slide 1 */}
+            <AnimatePresence>
+              {showTitle && !activeSlide.promo && (
+                <motion.div
+                  key="overlay-title-mobile"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, transition: { duration: 1.2 } }}
+                  className="lg:hidden absolute inset-0 bg-black/45 pointer-events-none z-10"
+                />
+              )}
+            </AnimatePresence>
+
+            {/* Subtle persistent vignette for crisp pagination dots & arrows */}
+            {!activeSlide.promo && (
+              <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/15 pointer-events-none z-10" />
+            )}
+
+            {/* Mobile-only Overlaid Title (hangs for 5s on first slide then fades away; desktop displays persistent title on the right) */}
+            <AnimatePresence>
+              {showTitle && !activeSlide.promo && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, transition: { duration: 1.2, ease: 'easeInOut' } }}
+                  transition={{ duration: 0.8, ease: 'easeOut' }}
+                  className="lg:hidden absolute inset-0 flex flex-col items-center justify-center p-6 sm:p-8 text-center z-20 pointer-events-none"
+                >
+                  <div className="font-editorial text-5xl sm:text-6xl text-[#FAF5EE] tracking-tight leading-[0.93] max-w-md drop-shadow-[0_6px_28px_rgba(0,0,0,0.85)] select-none">
+                    La casa<br />
+                    de los vinos<br />
+                    espumantes<br />
+                    argentinos
+                  </div>
+
+                  <p className="mt-5 text-[11px] sm:text-xs uppercase tracking-[0.24em] text-[#F4C7CE] font-sans-clean font-semibold drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+                    {lang === 'RU'
+                      ? 'БРАНЧИ · КОКТЕЙЛИ · ВИНА · КУХНЯ'
+                      : lang === 'PT'
+                        ? 'BRUNCH · COQUETÉIS · VINHOS · COMIDA'
+                        : lang === 'EN'
+                          ? 'BRUNCH · COCKTAILS · WINES · CUISINE'
+                          : 'BRUNCH · CÓCTELES · VINOS · COMIDA'}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Left Arrow: pure minimalist chevron */}
+            <button
+              type="button"
+              onClick={prevSlide}
+              className="absolute left-2 sm:left-3.5 top-1/2 -translate-y-1/2 p-2 text-white/85 hover:text-[#F4C7CE] active:text-white transition-all cursor-pointer z-30 hover:scale-110 active:scale-95 drop-shadow-[0_2px_10px_rgba(0,0,0,0.75)]"
+              aria-label="Previous slide"
             >
-              <h1 className="font-editorial text-5xl sm:text-7xl md:text-8xl lg:text-[112px] xl:text-[124px] text-[#FAF5EE] tracking-tight leading-[0.92] sm:leading-[0.95] max-w-5xl drop-shadow-[0_6px_28px_rgba(0,0,0,0.85)] select-none">
-                La casa<br />
-                de los vinos<br />
-                espumantes<br />
-                argentinos
-              </h1>
+              <ChevronLeft className="w-8 h-8 sm:w-9 sm:h-9 stroke-[1.25] transition-transform hover:-translate-x-1" />
+            </button>
 
-              {/* Subtitle in clean secondary font */}
-              <p className="mt-4 sm:mt-6 md:mt-8 text-xs sm:text-sm md:text-base uppercase tracking-[0.25em] sm:tracking-[0.35em] text-[#F4C7CE] font-sans-clean font-semibold drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
-                COMIDA \ COCTELES \ VINOS
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            {/* Right Arrow: pure minimalist chevron */}
+            <button
+              type="button"
+              onClick={nextSlide}
+              className="absolute right-2 sm:right-3.5 top-1/2 -translate-y-1/2 p-2 text-white/85 hover:text-[#F4C7CE] active:text-white transition-all cursor-pointer z-30 hover:scale-110 active:scale-95 drop-shadow-[0_2px_10px_rgba(0,0,0,0.75)]"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="w-8 h-8 sm:w-9 sm:h-9 stroke-[1.25] transition-transform hover:translate-x-1" />
+            </button>
 
-        {/* Left Arrow: pure minimalist "уголок" without circle background */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-2 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 p-2 text-white/85 hover:text-[#F4C7CE] active:text-white transition-all cursor-pointer z-20 hover:scale-110 active:scale-95 drop-shadow-[0_2px_10px_rgba(0,0,0,0.75)]"
-          aria-label="Previous slide"
-        >
-          <ChevronLeft className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 stroke-[1.25] transition-transform hover:-translate-x-1" />
-        </button>
-
-        {/* Right Arrow: pure minimalist "уголок" without circle background */}
-        <button
-          onClick={nextSlide}
-          className="absolute right-2 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 p-2 text-white/85 hover:text-[#F4C7CE] active:text-white transition-all cursor-pointer z-20 hover:scale-110 active:scale-95 drop-shadow-[0_2px_10px_rgba(0,0,0,0.75)]"
-          aria-label="Next slide"
-        >
-          <ChevronRight className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 stroke-[1.25] transition-transform hover:translate-x-1" />
-        </button>
-
-        {/* Bottom Pagination Dots: floating directly over image with no background container */}
-        <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center space-x-2.5 z-20">
-          {INTERIOR_PHOTOS.map((photo, index) => {
-            const isActive = index === currentSlide;
-            return (
-              <button
-                key={photo.id}
-                onClick={() => setCurrentSlide(index)}
-                className={`transition-all duration-300 cursor-pointer drop-shadow-[0_1px_4px_rgba(0,0,0,0.7)] ${
-                  isActive
-                    ? 'w-6 sm:w-7 h-1.5 sm:h-2 rounded-full bg-[#F4C7CE] shadow-sm shadow-[#F4C7CE]/50'
-                    : 'w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-white/55 hover:bg-white/95'
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            );
-          })}
+            {/* Bottom Pagination Dots */}
+            <div className="absolute bottom-4 sm:bottom-5 left-1/2 -translate-x-1/2 flex items-center space-x-2 z-30">
+              {HERO_SLIDES.map((slide, index) => {
+                const isActive = index === currentSlide;
+                return (
+                  <button
+                    key={slide.id}
+                    type="button"
+                    onClick={(e) => goToSlide(index, e)}
+                    className={`transition-all duration-300 cursor-pointer drop-shadow-[0_1px_4px_rgba(0,0,0,0.7)] ${
+                      isActive
+                        ? 'w-6 sm:w-7 h-1.5 sm:h-2 rounded-full bg-[#F4C7CE] shadow-sm shadow-[#F4C7CE]/50'
+                        : 'w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-white/55 hover:bg-white/95'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                );
+              })}
+            </div>
+          </div>
         </div>
+
+        {/* Right Column (Desktop Persistent Editorial Headline & Subtitle) */}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+          className="hidden lg:flex lg:col-span-7 xl:col-span-7 flex-col items-start justify-center text-left pl-2 xl:pl-6"
+        >
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="h-[1px] w-10 bg-[#A84452]" />
+            <span className="text-xs uppercase tracking-[0.28em] text-[#A84452] font-semibold font-sans-clean">
+              San Telmo · Buenos Aires
+            </span>
+          </div>
+
+          <h1 className="font-editorial text-[68px] xl:text-[84px] text-[#2B2B2D] tracking-tight leading-[0.94] select-none">
+            La casa<br />
+            de los vinos<br />
+            espumantes<br />
+            argentinos
+          </h1>
+
+          <div className="mt-8 pt-6 border-t border-[#2B2B2D]/12 w-full max-w-lg space-y-3">
+            <p className="text-xs xl:text-[13px] uppercase tracking-[0.26em] text-[#A84452] font-sans-clean font-semibold">
+              {lang === 'RU'
+                ? 'БРАНЧИ · КОКТЕЙЛИ · ВИНА · КУХНЯ'
+                : lang === 'PT'
+                  ? 'BRUNCH · COQUETÉIS · VINHOS · GASTRONOMIA'
+                  : lang === 'EN'
+                    ? 'BRUNCH · COCKTAILS · WINES · CUISINE'
+                    : 'BRUNCH · CÓCTELES · VINOS · COMIDA'}
+            </p>
+            <p className="text-base xl:text-[17px] text-[#4E4C4F] font-sans-clean leading-relaxed">
+              {lang === 'RU'
+                ? 'Более 40 аргентинских игристых вин, авторские бранчи, классические коктейли и гастрономия в самом сердце Сан-Тельмо.'
+                : lang === 'PT'
+                  ? 'Mais de 40 rótulos de espumantes argentinos, brunch autoral, coquetelaria clássica e gastronomia no coração de San Telmo.'
+                  : lang === 'EN'
+                    ? 'Over 40 Argentine sparkling wines, signature brunch, classic cocktails, and kitchen pairings in the heart of San Telmo.'
+                    : 'Más de 40 etiquetas de espumantes argentinos, brunch de autor, coctelería clásica y cocina de estación en el corazón de San Telmo.'}
+            </p>
+          </div>
+        </motion.div>
 
       </div>
 
-      {/* Action Buttons: Unified Minimalist Grid (Reserva, Dirección, Instagram, Horarios) */}
+      {/* Action Buttons: Unified Minimalist 3-Item Grid (Reserva, Dirección, Horarios) */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.4 }}
         className="pt-6 border-t border-[#2B2B2D]/10 relative z-10"
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-2.5 sm:gap-3 items-start">
           
           {/* 1. Reserva por WhatsApp */}
           <a
@@ -244,69 +452,82 @@ export const Hero: React.FC<HeroProps> = ({ t, lang, onNavigate }) => {
           {/* 3. Horarios de atención */}
           <WorkingHoursWidget lang={lang} variant="card" />
 
-          {/* 4. Instagram */}
-          <a
-            href={BAR_DATA.instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-between gap-3 px-4 py-2.5 sm:py-3 rounded-2xl bg-[#FBF7F1] border border-[#2B2B2D]/10 hover:border-[#A84452]/45 hover:bg-[#FFFFFF] transition-all duration-300 shadow-sm group cursor-pointer"
-          >
-            <div className="flex items-center space-x-2.5 min-w-0">
-              <Instagram className="w-4 h-4 text-[#A84452] shrink-0" />
-              <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#A84452] font-semibold shrink-0 font-sans-clean">
-                {t.heroInstagramLabel}:
-              </span>
-              <span className="font-editorial text-base sm:text-lg text-[#2B2B2D] tracking-wide truncate">
-                {BAR_DATA.instagramHandle}
-              </span>
-            </div>
-            <div className="flex items-center space-x-1 shrink-0 text-[#A84452]/70 group-hover:text-[#A84452] group-hover:translate-x-0.5 transition-all">
-              <span className="text-xs font-mono">→</span>
-            </div>
-          </a>
-
         </div>
-
-        {/* Sommelier Highlight Teaser Card */}
-        <div className="pt-2.5 sm:pt-3">
-          <div className="p-4 sm:p-4.5 rounded-2xl bg-[#FBF7F1] border border-[#A84452]/20 hover:border-[#A84452]/45 transition-all shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
-            <div className="flex items-center space-x-3.5 min-w-0">
-              <div className="w-10 h-10 rounded-full overflow-hidden border border-[#A84452]/35 shrink-0 shadow-sm bg-[#EFE5D8]">
-                <img 
-                  src="/images/Polina.png" 
-                  alt="Polina Schteiner" 
-                  className="w-full h-full object-cover object-top"
-                />
-              </div>
-              <div className="min-w-0">
-                <div className="text-[10px] uppercase font-mono tracking-widest text-[#A84452] font-semibold">
-                  {lang === 'RU' ? 'Шеф-сомелье' : lang === 'ES' ? 'Head Sommelier' : 'Sommelier'}
-                </div>
-                <div className="text-base sm:text-lg text-[#2B2B2D] font-editorial leading-tight">
-                  {lang === 'RU' ? 'Полина Штайнер' : 'Polina Schteiner'}
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={() => onNavigate && onNavigate('sommelier')}
-              className="w-full sm:w-auto px-4 py-2 rounded-full bg-[#A84452] hover:bg-[#8E3442] text-[#FBF7F1] font-semibold text-xs uppercase tracking-wider transition-all shadow-sm shrink-0 cursor-pointer text-center whitespace-nowrap"
-            >
-              {lang === 'RU'
-                ? 'Узнать подробнее'
-                : lang === 'PT'
-                  ? 'Saiba mais'
-                  : lang === 'EN'
-                    ? 'Learn more'
-                    : 'Ver más'}{' '}
-              →
-            </button>
-          </div>
-        </div>
-
       </motion.div>
 
       {/* Wine Bottle Carousel (Directly after action buttons) */}
       <WineBottleCarousel lang={lang} />
+
+      {/* Editorial Sommelier Spotlight (Below Wine Carousel): Large Circle Portrait with Short Magazine Quote */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
+        className="mt-14 sm:mt-20 pt-12 sm:pt-16 border-t border-[#2B2B2D]/10 flex flex-col items-center text-center"
+      >
+        <div className="flex items-center space-x-3 mb-6 sm:mb-8">
+          <div className="h-[1px] w-8 sm:w-10 bg-[#A84452]" />
+          <span className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#A84452] font-semibold font-sans-clean">
+            {lang === 'RU' ? 'Шеф-сомелье' : lang === 'ES' ? 'Head Sommelier' : lang === 'PT' ? 'Head Sommelier' : 'Head Sommelier'}
+          </span>
+          <div className="h-[1px] w-8 sm:w-10 bg-[#A84452]" />
+        </div>
+
+        <button
+          type="button"
+          onClick={() => onNavigate && onNavigate('sommelier')}
+          className="group relative flex flex-col items-center cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#A84452] rounded-full"
+          aria-label={lang === 'RU' ? 'Полина Штайнер — Шеф-сомелье' : 'Polina Schteiner — Head Sommelier'}
+        >
+          {/* Large Circular Portrait Frame */}
+          <div className="relative w-72 h-72 sm:w-88 sm:h-88 md:w-[400px] md:h-[400px] rounded-full overflow-hidden border border-[#A84452]/25 shadow-[0_24px_60px_rgba(43,43,45,0.16)] bg-[#EDE2D4]">
+            <img
+              src="/images/Polina.png"
+              alt="Polina Schteiner"
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover object-[50%_40%] origin-[61%_33%] scale-[1.85] transition-transform duration-700 ease-out group-hover:scale-[1.93]"
+            />
+
+            {/* Measured Magazine Scrim at lower portion for crisp quote legibility */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+
+            {/* Overlaid Short Magazine Quote */}
+            <div className="absolute inset-x-0 bottom-0 px-7 sm:px-10 pb-8 sm:pb-11 pt-10 flex flex-col items-center justify-end text-center">
+              <blockquote className="font-editorial italic text-xl sm:text-2xl md:text-[28px] text-[#FAF5EE] leading-[1.15] tracking-tight text-balance drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+                {lang === 'RU'
+                  ? '«Вино — самое честное послание сквозь время»'
+                  : lang === 'ES'
+                    ? '«El vino es el mensaje más honesto a través del tiempo»'
+                    : lang === 'PT'
+                      ? '«O vinho é a mensagem mais honesta através do tempo»'
+                      : '“Wine is the most honest message across time”'}
+              </blockquote>
+              <span className="mt-2.5 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#F4C7CE] font-sans-clean font-semibold drop-shadow-[0_1px_6px_rgba(0,0,0,0.85)]">
+                {lang === 'RU' ? 'Полина Штайнер' : 'Polina Schteiner'}
+              </span>
+            </div>
+          </div>
+        </button>
+
+        {/* Subtle editorial action link below circle */}
+        <button
+          type="button"
+          onClick={() => onNavigate && onNavigate('sommelier')}
+          className="mt-6 inline-flex items-center space-x-2 text-xs uppercase tracking-[0.2em] text-[#2B2B2D] hover:text-[#A84452] font-semibold transition-colors cursor-pointer group"
+        >
+          <span>
+            {lang === 'RU'
+              ? 'Узнать подробнее'
+              : lang === 'PT'
+                ? 'Saiba mais'
+                : lang === 'EN'
+                  ? 'Learn more'
+                  : 'Ver más'}
+          </span>
+          <span className="font-mono text-[#A84452] group-hover:translate-x-1 transition-transform">→</span>
+        </button>
+      </motion.div>
 
     </section>
   );

@@ -2,17 +2,7 @@ import React, { useState } from 'react';
 import { Language } from '../data/translations';
 import { SOMMELIER_DATA } from '../data/sommelierData';
 import { getWhatsAppReservationUrl } from '../data/barInfo';
-import { 
-  ArrowLeft, 
-  MessageCircle, 
-  GraduationCap, 
-  Sparkles, 
-  Compass, 
-  BookOpen, 
-  Wine, 
-  Share2, 
-  Check 
-} from 'lucide-react';
+import { ArrowLeft, MessageCircle, GraduationCap, Share2, Check } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface SommelierPageProps {
@@ -21,16 +11,18 @@ interface SommelierPageProps {
 }
 
 export const SommelierPage: React.FC<SommelierPageProps> = ({ lang, onBackToHome }) => {
-  const sommelier = SOMMELIER_DATA[lang] || SOMMELIER_DATA['ES'];
+  const sommelier = SOMMELIER_DATA[lang] || SOMMELIER_DATA.ES;
   const [copiedLink, setCopiedLink] = useState(false);
   const [photoError, setPhotoError] = useState(false);
 
   const handleShare = () => {
     if (navigator.share) {
-      navigator.share({
-        title: `${sommelier.name} • ${sommelier.roleSubtitle}`,
-        url: window.location.href,
-      }).catch(() => {});
+      navigator
+        .share({
+          title: `${sommelier.name} · ${sommelier.roleSubtitle}`,
+          url: window.location.href,
+        })
+        .catch(() => {});
     } else {
       navigator.clipboard.writeText(window.location.href);
       setCopiedLink(true);
@@ -42,157 +34,138 @@ export const SommelierPage: React.FC<SommelierPageProps> = ({ lang, onBackToHome
 
   return (
     <article className="min-h-screen bg-[#F6EFE6] text-[#2B2B2D] font-sans-clean selection:bg-[#A84452] selection:text-[#FBF7F1] pb-24">
-      
       {/* Top Breadcrumb & Return Bar */}
       <div className="border-b border-[#2B2B2D]/10 bg-[#EDE2D4]/85 backdrop-blur-md sticky top-20 z-40 transition-all">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
           <button
+            type="button"
             onClick={onBackToHome}
-            className="inline-flex items-center space-x-2 text-xs uppercase tracking-widest text-[#A84452] hover:text-[#2B2B2D] transition-colors font-semibold group cursor-pointer"
+            className="inline-flex items-center space-x-2 text-xs uppercase tracking-widest text-[#A84452] hover:text-[#2B2B2D] transition-colors font-semibold group cursor-pointer whitespace-nowrap shrink-0"
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
             <span>{sommelier.backToHome}</span>
           </button>
 
           <button
+            type="button"
             onClick={handleShare}
-            className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-[#FBF7F1] border border-[#2B2B2D]/15 hover:border-[#A84452] text-[#2B2B2D] hover:text-[#A84452] text-xs transition-all cursor-pointer shadow-sm"
-            title="Compartir perfil"
+            className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-[#FBF7F1] border border-[#2B2B2D]/15 hover:border-[#A84452] text-[#2B2B2D] hover:text-[#A84452] text-xs transition-all cursor-pointer whitespace-nowrap shrink-0"
+            title="Share profile"
           >
-            {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Share2 className="w-3.5 h-3.5 text-[#A84452]" />}
+            {copiedLink ? (
+              <Check className="w-3.5 h-3.5 text-emerald-600" />
+            ) : (
+              <Share2 className="w-3.5 h-3.5 text-[#A84452]" />
+            )}
             <span className="font-mono text-[11px]">{copiedLink ? '✓' : 'Share'}</span>
           </button>
         </div>
       </div>
 
-      {/* Hero Header Section */}
-      <section className="pt-10 sm:pt-16 pb-12 sm:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      {/* Hero Section: Portrait, Name & Quote */}
+      <section className="pt-10 sm:pt-14 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          
-          {/* Left Column: Portrait Frame */}
+          {/* Portrait */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
             className="lg:col-span-5 flex justify-center"
           >
-            <div className="relative w-full max-w-md aspect-[3/4] rounded-[28px] overflow-hidden border border-[#2B2B2D]/12 shadow-xl bg-[#EDE2D4] group">
+            <div className="relative w-full max-w-md aspect-[3/4] rounded-[28px] overflow-hidden border border-[#2B2B2D]/12 shadow-lg bg-[#EDE2D4]">
               <img
                 src={photoError ? '/images/004.png' : '/images/Polina.png'}
-                alt={`${sommelier.name} • ${sommelier.roleSubtitle}`}
+                alt={`${sommelier.name} · ${sommelier.roleSubtitle}`}
                 referrerPolicy="no-referrer"
                 onError={() => setPhotoError(true)}
-                className="w-full h-full object-cover object-top filter brightness-[0.98] contrast-[1.02] group-hover:scale-103 transition-transform duration-700 ease-out"
+                className="w-full h-full object-cover object-top"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
 
-              {/* Bottom Badge inside portrait */}
-              <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-[#FBF7F1]/92 backdrop-blur-md border border-[#2B2B2D]/10 flex items-center justify-between shadow-md">
-                <div>
-                  <div className="text-[10px] uppercase font-mono tracking-widest text-[#A84452] font-semibold">
-                    {sommelier.pageTitleBadge}
-                  </div>
-                  <div className="font-editorial text-lg text-[#2B2B2D] leading-tight">
-                    {sommelier.name}
-                  </div>
+              <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-xl bg-[#FBF7F1]/92 backdrop-blur-md border border-[#2B2B2D]/10">
+                <div className="text-[11px] text-[#A84452] font-semibold">
+                  {sommelier.pageTitleBadge}
                 </div>
-                <div className="w-2.5 h-2.5 rounded-full bg-[#A84452]" />
+                <div className="font-editorial text-xl text-[#2B2B2D] leading-tight">
+                  {sommelier.name}
+                </div>
               </div>
             </div>
           </motion.div>
 
-          {/* Right Column: Name, Titles, Quote & Direct CTA */}
+          {/* Name, Roles & Quote */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
             className="lg:col-span-7 space-y-6"
           >
             <div>
               <div className="flex items-center space-x-3 mb-3">
                 <div className="h-[1px] w-12 bg-[#A84452]" />
-                <span className="text-xs uppercase tracking-widest text-[#A84452] font-semibold">
+                <span className="text-xs tracking-wide text-[#A84452] font-semibold">
                   {sommelier.pageTitleBadge}
                 </span>
               </div>
 
-              <h1 className="font-editorial text-5xl sm:text-6xl lg:text-7xl text-[#2B2B2D] tracking-tight leading-[0.95]">
+              <h1 className="font-editorial text-5xl sm:text-6xl lg:text-7xl text-[#2B2B2D] tracking-tight leading-[0.95] text-balance">
                 {sommelier.name}
               </h1>
 
-              {/* Roles tag list */}
-              <div className="flex flex-wrap items-center gap-2 mt-4 text-xs sm:text-sm text-[#A84452] font-sans-clean font-medium">
+              <div className="flex flex-wrap items-center gap-2 mt-4 text-xs sm:text-sm text-[#A84452] font-medium">
                 {sommelier.roles.map((role, idx) => (
                   <React.Fragment key={role}>
                     <span>{role}</span>
-                    {idx < sommelier.roles.length - 1 && <span className="text-[#2B2B2D]/30 font-mono">/</span>}
+                    {idx < sommelier.roles.length - 1 && (
+                      <span aria-hidden="true" className="text-[#2B2B2D]/30">
+                        ·
+                      </span>
+                    )}
                   </React.Fragment>
                 ))}
               </div>
             </div>
 
-            {/* Quote Callout */}
-            <div className="p-6 sm:p-7 rounded-2xl bg-[#FBF7F1] border border-[#A84452]/20 shadow-sm relative overflow-hidden">
-              <span className="font-editorial text-6xl text-[#A84452]/20 absolute -top-2 left-3 select-none pointer-events-none">
+            {/* Quote */}
+            <blockquote className="p-6 sm:p-8 rounded-2xl bg-[#FBF7F1] border border-[#2B2B2D]/10 relative overflow-hidden">
+              <span
+                aria-hidden="true"
+                className="font-editorial text-6xl text-[#A84452]/20 absolute -top-2 left-4 select-none pointer-events-none"
+              >
                 “
               </span>
               <p className="font-editorial text-lg sm:text-xl lg:text-2xl text-[#2B2B2D] leading-relaxed italic relative z-10">
                 {sommelier.quote}
               </p>
-            </div>
-
-            {/* Quick Action Button */}
-            <div className="pt-2 flex flex-wrap items-center gap-3">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center space-x-2.5 px-6 sm:px-8 py-3.5 rounded-full bg-[#A84452] hover:bg-[#8E3442] text-[#FBF7F1] font-semibold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-md shadow-[#A84452]/20 hover:scale-[1.02] active:scale-95 cursor-pointer"
-              >
-                <MessageCircle className="w-4 h-4 fill-current" />
-                <span>{sommelier.ctaButtonWhatsApp}</span>
-              </a>
-
-              <button
-                onClick={onBackToHome}
-                className="inline-flex items-center space-x-2 px-5 py-3.5 rounded-full bg-[#FBF7F1] hover:bg-[#EFE5D8] text-[#2B2B2D] border border-[#2B2B2D]/15 hover:border-[#A84452]/40 text-xs sm:text-sm transition-all cursor-pointer"
-              >
-                <span>{sommelier.backToHome}</span>
-              </button>
-            </div>
-
+            </blockquote>
           </motion.div>
-
         </div>
       </section>
 
-      {/* Main Content Grid: About & Academic Background */}
+      {/* About Me & Education */}
       <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-[#2B2B2D]/10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-          
-          {/* About Me Story */}
-          <div className="lg:col-span-7 space-y-6">
+          {/* About Me */}
+          <div className="lg:col-span-7 space-y-5">
             <div className="flex items-center space-x-3">
               <div className="h-[1px] w-8 bg-[#A84452]" />
-              <h2 className="text-xs uppercase tracking-widest text-[#A84452] font-semibold">
+              <h2 className="text-xs tracking-widest uppercase text-[#A84452] font-semibold">
                 {sommelier.aboutTitle}
               </h2>
             </div>
 
-            <div className="space-y-4 text-sm sm:text-base text-[#4E4C4F] leading-relaxed font-normal font-sans-clean">
+            <div className="space-y-4 text-sm sm:text-base text-[#4E4C4F] leading-relaxed">
               {sommelier.aboutParagraphs.map((paragraph, index) => (
-                <p key={index} className="leading-relaxed">
-                  {paragraph}
-                </p>
+                <p key={index}>{paragraph}</p>
               ))}
             </div>
           </div>
 
-          {/* Academic Background / Credentials */}
+          {/* Education */}
           <div className="lg:col-span-5 space-y-5">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2.5">
               <GraduationCap className="w-4 h-4 text-[#A84452]" />
-              <h2 className="text-xs uppercase tracking-widest text-[#A84452] font-semibold">
+              <h2 className="text-xs tracking-widest uppercase text-[#A84452] font-semibold">
                 {sommelier.educationTitle}
               </h2>
             </div>
@@ -201,135 +174,73 @@ export const SommelierPage: React.FC<SommelierPageProps> = ({ lang, onBackToHome
               {sommelier.educationBadges.map((badge, idx) => (
                 <div
                   key={idx}
-                  className="p-4 rounded-2xl bg-[#FBF7F1] border border-[#2B2B2D]/10 hover:border-[#A84452]/40 transition-colors shadow-sm"
+                  className="p-4 sm:p-5 rounded-2xl bg-[#FBF7F1] border border-[#2B2B2D]/10"
                 >
-                  <div className="font-editorial text-lg text-[#2B2B2D] leading-snug">
+                  <div className="font-editorial text-xl text-[#2B2B2D] leading-snug">
                     {badge.institution}
                   </div>
-                  <div className="text-xs text-[#A84452] mt-1 font-sans-clean font-normal leading-relaxed">
+                  <div className="text-xs text-[#A84452] mt-1 leading-relaxed">
                     {badge.detail}
                   </div>
                 </div>
               ))}
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* Philosophy & Tasting Focus (3 Pillars) */}
-      <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-[#2B2B2D]/10">
-        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-          <div className="inline-flex items-center space-x-2 text-xs uppercase tracking-widest text-[#A84452] font-semibold mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>BRUT bar Manifesto</span>
-          </div>
-          <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl text-[#2B2B2D] tracking-tight">
-            {sommelier.philosophyTitle}
-          </h2>
-          <p className="text-xs sm:text-sm text-[#4E4C4F] mt-2 font-normal font-sans-clean">
-            {sommelier.philosophySubtitle}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-          {sommelier.philosophyPillars.map((pillar, idx) => (
-            <div
-              key={idx}
-              className="p-6 sm:p-7 rounded-[24px] bg-[#FBF7F1] border border-[#2B2B2D]/10 hover:border-[#A84452]/45 transition-all duration-300 shadow-sm flex flex-col justify-between group"
-            >
-              <div>
-                <div className="text-xs font-mono font-bold text-[#A84452] uppercase tracking-widest mb-3">
-                  0{idx + 1}
-                </div>
-                <h3 className="font-editorial text-xl sm:text-2xl text-[#2B2B2D] leading-snug group-hover:text-[#A84452] transition-colors">
-                  {pillar.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-[#4E4C4F] mt-3 font-normal font-sans-clean leading-relaxed">
-                  {pillar.description}
-                </p>
-              </div>
-
-              <div className="h-[1px] w-full bg-[#2B2B2D]/10 mt-6 group-hover:bg-[#A84452]/40 transition-colors" />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Experience & Projects Showcase */}
-      <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-[#2B2B2D]/10">
-        <div className="mb-10 sm:mb-12">
-          <div className="flex items-center space-x-3 mb-2">
-            <Compass className="w-4 h-4 text-[#A84452]" />
-            <span className="text-xs uppercase tracking-widest text-[#A84452] font-semibold">
-              Curaduría & Trayectoria
+      {/* Wine Tastings Organization at BRUT bar + WhatsApp Booking */}
+      <section className="pt-12 sm:pt-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-[#2B2B2D]/10">
+        <div className="max-w-2xl mb-10">
+          <div className="flex items-center space-x-3 mb-2.5">
+            <div className="h-[1px] w-10 bg-[#A84452]" />
+            <span className="text-xs tracking-wide text-[#A84452] font-semibold">
+              {sommelier.tastingEyebrow}
             </span>
           </div>
-          <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl text-[#2B2B2D] tracking-tight">
-            {sommelier.experienceTitle}
+          <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl text-[#2B2B2D] tracking-tight text-balance">
+            {sommelier.tastingTitle}
           </h2>
-          <p className="text-xs sm:text-sm text-[#4E4C4F] mt-1 font-normal font-sans-clean">
-            {sommelier.experienceSubtitle}
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {sommelier.projects.map((proj, idx) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {sommelier.tastingHighlights.map((item) => (
             <div
-              key={idx}
-              className="p-6 rounded-2xl bg-[#FBF7F1] border border-[#2B2B2D]/10 hover:border-[#A84452]/45 transition-all duration-300 shadow-sm group"
+              key={item.number}
+              className="p-6 sm:p-7 rounded-3xl bg-[#FBF7F1] border border-[#2B2B2D]/10 flex flex-col justify-between"
             >
-              <span className="text-[10px] font-mono uppercase tracking-widest text-[#A84452] font-semibold inline-block mb-2">
-                {proj.tag}
-              </span>
-              <h3 className="font-editorial text-xl sm:text-2xl text-[#2B2B2D] group-hover:text-[#A84452] transition-colors leading-snug">
-                {proj.title}
-              </h3>
-              <p className="text-xs sm:text-sm text-[#4E4C4F] mt-2 font-normal font-sans-clean leading-relaxed">
-                {proj.description}
-              </p>
+              <div>
+                <span className="font-mono text-xs text-[#A84452] font-semibold tracking-widest tabular-nums">
+                  {item.number}.
+                </span>
+                <h3 className="font-editorial text-2xl sm:text-3xl text-[#2B2B2D] leading-snug mt-3">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm text-[#4E4C4F] leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>
-      </section>
 
-      {/* Bottom CTA Banner */}
-      <section className="pt-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="p-8 sm:p-12 rounded-[32px] bg-[#EFE5D8] border border-[#A84452]/25 shadow-sm text-center space-y-6 relative overflow-hidden">
-          <div className="w-10 h-10 rounded-full bg-[#A84452]/10 border border-[#A84452]/25 flex items-center justify-center mx-auto text-[#A84452]">
-            <Wine className="w-5 h-5" />
-          </div>
+        {/* Clean WhatsApp Booking Strip */}
+        <div className="mt-8 p-6 sm:p-9 rounded-[28px] bg-[#EFE5D8] border border-[#2B2B2D]/10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <p className="font-editorial text-2xl sm:text-3xl text-[#2B2B2D] leading-snug max-w-xl text-balance">
+            {sommelier.tastingCtaText}
+          </p>
 
-          <div className="max-w-2xl mx-auto space-y-2">
-            <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl text-[#2B2B2D] leading-tight">
-              {sommelier.ctaHeading}
-            </h2>
-            <p className="text-xs sm:text-sm text-[#4E4C4F] font-normal font-sans-clean max-w-xl mx-auto leading-relaxed">
-              {sommelier.ctaText}
-            </p>
-          </div>
-
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center space-x-2.5 px-8 py-4 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-md shadow-[#25D366]/25 hover:scale-[1.02] active:scale-95 cursor-pointer"
-            >
-              <MessageCircle className="w-4 h-4 fill-current" />
-              <span>{sommelier.ctaButtonWhatsApp}</span>
-            </a>
-
-            <button
-              onClick={onBackToHome}
-              className="inline-flex items-center space-x-2 px-6 py-4 rounded-full bg-[#FBF7F1] hover:bg-[#FFFFFF] text-[#2B2B2D] border border-[#2B2B2D]/15 hover:border-[#A84452]/40 text-xs sm:text-sm font-semibold tracking-wider uppercase transition-all cursor-pointer"
-            >
-              <span>{sommelier.backToHome}</span>
-            </button>
-          </div>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center space-x-2.5 px-7 py-4 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold text-sm transition-colors shadow-sm whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
+          >
+            <MessageCircle className="w-4 h-4 fill-current shrink-0" />
+            <span>{sommelier.ctaButtonWhatsApp}</span>
+          </a>
         </div>
       </section>
-
     </article>
   );
 };

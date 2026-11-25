@@ -7,8 +7,8 @@ import { Instagram, MessageCircle } from 'lucide-react';
 interface FooterProps {
   t: ContentTranslation;
   lang: Language;
-  currentPage?: 'home' | 'sommelier' | 'events';
-  onNavigate?: (page: 'home' | 'sommelier' | 'events') => void;
+  currentPage?: 'home' | 'sommelier' | 'events' | 'tasting';
+  onNavigate?: (page: 'home' | 'sommelier' | 'events' | 'tasting') => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ t, lang, onNavigate }) => {
@@ -93,6 +93,12 @@ export const Footer: React.FC<FooterProps> = ({ t, lang, onNavigate }) => {
                       className="text-xs uppercase tracking-wider text-[#A84452] hover:text-[#2B2B2D] transition-colors font-semibold flex items-center space-x-1.5 cursor-pointer group"
                     >
                       <span className="group-hover:translate-x-0.5 transition-transform">✦ {t.headerSommelier} • Polina Schteiner →</span>
+                    </button>
+                    <button
+                      onClick={() => onNavigate && onNavigate('tasting')}
+                      className="text-xs uppercase tracking-wider text-[#A84452] hover:text-[#2B2B2D] transition-colors font-semibold flex items-center space-x-1.5 cursor-pointer group"
+                    >
+                      <span className="group-hover:translate-x-0.5 transition-transform">✦ {t.headerTasting} · $39 →</span>
                     </button>
                     <button
                       onClick={() => onNavigate && onNavigate('events')}

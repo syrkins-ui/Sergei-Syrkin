@@ -4,6 +4,7 @@ export interface ContentTranslation {
   headerMenu: string;
   headerSommelier: string;
   headerEvents: string;
+  headerTasting: string;
   headerHome: string;
   heroTitle: string;
   heroTagline: string;
@@ -58,6 +59,7 @@ export const TRANSLATIONS: Record<Language, ContentTranslation> = {
     headerMenu: 'Menú',
     headerSommelier: 'La Sommelier',
     headerEvents: 'Eventos',
+    headerTasting: 'Cata a ciegas',
     headerHome: 'Inicio',
     heroTitle: 'CASA DE VINOS ESPUMANTES ARGENTINOS',
     heroTagline: 'Un espacio íntimo de vinos espumantes de autor, fermentación natural y etiquetas seleccionadas en San Telmo.',
@@ -110,6 +112,7 @@ export const TRANSLATIONS: Record<Language, ContentTranslation> = {
     headerMenu: 'Menu',
     headerSommelier: 'A Sommelier',
     headerEvents: 'Eventos',
+    headerTasting: 'Degustação',
     headerHome: 'Início',
     heroTitle: 'CASA DE VINOS ESPUMANTES ARGENTINOS',
     heroTagline: 'Um espaço íntimo de vinhos espumantes de autor, fermentação natural e rótulos selecionados em San Telmo.',
@@ -162,6 +165,7 @@ export const TRANSLATIONS: Record<Language, ContentTranslation> = {
     headerMenu: 'Menu',
     headerSommelier: 'Sommelier',
     headerEvents: 'Events',
+    headerTasting: 'Blind Tasting',
     headerHome: 'Home',
     heroTitle: 'CASA DE VINOS ESPUMANTES ARGENTINOS',
     heroTagline: 'An intimate bar space dedicated to artisanal sparkling wines, natural fermentation, and handpicked labels in San Telmo.',
@@ -214,6 +218,7 @@ export const TRANSLATIONS: Record<Language, ContentTranslation> = {
     headerMenu: 'Меню',
     headerSommelier: 'Сомелье',
     headerEvents: 'Мероприятия',
+    headerTasting: 'Слепая дегустация',
     headerHome: 'Главная',
     heroTitle: 'CASA DE VINOS ESPUMANTES ARGENTINOS',
     heroTagline: 'Камерное пространство авторских игристых вин, натуральной ферментации и отборных релизов в районе Сан-Тельмо.',

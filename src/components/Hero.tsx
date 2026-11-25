@@ -9,7 +9,7 @@ import { WorkingHoursWidget } from './WorkingHoursWidget';
 interface HeroProps {
   t: ContentTranslation;
   lang: Language;
-  onNavigate?: (page: 'home' | 'sommelier' | 'events') => void;
+  onNavigate?: (page: 'home' | 'sommelier' | 'events' | 'tasting') => void;
 }
 
 interface HeroSlide {
@@ -457,78 +457,6 @@ export const Hero: React.FC<HeroProps> = ({ t, lang, onNavigate }) => {
 
       {/* Wine Bottle Carousel (Directly after action buttons) */}
       <WineBottleCarousel lang={lang} />
-
-      {/* Editorial Sommelier Spotlight (Below Wine Carousel): Large Circle Portrait with Short Magazine Quote */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-        className="mt-14 sm:mt-20 pt-12 sm:pt-16 border-t border-[#2B2B2D]/10 flex flex-col items-center text-center"
-      >
-        <div className="flex items-center space-x-3 mb-6 sm:mb-8">
-          <div className="h-[1px] w-8 sm:w-10 bg-[#A84452]" />
-          <span className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#A84452] font-semibold font-sans-clean">
-            {lang === 'RU' ? 'Шеф-сомелье' : lang === 'ES' ? 'Head Sommelier' : lang === 'PT' ? 'Head Sommelier' : 'Head Sommelier'}
-          </span>
-          <div className="h-[1px] w-8 sm:w-10 bg-[#A84452]" />
-        </div>
-
-        <button
-          type="button"
-          onClick={() => onNavigate && onNavigate('sommelier')}
-          className="group relative flex flex-col items-center cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#A84452] rounded-full"
-          aria-label={lang === 'RU' ? 'Полина Штайнер — Шеф-сомелье' : 'Polina Schteiner — Head Sommelier'}
-        >
-          {/* Large Circular Portrait Frame */}
-          <div className="relative w-72 h-72 sm:w-88 sm:h-88 md:w-[400px] md:h-[400px] rounded-full overflow-hidden border border-[#A84452]/25 shadow-[0_24px_60px_rgba(43,43,45,0.16)] bg-[#EDE2D4]">
-            <img
-              src="/images/Polina.png"
-              alt="Polina Schteiner"
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-[50%_40%] origin-[61%_33%] scale-[1.85] transition-transform duration-700 ease-out group-hover:scale-[1.93]"
-            />
-
-            {/* Measured Magazine Scrim at lower portion for crisp quote legibility */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
-
-            {/* Overlaid Short Magazine Quote */}
-            <div className="absolute inset-x-0 bottom-0 px-7 sm:px-10 pb-8 sm:pb-11 pt-10 flex flex-col items-center justify-end text-center">
-              <blockquote className="font-editorial italic text-xl sm:text-2xl md:text-[28px] text-[#FAF5EE] leading-[1.15] tracking-tight text-balance drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
-                {lang === 'RU'
-                  ? '«Вино — самое честное послание сквозь время»'
-                  : lang === 'ES'
-                    ? '«El vino es el mensaje más honesto a través del tiempo»'
-                    : lang === 'PT'
-                      ? '«O vinho é a mensagem mais honesta através do tempo»'
-                      : '“Wine is the most honest message across time”'}
-              </blockquote>
-              <span className="mt-2.5 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#F4C7CE] font-sans-clean font-semibold drop-shadow-[0_1px_6px_rgba(0,0,0,0.85)]">
-                {lang === 'RU' ? 'Полина Штайнер' : 'Polina Schteiner'}
-              </span>
-            </div>
-          </div>
-        </button>
-
-        {/* Subtle editorial action link below circle */}
-        <button
-          type="button"
-          onClick={() => onNavigate && onNavigate('sommelier')}
-          className="mt-6 inline-flex items-center space-x-2 text-xs uppercase tracking-[0.2em] text-[#2B2B2D] hover:text-[#A84452] font-semibold transition-colors cursor-pointer group"
-        >
-          <span>
-            {lang === 'RU'
-              ? 'Узнать подробнее'
-              : lang === 'PT'
-                ? 'Saiba mais'
-                : lang === 'EN'
-                  ? 'Learn more'
-                  : 'Ver más'}
-          </span>
-          <span className="font-mono text-[#A84452] group-hover:translate-x-1 transition-transform">→</span>
-        </button>
-      </motion.div>
-
     </section>
   );
 };

@@ -7,8 +7,8 @@ interface HeaderProps {
   t: ContentTranslation;
   currentLang: Language;
   onSelectLang: (lang: Language) => void;
-  currentPage?: 'home' | 'sommelier' | 'events';
-  onNavigate?: (page: 'home' | 'sommelier' | 'events') => void;
+  currentPage?: 'home' | 'sommelier' | 'events' | 'tasting';
+  onNavigate?: (page: 'home' | 'sommelier' | 'events' | 'tasting') => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
@@ -77,6 +77,21 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Center / Right: Nav links, Instagram Icon & Language Switcher Dropdown */}
         <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
+
+          {/* Blind Tasting Page Button */}
+          {onNavigate && (
+            <button
+              type="button"
+              onClick={() => onNavigate('tasting')}
+              className={`hidden md:inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap shrink-0 cursor-pointer ${
+                currentPage === 'tasting'
+                  ? 'bg-[#A84452] text-[#FBF7F1] border border-[#A84452]'
+                  : 'bg-[#FBF7F1] border border-[#2B2B2D]/15 hover:border-[#A84452] text-[#2B2B2D] hover:text-[#A84452]'
+              }`}
+            >
+              <span>{t.headerTasting}</span>
+            </button>
+          )}
 
           {/* External Menu Button */}
           <a

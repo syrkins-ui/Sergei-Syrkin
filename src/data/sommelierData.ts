@@ -6,6 +6,47 @@ export interface TastingHighlight {
   description: string;
 }
 
+export type TastingLanguageChoice = 'ES' | 'EN' | 'RU';
+export type TastingTopicId = 'sparkling' | 'malbec' | 'white' | 'other';
+
+export interface SommelierFormCopy {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  fullNameLabel: string;
+  fullNamePlaceholder: string;
+  phoneLabel: string;
+  phonePlaceholder: string;
+  emailLabel: string;
+  emailPlaceholder: string;
+  tastingLangLabel: string;
+  tastingLangOptions: { id: TastingLanguageChoice; label: string }[];
+  guestsLabel: string;
+  guestsHint: string;
+  topicLabel: string;
+  topicOptions: { id: TastingTopicId; label: string }[];
+  customTopicLabel: string;
+  customTopicPlaceholder: string;
+  dateLabel: string;
+  datePlaceholder: string;
+  submitButton: string;
+  redirectNote: string;
+  validationNameError: string;
+  validationPhoneError: string;
+  validationEmailError: string;
+  validationGuestsError: string;
+  validationDateError: string;
+  sentStatusLabel: string;
+  sentTitle: string;
+  sentSubtitle: string;
+  openWhatsAppAgain: string;
+  copyMessageButton: string;
+  copiedMessageButton: string;
+  editFormButton: string;
+  waHeader: string;
+  waFooter: string;
+}
+
 export interface SommelierProfile {
   name: string;
   roles: string[];
@@ -18,11 +59,10 @@ export interface SommelierProfile {
   tastingEyebrow: string;
   tastingTitle: string;
   tastingHighlights: TastingHighlight[];
-  tastingCtaText: string;
-  ctaButtonWhatsApp: string;
   backToHome: string;
   pageTitleBadge: string;
   whatsappMessage: string;
+  form: SommelierFormCopy;
 }
 
 export const SOMMELIER_DATA: Record<Language, SommelierProfile> = {
@@ -76,11 +116,57 @@ export const SOMMELIER_DATA: Record<Language, SommelierProfile> = {
           'Проводим как индивидуальные, так и групповые дегустации — с гастрономическим сопровождением и закусками или в чистом винном формате.',
       },
     ],
-    tastingCtaText: 'Напишите нам в WhatsApp, чтобы подобрать формат и забронировать дегустацию.',
-    ctaButtonWhatsApp: 'Забронировать дегустацию в WhatsApp',
     backToHome: 'Назад в BRUT bar',
     whatsappMessage:
-      'Здравствуйте! Хочу забронировать дегустацию с Полиной в BRUT bar (интересующие вина, количество человек, с закусками или без):',
+      'Здравствуйте! Хочу забронировать дегустацию с Полиной в BRUT bar.',
+    form: {
+      eyebrow: 'Заявка на дегустацию',
+      title: 'Забронировать дегустацию с Полиной',
+      subtitle:
+        'Заполните короткую анкету и нажмите «Отправить в WhatsApp» — все детали сразу передадутся нам, и мы ответим с предложением и подтверждением.',
+      fullNameLabel: 'Имя и фамилия',
+      fullNamePlaceholder: 'Анна Соколова',
+      phoneLabel: 'Телефон / WhatsApp',
+      phonePlaceholder: '+54 9 11 ...',
+      emailLabel: 'Электронная почта',
+      emailPlaceholder: 'anna@example.com',
+      tastingLangLabel: 'Язык дегустации',
+      tastingLangOptions: [
+        { id: 'RU', label: 'Русский' },
+        { id: 'ES', label: 'Испанский' },
+        { id: 'EN', label: 'Английский' },
+      ],
+      guestsLabel: 'Количество человек',
+      guestsHint: 'Отдельный зал вмещает до 25 гостей',
+      topicLabel: 'Тема дегустации',
+      topicOptions: [
+        { id: 'sparkling', label: 'Игристые Аргентины' },
+        { id: 'malbec', label: 'Мальбеки' },
+        { id: 'white', label: 'Белые вина Аргентины' },
+        { id: 'other', label: 'Другое' },
+      ],
+      customTopicLabel: 'Какая тема или вина вас интересуют?',
+      customTopicPlaceholder: 'Например: Каберне Фран, пет-наты, вина Патагонии...',
+      dateLabel: 'Желаемая дата мероприятия',
+      datePlaceholder: 'Выберите дату (дд.мм.гггг)',
+      submitButton: 'Отправить заявку в WhatsApp',
+      redirectNote: 'После нажатия откроется WhatsApp с заполненной заявкой — просто нажмите «Отправить».',
+      validationNameError: 'Пожалуйста, укажите имя и фамилию.',
+      validationPhoneError: 'Пожалуйста, укажите номер телефона для связи.',
+      validationEmailError: 'Пожалуйста, укажите корректный email.',
+      validationGuestsError: 'Укажите количество гостей (от 1 до 25).',
+      validationDateError: 'Пожалуйста, выберите желаемую дату мероприятия.',
+      sentStatusLabel: 'Заявка готова к отправке в WhatsApp',
+      sentTitle: 'Отправьте сообщение — мы скоро ответим',
+      sentSubtitle:
+        'Мы открыли чат WhatsApp с данными вашей анкеты. Если окно не открылось автоматически, нажмите кнопку ниже.',
+      openWhatsAppAgain: 'Открыть WhatsApp с заявкой',
+      copyMessageButton: 'Скопировать текст заявки',
+      copiedMessageButton: 'Текст скопирован',
+      editFormButton: 'Изменить анкету',
+      waHeader: 'Здравствуйте, BRUT bar! Хочу забронировать дегустацию с сомелье Полиной Штайнер:',
+      waFooter: 'Жду вашего ответа с деталями и подтверждением.',
+    },
   },
 
   ES: {
@@ -133,11 +219,57 @@ export const SOMMELIER_DATA: Record<Language, SommelierProfile> = {
           'Experiencias pensadas tanto para personas individuales como para grupos, con acompañamiento gastronómico o sin snacks.',
       },
     ],
-    tastingCtaText: 'Escribinos por WhatsApp para coordinar los vinos y reservar tu degustación.',
-    ctaButtonWhatsApp: 'Reservar degustación por WhatsApp',
     backToHome: 'Volver a BRUT bar',
     whatsappMessage:
-      '¡Hola! Quiero reservar una degustación con Polina en BRUT bar (vinos de interés, cantidad de personas, con o sin snacks):',
+      '¡Hola! Quiero reservar una degustación con Polina en BRUT bar.',
+    form: {
+      eyebrow: 'Solicitud de cata',
+      title: 'Reservá tu degustación con Polina',
+      subtitle:
+        'Completá el formulario y tocá «Enviar por WhatsApp» — recibimos todos los datos al instante para responderte y confirmar disponibilidad.',
+      fullNameLabel: 'Nombre y apellido',
+      fullNamePlaceholder: 'Sofía Martínez',
+      phoneLabel: 'Teléfono / WhatsApp',
+      phonePlaceholder: '+54 9 11 ...',
+      emailLabel: 'Correo electrónico',
+      emailPlaceholder: 'sofia@ejemplo.com',
+      tastingLangLabel: 'Idioma de la degustación',
+      tastingLangOptions: [
+        { id: 'ES', label: 'Español' },
+        { id: 'EN', label: 'Inglés' },
+        { id: 'RU', label: 'Ruso' },
+      ],
+      guestsLabel: 'Cantidad de personas',
+      guestsHint: 'Salón privado con capacidad hasta 25 personas',
+      topicLabel: 'Temática de la degustación',
+      topicOptions: [
+        { id: 'sparkling', label: 'Espumantes de Argentina' },
+        { id: 'malbec', label: 'Malbecs' },
+        { id: 'white', label: 'Vinos blancos de Argentina' },
+        { id: 'other', label: 'Otro' },
+      ],
+      customTopicLabel: '¿Qué temática o vinos te interesan?',
+      customTopicPlaceholder: 'Ej.: Cabernet Franc, pét-nats, vinos de la Patagonia...',
+      dateLabel: 'Fecha deseada del evento',
+      datePlaceholder: 'Elegí una fecha (dd/mm/aaaa)',
+      submitButton: 'Enviar solicitud por WhatsApp',
+      redirectNote: 'Al enviar, se abrirá WhatsApp con tu solicitud completa lista para confirmar.',
+      validationNameError: 'Por favor, ingresá tu nombre y apellido.',
+      validationPhoneError: 'Por favor, ingresá un teléfono de contacto.',
+      validationEmailError: 'Por favor, ingresá un correo electrónico válido.',
+      validationGuestsError: 'Indicá la cantidad de personas (entre 1 y 25).',
+      validationDateError: 'Por favor, seleccioná una fecha deseada.',
+      sentStatusLabel: 'Solicitud lista para WhatsApp',
+      sentTitle: 'Enviá el mensaje y te responderemos pronto',
+      sentSubtitle:
+        'Abrimos WhatsApp con los datos de tu formulario. Si no se abrió automáticamente, tocá el botón de abajo.',
+      openWhatsAppAgain: 'Abrir WhatsApp con mi solicitud',
+      copyMessageButton: 'Copiar texto de la solicitud',
+      copiedMessageButton: 'Texto copiado',
+      editFormButton: 'Editar formulario',
+      waHeader: '¡Hola, BRUT bar! Quiero solicitar una degustación con la sommelier Polina Schteiner:',
+      waFooter: 'Quedo atento/a a su respuesta y confirmación.',
+    },
   },
 
   EN: {
@@ -190,11 +322,57 @@ export const SOMMELIER_DATA: Record<Language, SommelierProfile> = {
           'Available for both individual guests and private groups, with artisan snacks or as a pure wine-focused tasting.',
       },
     ],
-    tastingCtaText: 'Message us on WhatsApp to choose your format and book a tasting.',
-    ctaButtonWhatsApp: 'Book a Tasting on WhatsApp',
     backToHome: 'Back to BRUT bar',
     whatsappMessage:
-      'Hello! I would like to book a wine tasting with Polina at BRUT bar (preferred wines, guest count, with or without snacks):',
+      'Hello! I would like to book a wine tasting with Polina at BRUT bar.',
+    form: {
+      eyebrow: 'Tasting Inquiry',
+      title: 'Book a Tasting with Polina',
+      subtitle:
+        'Fill in the form below and send it straight to our WhatsApp—we will get back to you with a tailored proposal and confirmation.',
+      fullNameLabel: 'Full name',
+      fullNamePlaceholder: 'Clara Vance',
+      phoneLabel: 'Phone / WhatsApp',
+      phonePlaceholder: '+54 9 11 ...',
+      emailLabel: 'Email address',
+      emailPlaceholder: 'clara@example.com',
+      tastingLangLabel: 'Tasting language',
+      tastingLangOptions: [
+        { id: 'EN', label: 'English' },
+        { id: 'ES', label: 'Spanish' },
+        { id: 'RU', label: 'Russian' },
+      ],
+      guestsLabel: 'Number of guests',
+      guestsHint: 'Private room accommodates up to 25 guests',
+      topicLabel: 'Tasting theme',
+      topicOptions: [
+        { id: 'sparkling', label: 'Argentine Sparkling Wines' },
+        { id: 'malbec', label: 'Malbecs' },
+        { id: 'white', label: 'Argentine White Wines' },
+        { id: 'other', label: 'Other' },
+      ],
+      customTopicLabel: 'Which wines or theme would you like?',
+      customTopicPlaceholder: 'e.g. Cabernet Franc, pét-nats, Patagonian wines...',
+      dateLabel: 'Preferred event date',
+      datePlaceholder: 'Select a date (mm/dd/yyyy)',
+      submitButton: 'Send Inquiry via WhatsApp',
+      redirectNote: 'Clicking submit opens WhatsApp with all your answers pre-filled—just press Send.',
+      validationNameError: 'Please enter your full name.',
+      validationPhoneError: 'Please enter a valid phone number.',
+      validationEmailError: 'Please enter a valid email address.',
+      validationGuestsError: 'Please enter the number of guests (1–25).',
+      validationDateError: 'Please choose your preferred date.',
+      sentStatusLabel: 'Inquiry ready for WhatsApp',
+      sentTitle: 'Send the message and we will confirm shortly',
+      sentSubtitle:
+        'We opened WhatsApp with your tasting request. If the window did not open automatically, click below.',
+      openWhatsAppAgain: 'Open WhatsApp with Inquiry',
+      copyMessageButton: 'Copy inquiry text',
+      copiedMessageButton: 'Copied',
+      editFormButton: 'Edit form',
+      waHeader: 'Hello BRUT bar! I would like to book a wine tasting with Head Sommelier Polina Schteiner:',
+      waFooter: 'Looking forward to your reply and confirmation.',
+    },
   },
 
   PT: {
@@ -247,10 +425,56 @@ export const SOMMELIER_DATA: Record<Language, SommelierProfile> = {
           'Atendemos tanto formatos individuais quanto grupos, com acompanhamento gastronômico ou apenas os vinhos.',
       },
     ],
-    tastingCtaText: 'Escreva para nós no WhatsApp para reservar sua degustação.',
-    ctaButtonWhatsApp: 'Reservar degustação no WhatsApp',
     backToHome: 'Voltar ao BRUT bar',
     whatsappMessage:
-      'Olá! Gostaria de reservar uma degustação com a Polina no BRUT bar (vinhos de interesse, número de pessoas, com ou sem petiscos):',
+      'Olá! Gostaria de reservar uma degustação com a Polina no BRUT bar.',
+    form: {
+      eyebrow: 'Solicitar degustação',
+      title: 'Reserve sua degustação com a Polina',
+      subtitle:
+        'Preencha o formulário e clique em «Enviar no WhatsApp» — receberemos seus dados na hora para responder e confirmar.',
+      fullNameLabel: 'Nome e sobrenome',
+      fullNamePlaceholder: 'Lucas Ferreira',
+      phoneLabel: 'Telefone / WhatsApp',
+      phonePlaceholder: '+54 9 11 ...',
+      emailLabel: 'E-mail',
+      emailPlaceholder: 'lucas@exemplo.com',
+      tastingLangLabel: 'Idioma da degustação',
+      tastingLangOptions: [
+        { id: 'ES', label: 'Espanhol' },
+        { id: 'EN', label: 'Inglês' },
+        { id: 'RU', label: 'Russo' },
+      ],
+      guestsLabel: 'Número de pessoas',
+      guestsHint: 'Sala privativa com capacidade para até 25 pessoas',
+      topicLabel: 'Tema da degustação',
+      topicOptions: [
+        { id: 'sparkling', label: 'Espumantes da Argentina' },
+        { id: 'malbec', label: 'Malbecs' },
+        { id: 'white', label: 'Vinhos brancos da Argentina' },
+        { id: 'other', label: 'Outro' },
+      ],
+      customTopicLabel: 'Qual tema ou vinhos você prefere?',
+      customTopicPlaceholder: 'Ex.: Cabernet Franc, pét-nats, vinhos da Patagônia...',
+      dateLabel: 'Data desejada do evento',
+      datePlaceholder: 'Escolha uma data (dd/mm/aaaa)',
+      submitButton: 'Enviar pedido pelo WhatsApp',
+      redirectNote: 'Ao clicar, o WhatsApp abrirá com sua mensagem preenchida — basta enviar.',
+      validationNameError: 'Por favor, informe seu nome e sobrenome.',
+      validationPhoneError: 'Por favor, informe um telefone de contato.',
+      validationEmailError: 'Por favor, informe um e-mail válido.',
+      validationGuestsError: 'Informe o número de pessoas (entre 1 e 25).',
+      validationDateError: 'Por favor, escolha a data desejada.',
+      sentStatusLabel: 'Solicitação pronta para o WhatsApp',
+      sentTitle: 'Envie a mensagem e retornaremos em breve',
+      sentSubtitle:
+        'Abrimos o WhatsApp com os dados do formulário. Se a janela não abriu automaticamente, clique no botão abaixo.',
+      openWhatsAppAgain: 'Abrir WhatsApp com o pedido',
+      copyMessageButton: 'Copiar texto do pedido',
+      copiedMessageButton: 'Texto copiado',
+      editFormButton: 'Editar formulário',
+      waHeader: 'Olá, BRUT bar! Gostaria de reservar uma degustação com a sommelier Polina Schteiner:',
+      waFooter: 'Aguardo retorno com detalhes e confirmação.',
+    },
   },
 };

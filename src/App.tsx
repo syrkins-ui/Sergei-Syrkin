@@ -6,13 +6,29 @@ import { Footer } from './components/Footer';
 import { SommelierPage } from './components/SommelierPage';
 import { EventsPage } from './components/EventsPage';
 import { BlindTastingPage } from './components/BlindTastingPage';
-import { WelcomeBannerModal } from './components/WelcomeBannerModal';
+import { FriendsCarousel } from './components/FriendsCarousel';
+import { WelcomeBannerModal, BannerMode } from './components/WelcomeBannerModal';
 import { Language, TRANSLATIONS } from './data/translations';
 import { BLIND_TASTING_DATA } from './data/tastingData';
 import { MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { getWhatsAppReservationUrl } from './data/barInfo';
 import blindTastingHeroImg from './assets/images/blind_tasting_hero_1795516580318.jpg';
+
+const CABARET_PROMO_DATE = '2026-11-26';
+
+const getBuenosAiresDateString = (): string => {
+  try {
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'America/Argentina/Buenos_Aires',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(new Date());
+  } catch {
+    return new Date().toISOString().slice(0, 10);
+  }
+};
 
 const isSundayInBuenosAires = (): boolean => {
   try {
@@ -26,10 +42,21 @@ const isSundayInBuenosAires = (): boolean => {
   }
 };
 
+const getActiveBannerMode = (): BannerMode | null => {
+  if (getBuenosAiresDateString() === CABARET_PROMO_DATE) {
+    return 'cabaret-promo';
+  }
+  if (isSundayInBuenosAires()) {
+    return 'sunday-feria';
+  }
+  return null;
+};
+
 export default function App() {
   const [lang, setLang] = useState<Language>('ES');
   const [currentPage, setCurrentPage] = useState<'home' | 'sommelier' | 'events' | 'tasting'>('home');
-  const [isBannerOpen, setIsBannerOpen] = useState<boolean>(() => isSundayInBuenosAires());
+  const [activeBannerMode] = useState<BannerMode | null>(() => getActiveBannerMode());
+  const [isBannerOpen, setIsBannerOpen] = useState<boolean>(() => getActiveBannerMode() !== null);
   const t = TRANSLATIONS[lang];
   const tastingContent = BLIND_TASTING_DATA[lang] || BLIND_TASTING_DATA.ES;
 
@@ -263,6 +290,9 @@ export default function App() {
             {/* Location & Map Section */}
             <LocationMapSection t={t} lang={lang} />
 
+            {/* Friends & Mobile Bar Partners Logo Carousel (Below Map, Above Events) */}
+            <FriendsCarousel lang={lang} />
+
             {/* Dedicated Editorial Events Showcase Block (Large photo with big overlaid headline) */}
             <section className="pt-4 sm:pt-8 pb-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
               <button
@@ -363,13 +393,16 @@ export default function App() {
         </a>
       </div>
 
-      {/* Sunday-Only Popup Banner */}
-      <WelcomeBannerModal
-        isOpen={isBannerOpen}
-        onClose={() => setIsBannerOpen(false)}
-        lang={lang}
-        t={t}
-      />
+      {/* Date-Scoped Promo / Sunday Popup Banner */}
+      {activeBannerMode && (
+        <WelcomeBannerModal
+          isOpen={isBannerOpen}
+          onClose={() => setIsBannerOpen(false)}
+          lang={lang}
+          t={t}
+          mode={activeBannerMode}
+        />
+      )}
 
     </div>
   );

@@ -1019,7 +1019,7 @@ export const BlindTastingPage: React.FC<BlindTastingPageProps> = ({ lang, onBack
                 <li className="py-3 flex items-center justify-between gap-2">
                   <span>{content.summaryDateTimeLabel}</span>
                   <span className="font-medium text-[#2B2B2D] text-right tabular-nums">
-                    {selectedDate} · {selectedTime || '—'}
+                    {readableSelectedDate} · {selectedTime || '—'}
                   </span>
                 </li>
                 <li className="py-3 flex items-center justify-between gap-2">

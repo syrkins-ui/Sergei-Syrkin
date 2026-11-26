@@ -2,13 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ContentTranslation, Language } from '../data/translations';
 import { BAR_DATA } from '../data/barInfo';
 import { ChevronDown, Globe, Instagram } from 'lucide-react';
+import { AppPage } from '../utils/seo';
 
 interface HeaderProps {
   t: ContentTranslation;
   currentLang: Language;
   onSelectLang: (lang: Language) => void;
-  currentPage?: 'home' | 'sommelier' | 'events' | 'tasting';
-  onNavigate?: (page: 'home' | 'sommelier' | 'events' | 'tasting') => void;
+  currentPage?: AppPage;
+  onNavigate?: (page: AppPage) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 

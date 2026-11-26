@@ -7,9 +7,12 @@ import { SommelierPage } from './components/SommelierPage';
 import { EventsPage } from './components/EventsPage';
 import { BlindTastingPage } from './components/BlindTastingPage';
 import { FriendsCarousel } from './components/FriendsCarousel';
+import { BeyondMalbecArticlePage } from './components/BeyondMalbecArticlePage';
 import { WelcomeBannerModal, BannerMode } from './components/WelcomeBannerModal';
 import { Language, TRANSLATIONS } from './data/translations';
 import { BLIND_TASTING_DATA } from './data/tastingData';
+import { ARTICLE_SLUGS, SLUG_TO_LANGUAGE } from './data/beyondMalbecArticle';
+import { AppPage, applyPageSeo } from './utils/seo';
 import { MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { getWhatsAppReservationUrl } from './data/barInfo';
@@ -52,53 +55,92 @@ const getActiveBannerMode = (): BannerMode | null => {
   return null;
 };
 
+const resolveLocationState = (): { page: AppPage; detectedLang?: Language } => {
+  const cleanPath = decodeURIComponent(window.location.pathname)
+    .replace(/^\/+|\/+$/g, '')
+    .toLowerCase();
+
+  if (cleanPath && SLUG_TO_LANGUAGE[cleanPath]) {
+    return {
+      page: 'article-beyond-malbec',
+      detectedLang: SLUG_TO_LANGUAGE[cleanPath],
+    };
+  }
+
+  const hash = window.location.hash.replace(/^#\/?/, '').toLowerCase();
+  if (hash && SLUG_TO_LANGUAGE[hash]) {
+    return {
+      page: 'article-beyond-malbec',
+      detectedLang: SLUG_TO_LANGUAGE[hash],
+    };
+  }
+
+  if (hash === 'sommelier') return { page: 'sommelier' };
+  if (hash === 'events') return { page: 'events' };
+  if (hash.startsWith('tasting')) return { page: 'tasting' };
+  return { page: 'home' };
+};
+
 export default function App() {
-  const [lang, setLang] = useState<Language>('ES');
-  const [currentPage, setCurrentPage] = useState<'home' | 'sommelier' | 'events' | 'tasting'>('home');
+  const initialRoute = resolveLocationState();
+  const [lang, setLang] = useState<Language>(() => initialRoute.detectedLang || 'ES');
+  const [currentPage, setCurrentPage] = useState<AppPage>(() => initialRoute.page);
   const [activeBannerMode] = useState<BannerMode | null>(() => getActiveBannerMode());
-  const [isBannerOpen, setIsBannerOpen] = useState<boolean>(() => getActiveBannerMode() !== null);
+  const [isBannerOpen, setIsBannerOpen] = useState<boolean>(
+    () => initialRoute.page !== 'article-beyond-malbec' && getActiveBannerMode() !== null
+  );
   const t = TRANSLATIONS[lang];
   const tastingContent = BLIND_TASTING_DATA[lang] || BLIND_TASTING_DATA.ES;
 
-  // Initialize and sync page with window.location.hash
+  // Keep <title>, meta description, OpenGraph, Twitter, canonical, hreflang, and JSON-LD in sync
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.toLowerCase();
-      if (hash === '#sommelier' || hash === '#/sommelier') {
-        setCurrentPage('sommelier');
+    applyPageSeo(currentPage, lang);
+  }, [currentPage, lang]);
+
+  // Sync page with browser back/forward (popstate) and hash navigation
+  useEffect(() => {
+    const syncFromLocation = () => {
+      const resolved = resolveLocationState();
+      setCurrentPage(resolved.page);
+      if (resolved.detectedLang) {
+        setLang(resolved.detectedLang);
+      }
+      if (resolved.page !== 'home') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else if (hash === '#events' || hash === '#/events') {
-        setCurrentPage('events');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else if (hash.startsWith('#tasting') || hash.startsWith('#/tasting')) {
-        setCurrentPage('tasting');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        setCurrentPage('home');
       }
     };
 
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', syncFromLocation);
+    window.addEventListener('popstate', syncFromLocation);
+    return () => {
+      window.removeEventListener('hashchange', syncFromLocation);
+      window.removeEventListener('popstate', syncFromLocation);
+    };
   }, []);
 
-  const navigateTo = (page: 'home' | 'sommelier' | 'events' | 'tasting') => {
-    setCurrentPage(page);
-    if (page === 'sommelier') {
-      window.location.hash = '#sommelier';
-    } else if (page === 'events') {
-      window.location.hash = '#events';
-    } else if (page === 'tasting') {
-      window.location.hash = '#tasting';
-    } else {
-      if (
-        window.location.hash === '#sommelier' ||
-        window.location.hash === '#events' ||
-        window.location.hash.startsWith('#tasting')
-      ) {
-        window.history.pushState(null, '', window.location.pathname);
+  const handleSelectLang = (nextLang: Language) => {
+    setLang(nextLang);
+    if (currentPage === 'article-beyond-malbec') {
+      const nextSlugPath = `/${ARTICLE_SLUGS[nextLang]}`;
+      if (window.location.pathname !== nextSlugPath) {
+        window.history.replaceState(null, '', nextSlugPath);
       }
+    }
+  };
+
+  const navigateTo = (page: AppPage) => {
+    setCurrentPage(page);
+    if (page === 'article-beyond-malbec') {
+      const targetPath = `/${ARTICLE_SLUGS[lang]}`;
+      window.history.pushState(null, '', targetPath);
+    } else if (page === 'sommelier') {
+      window.history.pushState(null, '', '/#sommelier');
+    } else if (page === 'events') {
+      window.history.pushState(null, '', '/#events');
+    } else if (page === 'tasting') {
+      window.history.pushState(null, '', '/#tasting');
+    } else {
+      window.history.pushState(null, '', '/');
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -110,7 +152,7 @@ export default function App() {
       <Header 
         t={t} 
         currentLang={lang} 
-        onSelectLang={setLang}
+        onSelectLang={handleSelectLang}
         currentPage={currentPage}
         onNavigate={navigateTo}
       />
@@ -368,6 +410,14 @@ export default function App() {
           <BlindTastingPage
             lang={lang}
             onBackToHome={() => navigateTo('home')}
+          />
+        )}
+
+        {currentPage === 'article-beyond-malbec' && (
+          <BeyondMalbecArticlePage
+            lang={lang}
+            onBackToHome={() => navigateTo('home')}
+            onGoToTasting={() => navigateTo('tasting')}
           />
         )}
       </main>

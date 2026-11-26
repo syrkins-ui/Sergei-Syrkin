@@ -5,11 +5,13 @@ import { MessageCircle, Navigation, Copy, Check, ChevronLeft, ChevronRight } fro
 import { motion, AnimatePresence } from 'motion/react';
 import { WineBottleCarousel } from './WineBottleCarousel';
 import { WorkingHoursWidget } from './WorkingHoursWidget';
+import { AppPage } from '../utils/seo';
+import { ARTICLE_SLUGS } from '../data/beyondMalbecArticle';
 
 interface HeroProps {
   t: ContentTranslation;
   lang: Language;
-  onNavigate?: (page: 'home' | 'sommelier' | 'events' | 'tasting') => void;
+  onNavigate?: (page: AppPage) => void;
 }
 
 interface HeroSlide {
@@ -18,7 +20,7 @@ interface HeroSlide {
   alt: string;
   imageClassName?: string;
   promo?: {
-    targetPage: 'events' | 'sommelier';
+    targetPage: 'events' | 'sommelier' | 'article-beyond-malbec';
     eyebrow: Record<Language, string>;
     title: Record<Language, string>;
     subtitle?: Record<Language, string>;
@@ -90,17 +92,52 @@ const buildHeroSlides = (): HeroSlide[] => {
     },
   };
 
-  // Interleave regular photos and active promo cards (keeping Brunch 1st and Gin Tonic 4th)
+  const articlePromo: HeroSlide = {
+    id: 'promo-article-beyond-malbec',
+    url: '/images/Vino_vew.png',
+    alt: '5 vinos argentinos fuera del Malbec en BRUT bar Buenos Aires',
+    imageClassName: 'object-center',
+    promo: {
+      targetPage: 'article-beyond-malbec',
+      eyebrow: {
+        RU: 'Винный гид · BRUT bar',
+        ES: 'Guía de vinos · BRUT bar',
+        PT: 'Guia de vinhos · BRUT bar',
+        EN: 'Wine Guide · BRUT bar',
+      },
+      title: {
+        RU: '5 необычных аргентинских вин кроме Мальбека',
+        ES: '5 vinos argentinos fuera del Malbec',
+        PT: '5 vinhos argentinos além do Malbec',
+        EN: '5 Unusual Argentine Wines Beyond Malbec',
+      },
+      subtitle: {
+        RU: 'Атлантические игристые, белый Мальбек и натуральные пет-наты в Сан-Тельмо',
+        ES: 'Espumantes atlánticos, Blanc de Malbec y pet nat en San Telmo',
+        PT: 'Espumantes atlânticos, Blanc de Malbec e pét-nats em San Telmo',
+        EN: 'Atlantic sparklers, Blanc de Malbec & natural pét-nats in San Telmo',
+      },
+      ctaLabel: {
+        RU: 'Читать статью',
+        ES: 'Leer artículo',
+        PT: 'Ler artigo',
+        EN: 'Read article',
+      },
+    },
+  };
+
+  // Interleave regular photos and active promo cards (keeping Brunch 1st)
   const ordered: HeroSlide[] = [];
   if (photos[0]) ordered.push(photos[0]); // 1. Brunch 01
-  ordered.push(eventsPromo);              // 2. Events & Birthdays (Active Promo)
-  if (photos[1]) ordered.push(photos[1]); // 3. Interior 001
-  if (photos[3]) ordered.push(photos[3]); // 4. Gin Tonic
-  ordered.push(sommelierPromo);           // 5. Polina & Tastings (Active Promo)
-  if (photos[2]) ordered.push(photos[2]); // 6. Interior 002
-  if (photos[4]) ordered.push(photos[4]); // 7. Interior 003
-  if (photos[5]) ordered.push(photos[5]); // 8. Interior 004
-  if (photos[6]) ordered.push(photos[6]); // 9. Interior 005
+  ordered.push(articlePromo);             // 2. Article: 5 Wines Beyond Malbec (Active Promo)
+  ordered.push(eventsPromo);              // 3. Events & Birthdays (Active Promo)
+  if (photos[1]) ordered.push(photos[1]); // 4. Interior 001
+  if (photos[3]) ordered.push(photos[3]); // 5. Gin Tonic
+  ordered.push(sommelierPromo);           // 6. Polina & Tastings (Active Promo)
+  if (photos[2]) ordered.push(photos[2]); // 7. Interior 002
+  if (photos[4]) ordered.push(photos[4]); // 8. Interior 003
+  if (photos[5]) ordered.push(photos[5]); // 9. Interior 004
+  if (photos[6]) ordered.push(photos[6]); // 10. Interior 005
   return ordered;
 };
 
@@ -231,17 +268,32 @@ export const Hero: React.FC<HeroProps> = ({ t, lang, onNavigate }) => {
                       </p>
                     )}
 
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onNavigate && onNavigate(activeSlide.promo!.targetPage);
-                      }}
-                      className="mt-5 inline-flex items-center space-x-2 px-5 py-2.5 rounded-full bg-[#FBF7F1]/95 hover:bg-[#A84452] text-[#2B2B2D] hover:text-[#FBF7F1] text-[11px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-lg cursor-pointer whitespace-nowrap group/cta"
-                    >
-                      <span>{activeSlide.promo.ctaLabel[lang]}</span>
-                      <span className="font-mono group-hover/cta:translate-x-0.5 transition-transform">→</span>
-                    </button>
+                    {activeSlide.promo.targetPage === 'article-beyond-malbec' ? (
+                      <a
+                        href={`/${ARTICLE_SLUGS[lang]}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          onNavigate && onNavigate('article-beyond-malbec');
+                        }}
+                        className="mt-5 inline-flex items-center space-x-2 px-5 py-2.5 rounded-full bg-[#FBF7F1]/95 hover:bg-[#A84452] text-[#2B2B2D] hover:text-[#FBF7F1] text-[11px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-lg cursor-pointer whitespace-nowrap group/cta"
+                      >
+                        <span>{activeSlide.promo.ctaLabel[lang]}</span>
+                        <span className="font-mono group-hover/cta:translate-x-0.5 transition-transform">→</span>
+                      </a>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onNavigate && onNavigate(activeSlide.promo!.targetPage);
+                        }}
+                        className="mt-5 inline-flex items-center space-x-2 px-5 py-2.5 rounded-full bg-[#FBF7F1]/95 hover:bg-[#A84452] text-[#2B2B2D] hover:text-[#FBF7F1] text-[11px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-lg cursor-pointer whitespace-nowrap group/cta"
+                      >
+                        <span>{activeSlide.promo.ctaLabel[lang]}</span>
+                        <span className="font-mono group-hover/cta:translate-x-0.5 transition-transform">→</span>
+                      </button>
+                    )}
                   </div>
                 )}
               </motion.div>

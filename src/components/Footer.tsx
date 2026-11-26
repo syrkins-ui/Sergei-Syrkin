@@ -3,12 +3,13 @@ import { BAR_DATA, getWhatsAppReservationUrl } from '../data/barInfo';
 import { ContentTranslation, Language } from '../data/translations';
 import { WorkingHoursWidget } from './WorkingHoursWidget';
 import { Instagram, MessageCircle } from 'lucide-react';
+import { AppPage } from '../utils/seo';
 
 interface FooterProps {
   t: ContentTranslation;
   lang: Language;
-  currentPage?: 'home' | 'sommelier' | 'events' | 'tasting';
-  onNavigate?: (page: 'home' | 'sommelier' | 'events' | 'tasting') => void;
+  currentPage?: AppPage;
+  onNavigate?: (page: AppPage) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ t, lang, onNavigate }) => {

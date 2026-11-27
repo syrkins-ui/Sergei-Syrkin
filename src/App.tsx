@@ -20,6 +20,7 @@ import { getWhatsAppReservationUrl } from './data/barInfo';
 const BLIND_TASTING_HOME_BANNER_IMG =
   '/assets/aistudio/Gemini_Generated_Image_piyftbpiyftbpiyf_f0f697ec.png';
 
+const OSTRAS_PROMO_DATES = new Set(['2026-11-27', '2026-11-28']);
 const CABARET_PROMO_DATE = '2026-11-26';
 
 const getBuenosAiresDateString = (): string => {
@@ -48,7 +49,11 @@ const isSundayInBuenosAires = (): boolean => {
 };
 
 const getActiveBannerMode = (): BannerMode | null => {
-  if (getBuenosAiresDateString() === CABARET_PROMO_DATE) {
+  const todayBA = getBuenosAiresDateString();
+  if (OSTRAS_PROMO_DATES.has(todayBA)) {
+    return 'ostras-weekend';
+  }
+  if (todayBA === CABARET_PROMO_DATE) {
     return 'cabaret-promo';
   }
   if (isSundayInBuenosAires()) {

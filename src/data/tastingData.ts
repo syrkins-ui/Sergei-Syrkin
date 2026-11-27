@@ -37,6 +37,8 @@ export interface BlindTastingContent {
   howTitle: string;
   howSubtitle: string;
   steps: TastingStep[];
+  riddlesSpotlightTitle: string;
+  riddlesSpotlightText: string;
   pairingSpotlightTitle: string;
   pairingSpotlightText: string;
   bonusSpotlightTitle: string;
@@ -132,6 +134,9 @@ export const BLIND_TASTING_DATA: Record<Language, BlindTastingContent> = {
           'Сомелье проверяет ваши ответы. Если все 4 игристых угаданы верно, мы дарим 5-й бонусный бокал того вина из сета, которое покорило вас больше всего.',
       },
     ],
+    riddlesSpotlightTitle: 'Карточки с загадками и конверт BRUT',
+    riddlesSpotlightText:
+      'Внутри перевязанного алой лентой набора — карточки с подсказками о каждом вине, а правильные ответы ждут вас в запечатанном конверте.',
     pairingSpotlightTitle: 'Подача с тарелочкой сыра и хамона',
     pairingSpotlightText:
       'К каждому дегустационному подносу мы подаём аккуратную тарелочку выдержанного сыра и тонко нарезанного хамона, чтобы освежать рецепторы между бокалами.',
@@ -250,6 +255,9 @@ export const BLIND_TASTING_DATA: Record<Language, BlindTastingContent> = {
           'Verificamos tu orden. Si ubicaste los 4 correctamente, te servimos una 5ª copa bonificada del espumante que más te enamoró.',
       },
     ],
+    riddlesSpotlightTitle: 'Tarjetas con pistas y sobre BRUT',
+    riddlesSpotlightText:
+      'El set atado con cinta roja trae las pistas sensoriales de cada espumante, mientras las respuestas exactas esperan dentro del sobre.',
     pairingSpotlightTitle: 'Con platito de queso y jamón incluido',
     pairingSpotlightText:
       'Cada bandeja sale acompañada de queso artesanal y jamón crudo feteado fino para limpiar el paladar entre copa y copa.',
@@ -368,6 +376,9 @@ export const BLIND_TASTING_DATA: Record<Language, BlindTastingContent> = {
           'Conferimos suas respostas. Acertando os 4, servimos uma 5ª taça cortesia do espumante que você mais curtiu.',
       },
     ],
+    riddlesSpotlightTitle: 'Cartões com enigmas e envelope BRUT',
+    riddlesSpotlightText:
+      'O kit amarrado com fita vermelha traz pistas sensoriais de cada rótulo, enquanto as respostas corretas ficam guardadas no envelope.',
     pairingSpotlightTitle: 'Servido com pratinho de queijo e jamón',
     pairingSpotlightText:
       'Cada bandeja acompanha queijo curado e fatias finas de jamón para harmonizar e limpar o paladar entre as taças.',
@@ -471,7 +482,7 @@ export const BLIND_TASTING_DATA: Record<Language, BlindTastingContent> = {
         number: '01',
         title: 'A flight tray of 4 glasses & clues',
         description:
-          'Receive 4 unlabeled Argentine sparkling wines on a wooden tray alongside riddle cards and a small plate of aged cheese and thinly sliced jamón.',
+          'Receive 4 unlabeled Argentine sparkling wines on a silver tray alongside riddle cards and a small plate of aged cheese and thinly sliced jamón.',
       },
       {
         number: '02',
@@ -486,6 +497,9 @@ export const BLIND_TASTING_DATA: Record<Language, BlindTastingContent> = {
           'Our team reveals the answers. Match all four correctly and we pour a complimentary 5th glass of your favorite sparkling wine from the flight.',
       },
     ],
+    riddlesSpotlightTitle: 'Riddle cards & sealed BRUT envelope',
+    riddlesSpotlightText:
+      'Tied with a crimson satin ribbon, each card offers playful sensory clues while the official answers wait inside the kraft envelope.',
     pairingSpotlightTitle: 'Paired with artisan cheese & jamón',
     pairingSpotlightText:
       'Every tasting tray arrives with a small plate of aged cheese and cured jamón to refresh your palate between glasses.',

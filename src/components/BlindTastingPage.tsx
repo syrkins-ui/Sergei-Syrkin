@@ -19,9 +19,11 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
-import heroTastingImg from '../assets/images/blind_tasting_hero_1795516580318.jpg';
-import trayDetailImg from '../assets/images/blind_tasting_tray_detail_1795516580280.jpg';
-import bonusGlassImg from '../assets/images/blind_tasting_bonus_glass_1795516579566.jpg';
+import trayDetailImg from '../assets/images/blind_tasting_pairing_1795787992966.jpg';
+import bonusGlassImg from '../assets/images/blind_tasting_bonus_1795787987332.jpg';
+
+const HERO_TASTING_IMG = '/assets/aistudio/Gemini_Generated_Image_vfn8lpvfn8lpvfn8_041d9661.png';
+const RIDDLES_DETAIL_IMG = '/assets/aistudio/PXL_20261126_210727922_69b6834c.png';
 
 interface BlindTastingPageProps {
   lang: Language;
@@ -172,6 +174,7 @@ export const BlindTastingPage: React.FC<BlindTastingPageProps> = ({ lang, onBack
   const content = BLIND_TASTING_DATA[lang] || BLIND_TASTING_DATA.ES;
 
   const [heroImgError, setHeroImgError] = useState(false);
+  const [riddlesImgError, setRiddlesImgError] = useState(false);
   const [trayImgError, setTrayImgError] = useState(false);
   const [bonusImgError, setBonusImgError] = useState(false);
 
@@ -405,10 +408,10 @@ export const BlindTastingPage: React.FC<BlindTastingPageProps> = ({ lang, onBack
             transition={{ duration: 0.55, ease: 'easeOut' }}
             className="lg:col-span-5 flex"
           >
-            <div className="relative w-full min-h-[360px] lg:h-full rounded-[28px] overflow-hidden border border-[#2B2B2D]/12 shadow-lg bg-[#2B2B2D]">
+            <div className="relative w-full min-h-[380px] aspect-[3/4] lg:aspect-auto lg:h-full rounded-[28px] overflow-hidden border border-[#2B2B2D]/12 shadow-lg bg-[#2B2B2D]">
               {!heroImgError ? (
                 <img
-                  src={heroTastingImg}
+                  src={HERO_TASTING_IMG}
                   alt={content.heroCaption}
                   referrerPolicy="no-referrer"
                   onError={() => setHeroImgError(true)}
@@ -546,8 +549,32 @@ export const BlindTastingPage: React.FC<BlindTastingPageProps> = ({ lang, onBack
           ))}
         </div>
 
-        {/* Visual Pair: Tray + Cheese/Jamón & 5th Bonus Glass */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Visual Trio: Real Riddle Cards, Cheese/Jamón Pairing & 5th Bonus Glass */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="rounded-3xl overflow-hidden bg-[#FBF7F1] border border-[#2B2B2D]/10 flex flex-col">
+            <div className="aspect-[4/3] w-full overflow-hidden bg-[#EDE2D4]">
+              {!riddlesImgError ? (
+                <img
+                  src={RIDDLES_DETAIL_IMG}
+                  alt={content.riddlesSpotlightTitle}
+                  referrerPolicy="no-referrer"
+                  onError={() => setRiddlesImgError(true)}
+                  className="w-full h-full object-cover object-center"
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-[#EDE2D4] to-[#DCCBBE]" />
+              )}
+            </div>
+            <div className="p-6">
+              <h3 className="font-editorial text-2xl text-[#2B2B2D]">
+                {content.riddlesSpotlightTitle}
+              </h3>
+              <p className="mt-2 text-sm text-[#4E4C4F] leading-relaxed">
+                {content.riddlesSpotlightText}
+              </p>
+            </div>
+          </div>
+
           <div className="rounded-3xl overflow-hidden bg-[#FBF7F1] border border-[#2B2B2D]/10 flex flex-col">
             <div className="aspect-[4/3] w-full overflow-hidden bg-[#EDE2D4]">
               {!trayImgError ? (

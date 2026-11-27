@@ -248,22 +248,43 @@ export const BeyondMalbecArticlePage: React.FC<BeyondMalbecArticlePageProps> = (
 
         {/* Closing Location & Tasting CTA Section */}
         <section className="mt-12 sm:mt-16 rounded-[28px] bg-[#FBF7F1] border border-[#A84452]/25 p-6 sm:p-10 shadow-sm">
-          <div className="flex items-center space-x-3 mb-3">
-            <div className="h-[1px] w-10 bg-[#A84452]" />
-            <span className="text-xs font-semibold tracking-wide text-[#A84452]">
-              BRUT Bar · Av. Independencia 320, San Telmo
-            </span>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-7 md:gap-8 items-center">
+            <div className="md:col-span-7">
+              <div className="flex items-center space-x-3 mb-3">
+                <div className="h-[1px] w-10 bg-[#A84452]" />
+                <span className="text-xs font-semibold tracking-wide text-[#A84452]">
+                  BRUT Bar · Av. Independencia 320, San Telmo
+                </span>
+              </div>
+
+              <h2 className="font-editorial text-3xl sm:text-4xl text-[#2B2B2D] tracking-tight leading-tight">
+                {article.closingHeading}
+              </h2>
+
+              <p className="mt-4 text-base sm:text-[17px] text-[#3B393C] leading-[1.7] font-sans-clean">
+                {article.closingParagraph}
+              </p>
+            </div>
+
+            <div className="md:col-span-5">
+              <button
+                type="button"
+                onClick={onGoToTasting}
+                className="group block w-full rounded-2xl overflow-hidden border border-[#2B2B2D]/12 shadow-md aspect-[4/3] bg-[#2B2B2D] cursor-pointer"
+                aria-label={article.ctaTasting}
+              >
+                <img
+                  src="/assets/aistudio/Gemini_Generated_Image_piyftbpiyftbpiyf_f0f697ec.png"
+                  alt={article.ctaTasting}
+                  referrerPolicy="no-referrer"
+                  loading="lazy"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                />
+              </button>
+            </div>
           </div>
 
-          <h2 className="font-editorial text-3xl sm:text-4xl text-[#2B2B2D] tracking-tight leading-tight">
-            {article.closingHeading}
-          </h2>
-
-          <p className="mt-4 text-base sm:text-[17px] text-[#3B393C] leading-[1.7] font-sans-clean">
-            {article.closingParagraph}
-          </p>
-
-          <div className="mt-7 flex flex-wrap items-center gap-3">
+          <div className="mt-7 pt-6 border-t border-[#2B2B2D]/10 flex flex-wrap items-center gap-3">
             <a
               href={getWhatsAppReservationUrl(article.waMessage)}
               target="_blank"

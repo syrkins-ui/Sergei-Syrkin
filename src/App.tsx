@@ -16,7 +16,9 @@ import { AppPage, applyPageSeo } from './utils/seo';
 import { MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { getWhatsAppReservationUrl } from './data/barInfo';
-import blindTastingHeroImg from './assets/images/blind_tasting_hero_1795516580318.jpg';
+
+const BLIND_TASTING_HOME_BANNER_IMG =
+  '/assets/aistudio/Gemini_Generated_Image_piyftbpiyftbpiyf_f0f697ec.png';
 
 const CABARET_PROMO_DATE = '2026-11-26';
 
@@ -172,7 +174,7 @@ export default function App() {
                 className="group relative block w-full text-left rounded-[32px] overflow-hidden aspect-[4/5] sm:aspect-[16/10] lg:aspect-[16/9] max-h-[600px] border border-[#2B2B2D]/12 shadow-lg bg-[#2B2B2D] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#A84452]"
               >
                 <img
-                  src={blindTastingHeroImg}
+                  src={BLIND_TASTING_HOME_BANNER_IMG}
                   alt={tastingContent.homeTitle}
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
